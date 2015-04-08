@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.os.Build;
 import android.util.Log;
 
+import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.util.ArrayList;
@@ -144,5 +145,38 @@ class ImojiNetApiHandle {
         }
 
         return null;
+    }
+
+    static List<ImojiCategory> getImojiCategories(String apiToken) {
+        try {
+            GetCategoryResponse response = ImojiNetApiHandle.get().getImojiCategories(apiToken);
+            if (response != null && response.isSuccess()) {
+                return response.imojiCategories;
+            }
+
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+
+        return null;
+    }
+
+    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>> cb) {
+        ImojiNetApiHandle.get().getImojiCategories(apiToken, new Callback<GetCategoryResponse>() {
+            @Override
+            public void success(GetCategoryResponse getCategoryResponse, Response response) {
+                if (getCategoryResponse.isSuccess()) {
+                    cb.onSuccess(getCategoryResponse.imojiCategories);
+                } else {
+                    cb.onFailure();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                cb.onFailure();
+            }
+        });
     }
 }

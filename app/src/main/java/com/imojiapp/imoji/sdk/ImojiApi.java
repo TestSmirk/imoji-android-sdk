@@ -78,6 +78,21 @@ public abstract class ImojiApi {
     public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>> cb);
 
     /**
+     * Synchronously retreives a list of imoji categories that can then be used
+     * to search for popular imojis
+     * @return A list of popular categories
+     */
+    public abstract List<ImojiCategory> getImojiCategories();
+
+    /**
+     * Asynchronously retrieves a list of server generated imoji categories
+     * @param cb a callback to notify when categories are fetched or whether
+     *           it failed
+     */
+    public abstract void getImojiCategories(Callback<List<ImojiCategory>> cb);
+
+
+    /**
      * Helper class to load imoji thumbs given an Imoji object.
      * For more information on how to use the RequestCreator,
      * take a look at Square's Picasso Library http://square.github.io/picasso/
@@ -163,6 +178,16 @@ public abstract class ImojiApi {
         @Override
         public void search(String query, int offset, int numResults, Callback<List<Imoji>> cb) {
             ImojiNetApiHandle.searchImojis(mApiToken, query, offset, numResults, cb);
+        }
+
+        @Override
+        public void getImojiCategories(Callback<List<ImojiCategory>> cb) {
+            ImojiNetApiHandle.getImojiCategories(mApiToken, cb);
+        }
+
+        @Override
+        public List<ImojiCategory> getImojiCategories() {
+            return ImojiNetApiHandle.getImojiCategories(mApiToken);
         }
 
         @Override

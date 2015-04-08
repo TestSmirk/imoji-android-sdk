@@ -1,6 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
+import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.util.ArrayList;
@@ -52,6 +53,15 @@ interface ImojiApiInterface {
             @Query("numResults") String numResults);
 
     @GET("/imojis")
-    FetchImojisResponse fetchImojis(@Query("ids") String imojiIds);
+    FetchImojisResponse fetchImojis(
+            @Query("ids") String imojiIds);
 
+    @GET("/imojiCategories")
+    void getImojiCategories(
+            @Query("apiKey") String apiKey,
+            Callback<GetCategoryResponse> cb);
+
+    @GET("/imojiCategories")
+    GetCategoryResponse getImojiCategories(
+            @Query("apiKey") String apiKey);
 }
