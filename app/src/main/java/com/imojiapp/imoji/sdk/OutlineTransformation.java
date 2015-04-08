@@ -1,4 +1,4 @@
-package com.imojiapp.imoji.sdk.imoji;
+package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,7 @@ import com.squareup.picasso.Transformation;
 /**
  * Created by sajjadtabib on 4/6/15.
  */
-public class OutlineTransformation implements Transformation {
+final class OutlineTransformation implements Transformation {
 
     private ImojiOutline.OutlineOptions mOptions;
     private Context mContext;

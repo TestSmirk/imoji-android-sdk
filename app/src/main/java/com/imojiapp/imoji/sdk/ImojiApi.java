@@ -2,8 +2,6 @@ package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
 
-import com.imojiapp.imoji.sdk.imoji.ImojiOutline;
-import com.imojiapp.imoji.sdk.imoji.OutlineTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -14,81 +12,92 @@ import java.util.List;
  */
 public abstract class ImojiApi {
     static final int DEFAULT_OFFSET = 0;
-    static final int DEFAULT_RESULTS = 51;
+    static final int DEFAULT_RESULTS = 60;
     int mDefaultNumResults;
 
 
     /**
-     *
-     * @param offset
-     * @param numResults
-     * @return
+     * @param offset The offset into the results
+     * @param numResults The maximum number of results to return
+     * @return A list of featured imojis or null if there was an error
      */
     public abstract List<Imoji> getFeatured(int offset, int numResults);
 
     /**
-     *
-     * @return
+     * @return A list of featured imojis that uses the default offset 0
+     * and default numResults of 60, or null to indicate there was
+     * an error
      */
     public abstract List<Imoji> getFeatured();
 
     /**
-     *
-     * @param query
-     * @return
+     * @param query the search string to query imojis
+     * @return A list of featured imojis or null if there was an error
      */
     public abstract List<Imoji> search(String query);
 
     /**
-     *
-     * @param query
-     * @param offset
-     * @param numResults
-     * @return
+     * A synchronous call the searches for imojis based on a query string
+     * @param query the search string to query imojis
+     * @param offset the offset in the search results
+     * @param numResults the maximum number of results to return in the call
+     * @return A list of imojis that match the query string or null if there was
+     * an error
      */
     public abstract List<Imoji> search(String query, int offset, int numResults);
 
     /**
      * Asynchronous call that fetches featured imojis
-     * @param offset
-     * @param numResults
-     * @param cb
+     * @param offset offset into the featured imoji results
+     * @param numResults the maximum number of results to return
+     * @param cb a callback to notify the status of fetching featured imojis
      */
     public abstract void getFeatured(int offset, int numResults, Callback<List<Imoji>> cb);
 
     /**
-     *
-     * @param cb
+     * Asynchronous call that fetches featured imojis using default offset of
+     * 0 and a default numResult
+     * @param cb a callback to notify the status of fetching featured imojis
      */
     public abstract void getFeatured(Callback<List<Imoji>> cb);
 
     /**
-     *
-     * @param query
-     * @param cb
+     * Asynchronous call that searches for imojis given a query
+     * @param query the search string to query imojis
+     * @param cb a callback to notify the status of searching imojis
      */
     public abstract void search(String query, Callback<List<Imoji>> cb);
 
     /**
      *
-     * @param query
-     * @param offset
-     * @param numResults
-     * @param cb
+     * @param query the search string to query imojis
+     * @param offset offset into the searched imoji results
+     * @param numResults the maximum number of results to return
+     * @param cb a callback to notify the status of searching imojis
      */
     public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>> cb);
 
     /**
+     * Helper class to load imoji thumbs given an Imoji object.
+     * For more information on how to use the RequestCreator,
+     * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
-     * @param imoji
-     * @return
+     * @param context android context to use
+     * @param imoji an imoji object
+     * @param options outline options used to render an imoji
+     * @return a Picasso RequestCreator object used to load bitmaps
      */
     public abstract RequestCreator loadThumb(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
 
     /**
+     * Helper class to load full imojis given an Imoji object.
+     * For more information on how to use the RequestCreator,
+     * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
-     * @param imoji
-     * @return
+     * @param context android context to use
+     * @param imoji an imoji object
+     * @param options outline options used to render an imoji
+     * @return a Picasso RequestCreator object used to load bitmaps
      */
     public abstract RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
 

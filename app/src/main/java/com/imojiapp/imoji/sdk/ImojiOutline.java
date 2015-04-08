@@ -1,4 +1,4 @@
-package com.imojiapp.imoji.sdk.imoji;
+package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,7 @@ import android.graphics.Color;
 import com.imojiapp.imoji.imojisdk.R;
 import com.imojiapp.imoji.renderscript.NativeOutline;
 
-public class ImojiOutline {
+final class ImojiOutline {
     private static final int ALIGN_TO = 16;
     private Bitmap outBitmap;
     private Context context;
