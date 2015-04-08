@@ -1,4 +1,4 @@
-package com.imojiapp.imoji.sdk.imoji;
+package com.imojiapp.imoji.renderscript;
 
 import android.graphics.Bitmap;
 

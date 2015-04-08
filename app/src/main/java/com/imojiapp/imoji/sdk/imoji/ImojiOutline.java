@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 
 import com.imojiapp.imoji.imojisdk.R;
+import com.imojiapp.imoji.renderscript.NativeOutline;
 
 public class ImojiOutline {
     private static final int ALIGN_TO = 16;

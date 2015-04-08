@@ -20,33 +20,24 @@ public abstract class ImojiApi {
 
     /**
      *
-     * @param apiToken
-     * @return
-     */
-    public static ImojiApi newInstance(String apiToken) {
-        return new ImojiApiImpl(apiToken);
-    }
-
-    /**
-     *
      * @param offset
      * @param numResults
      * @return
      */
-    abstract List<Imoji> getFeatured(int offset, int numResults);
+    public abstract List<Imoji> getFeatured(int offset, int numResults);
 
     /**
      *
      * @return
      */
-    abstract List<Imoji> getFeatured();
+    public abstract List<Imoji> getFeatured();
 
     /**
      *
      * @param query
      * @return
      */
-    abstract List<Imoji> search(String query);
+    public abstract List<Imoji> search(String query);
 
     /**
      *
@@ -55,7 +46,7 @@ public abstract class ImojiApi {
      * @param numResults
      * @return
      */
-    abstract List<Imoji> search(String query, int offset, int numResults);
+    public abstract List<Imoji> search(String query, int offset, int numResults);
 
     /**
      * Asynchronous call that fetches featured imojis
@@ -63,20 +54,20 @@ public abstract class ImojiApi {
      * @param numResults
      * @param cb
      */
-    abstract void getFeatured(int offset, int numResults, Callback<List<Imoji>> cb);
+    public abstract void getFeatured(int offset, int numResults, Callback<List<Imoji>> cb);
 
     /**
      *
      * @param cb
      */
-    abstract void getFeatured(Callback<List<Imoji>> cb);
+    public abstract void getFeatured(Callback<List<Imoji>> cb);
 
     /**
      *
      * @param query
      * @param cb
      */
-    abstract void search(String query, Callback<List<Imoji>> cb);
+    public abstract void search(String query, Callback<List<Imoji>> cb);
 
     /**
      *
@@ -85,21 +76,21 @@ public abstract class ImojiApi {
      * @param numResults
      * @param cb
      */
-    abstract void search(String query, int offset, int numResults, Callback<List<Imoji>> cb);
+    public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>> cb);
 
     /**
      *
      * @param imoji
      * @return
      */
-    abstract RequestCreator loadThumb(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
+    public abstract RequestCreator loadThumb(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
 
     /**
      *
      * @param imoji
      * @return
      */
-    abstract RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
+    public abstract RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
 
     public static class Builder {
         private ImojiApi mApi;
@@ -172,7 +163,7 @@ public abstract class ImojiApi {
         }
 
         @Override
-        RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options) {
+        public RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options) {
             return Picasso.with(context).load(imoji.getFullImageUrl()).transform(new OutlineTransformation(context, options));
         }
     }

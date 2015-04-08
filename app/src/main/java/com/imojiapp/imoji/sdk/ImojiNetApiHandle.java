@@ -1,6 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
 import android.os.Build;
+import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
@@ -58,12 +59,14 @@ class ImojiNetApiHandle {
                     }
                     callback.onSuccess(imojis);
                 } else {
+                    Log.d(LOG_TAG, "failure: " + imojiSearchResponse.status);
                     callback.onFailure();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                error.printStackTrace();
                 callback.onFailure();
             }
         });
@@ -114,6 +117,7 @@ class ImojiNetApiHandle {
 
             @Override
             public void failure(RetrofitError error) {
+                error.printStackTrace();
                 callback.onFailure();
             }
         });
