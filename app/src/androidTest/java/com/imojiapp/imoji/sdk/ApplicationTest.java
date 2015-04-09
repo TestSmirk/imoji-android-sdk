@@ -1,4 +1,4 @@
-package com.imojiapp.imoji.imojisdk;
+package com.imojiapp.imoji.sdk;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

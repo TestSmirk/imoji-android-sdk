@@ -37,17 +37,16 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
     @InjectView(R.id.et_search)
     EditText mSearchEt;
 
-    private ImojiApi mImojiApi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        ImojiApi.init(this, "Your API Key");
 
-        ImojiApi.Builder builder = new ImojiApi.Builder("wasup dawg");
-        mImojiApi = builder.build();
-        mImojiApi.getFeatured(new Callback<List<Imoji>>() {
+        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -65,7 +64,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String query = v.getText().toString();
-                    mImojiApi.search(query, new Callback<List<Imoji>>() {
+                    ImojiApi.with(MainActivity.this).search(query, new Callback<List<Imoji>>() {
                         @Override
                         public void onSuccess(List<Imoji> result) {
                             ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -106,7 +105,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
             
             Imoji item = getItem(position);
-            mImojiApi.loadThumb(getContext(), item, null).into(holder.mImojiIv);
+            ImojiApi.with(MainActivity.this).loadThumb(item, null).into(holder.mImojiIv);
             
     
             return convertView;

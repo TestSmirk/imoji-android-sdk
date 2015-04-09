@@ -7,12 +7,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ImojiCategory {
 
-    String id;
+    public String id;
 
-    String title;
+    public String title;
 
-    @SerializedName("imoji")
-    String imoji_id;
+    public Object imoji; //why is imoji an object and not a string???
 
     public String getId() {
         return id;
@@ -22,10 +21,8 @@ public class ImojiCategory {
         return title;
     }
 
-    public String getImojiId() {
-        return imoji_id;
+    public Object getImoji() {
+        return imoji;
     }
-
-    transient Imoji imoji;
 
 }

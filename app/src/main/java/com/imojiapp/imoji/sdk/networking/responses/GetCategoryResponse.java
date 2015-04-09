@@ -8,5 +8,5 @@ import java.util.List;
  * Created by sajjadtabib on 4/7/15.
  */
 public class GetCategoryResponse extends BasicResponse {
-    public List<ImojiCategory> imojiCategories;
+    public List<ImojiCategory> categories;
 }

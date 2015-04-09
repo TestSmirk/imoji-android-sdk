@@ -6,6 +6,10 @@ import android.util.Log;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +155,7 @@ class ImojiNetApiHandle {
         try {
             GetCategoryResponse response = ImojiNetApiHandle.get().getImojiCategories(apiToken);
             if (response != null && response.isSuccess()) {
-                return response.imojiCategories;
+                return response.categories;
             }
 
         } catch (RetrofitError error) {
@@ -165,8 +169,14 @@ class ImojiNetApiHandle {
         ImojiNetApiHandle.get().getImojiCategories(apiToken, new Callback<GetCategoryResponse>() {
             @Override
             public void success(GetCategoryResponse getCategoryResponse, Response response) {
+                try {
+                    InputStream is = response.getBody().in();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if (getCategoryResponse.isSuccess()) {
-                    cb.onSuccess(getCategoryResponse.imojiCategories);
+                    cb.onSuccess(getCategoryResponse.categories);
                 } else {
                     cb.onFailure();
                 }

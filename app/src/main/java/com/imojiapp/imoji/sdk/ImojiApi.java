@@ -1,6 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -13,7 +14,14 @@ import java.util.List;
 public abstract class ImojiApi {
     static final int DEFAULT_OFFSET = 0;
     static final int DEFAULT_RESULTS = 60;
+    private static final String PREF_FILE = "imoji-store";
+    private static final String API_KEY_PROPERTY = "API_KEY_PROPERTY";
+    protected static volatile ImojiApi sInstance;
+
+
     int mDefaultNumResults;
+    protected Context mContext;
+
 
 
     /**
@@ -97,30 +105,65 @@ public abstract class ImojiApi {
      * For more information on how to use the RequestCreator,
      * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
-     * @param context android context to use
      * @param imoji an imoji object
      * @param options outline options used to render an imoji
      * @return a Picasso RequestCreator object used to load bitmaps
      */
-    public abstract RequestCreator loadThumb(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
+    public abstract RequestCreator loadThumb(Imoji imoji, ImojiOutline.OutlineOptions options);
 
     /**
      * Helper class to load full imojis given an Imoji object.
      * For more information on how to use the RequestCreator,
      * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
-     * @param context android context to use
      * @param imoji an imoji object
      * @param options outline options used to render an imoji
      * @return a Picasso RequestCreator object used to load bitmaps
      */
-    public abstract RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options);
+    public abstract RequestCreator loadFull(Imoji imoji, ImojiOutline.OutlineOptions options);
+
+    /**
+     * Initialize the API instance
+     * @param context context used for api operations
+     * @param apiKey your api key
+     * @return an instance of the Imoji Api
+     */
+    public static void init(Context context, String apiKey) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+        prefs.edit().putString(API_KEY_PROPERTY, apiKey).apply();
+    }
+
+    public static void setInstance(ImojiApi instance) {
+        synchronized (ImojiApi.class) {
+            if (sInstance != null) {
+                throw new IllegalStateException("instance has already benn initialized");
+            }
+
+            sInstance = instance;
+        }
+    }
+
+    public static ImojiApi with(Context context) {
+        if (sInstance == null) {
+            SharedPreferences prefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+            String apiKey = prefs.getString(API_KEY_PROPERTY, null);
+            if (apiKey == null) {
+                throw new IllegalStateException("ApiKey missing. Have you called init?");
+            }
+
+            synchronized (ImojiApi.class) {
+                sInstance = new Builder(context, apiKey).build();
+            }
+        }
+
+        return sInstance;
+    }
 
     public static class Builder {
         private ImojiApi mApi;
 
-        public Builder(String apiKey) {
-            mApi = new ImojiApiImpl(apiKey);
+        public Builder(Context context, String apiKey) {
+            mApi = new ImojiApiImpl(context, apiKey);
         }
 
         public Builder numResults(int numResults) {
@@ -136,7 +179,8 @@ public abstract class ImojiApi {
     static class ImojiApiImpl extends ImojiApi{
         private String mApiToken;
 
-        ImojiApiImpl(String apiToken) {
+        ImojiApiImpl(Context context, String apiToken) {
+            mContext = context;
             mApiToken = apiToken;
         }
 
@@ -191,14 +235,14 @@ public abstract class ImojiApi {
         }
 
         @Override
-        public RequestCreator loadThumb(Context context, Imoji imoji, ImojiOutline.OutlineOptions options) {
-            return Picasso.with(context).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(context, options));
+        public RequestCreator loadThumb(Imoji imoji, ImojiOutline.OutlineOptions options) {
+            return Picasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
 
         }
 
         @Override
-        public RequestCreator loadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options) {
-            return Picasso.with(context).load(imoji.getFullImageUrl()).transform(new OutlineTransformation(context, options));
+        public RequestCreator loadFull(Imoji imoji, ImojiOutline.OutlineOptions options) {
+            return Picasso.with(mContext).load(imoji.getFullImageUrl()).transform(new OutlineTransformation(mContext, options));
         }
     }
 }
