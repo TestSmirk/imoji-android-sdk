@@ -1,0 +1,3673 @@
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/renderscript/NativeOutline
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.renderscript.NativeOutline extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 18):
+  + String [outline]
+  + Class [com/imojiapp/imoji/renderscript/NativeOutline]
+  + Class [java/lang/Object]
+  + Class [java/lang/System]
+  + Methodref [java/lang/System.loadLibrary (Ljava/lang/String;)V]
+  + NameAndType [loadLibrary (Ljava/lang/String;)V]
+  + Utf8 [()V]
+  + Utf8 [(Landroid/graphics/Bitmap;IIIIII)I]
+  + Utf8 [(Ljava/lang/String;)V]
+  + Utf8 [<clinit>]
+  + Utf8 [Code]
+  + Utf8 [com/imojiapp/imoji/renderscript/NativeOutline]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/lang/System]
+  + Utf8 [loadLibrary]
+  + Utf8 [outline]
+  + Utf8 [perform]
+
+Fields (count = 0):
+
+Methods (count = 2):
+  + Method:       perform(Landroid/graphics/Bitmap;IIIIII)I
+    Access flags: 0x109
+      = public static native int perform(android.graphics.Bitmap,int,int,int,int,int,int)
+  - Method:       <clinit>()V
+    Access flags: 0x8
+      = static void <clinit>()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 6, locals = 0, stack = 1):
+      [0] ldc #1
+        + String [outline]
+      [2] invokestatic #5
+        + Methodref [java/lang/System.loadLibrary (Ljava/lang/String;)V]
+      [5] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/Callback
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x601
+    = public interface com.imojiapp.imoji.sdk.Callback extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 12):
+  + Class [com/imojiapp/imoji/sdk/Callback]
+  + Class [java/lang/Object]
+  + Utf8 [()V]
+  + Utf8 [(Ljava/lang/Object;)V]
+  + Utf8 [(TT;)V]
+  + Utf8 [<T:Ljava/lang/Object;>Ljava/lang/Object;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/Callback]
+  + Utf8 [java/lang/Object]
+  + Utf8 [onFailure]
+  + Utf8 [onSuccess]
+
+Fields (count = 0):
+
+Methods (count = 2):
+  + Method:       onSuccess(Ljava/lang/Object;)V
+    Access flags: 0x401
+      = public abstract void onSuccess(java.lang.Object)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(TT;)V]
+  + Method:       onFailure()V
+    Access flags: 0x401
+      = public abstract void onFailure()
+
+Class file attributes (count = 1):
+  + Signature attribute:
+    + Utf8 [<T:Ljava/lang/Object;>Ljava/lang/Object;]
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/Config
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.Config extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 15):
+  + String [https://api.imoji.io/v1]
+  + Class [com/imojiapp/imoji/sdk/Config]
+  + Class [java/lang/Object]
+  + Methodref [java/lang/Object.<init> ()V]
+  + NameAndType [<init> ()V]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [BASE_URL]
+  + Utf8 [Code]
+  + Utf8 [ConstantValue]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [com/imojiapp/imoji/sdk/Config]
+  + Utf8 [https://api.imoji.io/v1]
+  + Utf8 [java/lang/Object]
+
+Fields (count = 1):
+  + Field:        BASE_URL Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String BASE_URL
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [https://api.imoji.io/v1]
+
+Methods (count = 1):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public Config()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #4
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/Imoji
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.Imoji extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 49):
+  + Class [com/imojiapp/imoji/sdk/Imoji]
+  + Class [java/lang/Object]
+  + Class [java/util/ArrayList]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.imojiId Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.parentId Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.tags Ljava/util/ArrayList;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.thumbImageUrl Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.url Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.webpFullImageUrl Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/Imoji.webpThumbImageUrl Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/util/ArrayList.<init> (Ljava/util/Collection;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Ljava/util/Collection;)V]
+  + NameAndType [imojiId Ljava/lang/String;]
+  + NameAndType [parentId Ljava/lang/String;]
+  + NameAndType [tags Ljava/util/ArrayList;]
+  + NameAndType [thumbImageUrl Ljava/lang/String;]
+  + NameAndType [url Ljava/lang/String;]
+  + NameAndType [webpFullImageUrl Ljava/lang/String;]
+  + NameAndType [webpThumbImageUrl Ljava/lang/String;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()Ljava/util/ArrayList;]
+  + Utf8 [()Ljava/util/ArrayList<Ljava/lang/String;>;]
+  + Utf8 [()V]
+  + Utf8 [(Ljava/util/Collection;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [Ljava/util/ArrayList;]
+  + Utf8 [Ljava/util/ArrayList<Ljava/lang/String;>;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/Imoji]
+  + Utf8 [getImojiId]
+  + Utf8 [getTags]
+  + Utf8 [getThumbImageUrl]
+  + Utf8 [getUrl]
+  + Utf8 [getWebpFullImageUrl]
+  + Utf8 [getWebpThumbImageUrl]
+  + Utf8 [imojiId]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/util/ArrayList]
+  + Utf8 [parentId]
+  + Utf8 [tags]
+  + Utf8 [thumbImageUrl]
+  + Utf8 [url]
+  + Utf8 [webpFullImageUrl]
+  + Utf8 [webpThumbImageUrl]
+
+Fields (count = 7):
+  + Field:        parentId Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String parentId
+  + Field:        imojiId Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String imojiId
+  + Field:        tags Ljava/util/ArrayList;
+    Access flags: 0x2
+      = private java.util.ArrayList tags
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [Ljava/util/ArrayList<Ljava/lang/String;>;]
+  + Field:        thumbImageUrl Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String thumbImageUrl
+  + Field:        url Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String url
+  + Field:        webpThumbImageUrl Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String webpThumbImageUrl
+  + Field:        webpFullImageUrl Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String webpFullImageUrl
+
+Methods (count = 7):
+  + Method:       getImojiId()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String getImojiId()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 19, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.parentId Ljava/lang/String;]
+      [4] ifnull +10 (target=14)
+      [7] aload_0 v0
+      [8] getfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.parentId Ljava/lang/String;]
+      [11] goto +7 (target=18)
+      [14] aload_0 v0
+      [15] getfield #4
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.imojiId Ljava/lang/String;]
+      [18] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getTags()Ljava/util/ArrayList;
+    Access flags: 0x1
+      = public java.util.ArrayList getTags()
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 12, locals = 1, stack = 3):
+      [0] new #3
+        + Class [java/util/ArrayList]
+      [3] dup
+      [4] aload_0 v0
+      [5] getfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.tags Ljava/util/ArrayList;]
+      [8] invokespecial #12
+        + Methodref [java/util/ArrayList.<init> (Ljava/util/Collection;)V]
+      [11] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [()Ljava/util/ArrayList<Ljava/lang/String;>;]
+  + Method:       getThumbImageUrl()Ljava/lang/String;
+    Access flags: 0x0
+      = java.lang.String getThumbImageUrl()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.thumbImageUrl Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getUrl()Ljava/lang/String;
+    Access flags: 0x0
+      = java.lang.String getUrl()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.url Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getWebpThumbImageUrl()Ljava/lang/String;
+    Access flags: 0x0
+      = java.lang.String getWebpThumbImageUrl()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #10
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.webpThumbImageUrl Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getWebpFullImageUrl()Ljava/lang/String;
+    Access flags: 0x0
+      = java.lang.String getWebpFullImageUrl()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/Imoji.webpFullImageUrl Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  - Method:       <init>()V
+    Access flags: 0x0
+      = Imoji()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #11
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiApi
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x421
+    = public abstract class com.imojiapp.imoji.sdk.ImojiApi extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 102):
+  + Integer [0]
+  + Integer [60]
+  + String [API_KEY_PROPERTY]
+  + String [ApiKey missing. Have you called init?]
+  + String [imoji-store]
+  + String [instance has already benn initialized]
+  + Class [android/content/Context]
+  + Class [android/content/SharedPreferences]
+  + Class [android/content/SharedPreferences$Editor]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi$Builder]
+  + Class [java/lang/IllegalStateException]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Methodref [android/content/Context.getSharedPreferences (Ljava/lang/String;I)Landroid/content/SharedPreferences;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$Builder.<init> (Landroid/content/Context;Ljava/lang/String;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$Builder.build ()Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Methodref [java/lang/IllegalStateException.<init> (Ljava/lang/String;)V]
+  + Methodref [java/lang/Object.<init> ()V]
+  + InterfaceMethodref [android/content/SharedPreferences.edit ()Landroid/content/SharedPreferences$Editor;]
+  + InterfaceMethodref [android/content/SharedPreferences.getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;]
+  + InterfaceMethodref [android/content/SharedPreferences$Editor.apply ()V]
+  + InterfaceMethodref [android/content/SharedPreferences$Editor.putString (Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Landroid/content/Context;Ljava/lang/String;)V]
+  + NameAndType [<init> (Ljava/lang/String;)V]
+  + NameAndType [apply ()V]
+  + NameAndType [build ()Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + NameAndType [edit ()Landroid/content/SharedPreferences$Editor;]
+  + NameAndType [getSharedPreferences (Ljava/lang/String;I)Landroid/content/SharedPreferences;]
+  + NameAndType [getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;]
+  + NameAndType [putString (Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;]
+  + NameAndType [sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [()Landroid/content/SharedPreferences$Editor;]
+  + Utf8 [()Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [()Ljava/util/List;]
+  + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Utf8 [()V]
+  + Utf8 [(II)Ljava/util/List;]
+  + Utf8 [(II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Landroid/content/Context;)Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [(Landroid/content/Context;Ljava/lang/String;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/ImojiApi;)V]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;)V]
+  + Utf8 [(Ljava/lang/String;I)Landroid/content/SharedPreferences;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;]
+  + Utf8 [<init>]
+  + Utf8 [API_KEY_PROPERTY]
+  + Utf8 [ApiKey missing. Have you called init?]
+  + Utf8 [Code]
+  + Utf8 [ConstantValue]
+  + Utf8 [DEFAULT_OFFSET]
+  + Utf8 [DEFAULT_RESULTS]
+  + Utf8 [I]
+  + Utf8 [Landroid/content/Context;]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [PREF_FILE]
+  + Utf8 [Signature]
+  + Utf8 [android/content/Context]
+  + Utf8 [android/content/SharedPreferences]
+  + Utf8 [android/content/SharedPreferences$Editor]
+  + Utf8 [apply]
+  + Utf8 [build]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi$Builder]
+  + Utf8 [edit]
+  + Utf8 [getFeatured]
+  + Utf8 [getImojiCategories]
+  + Utf8 [getSharedPreferences]
+  + Utf8 [getString]
+  + Utf8 [imoji-store]
+  + Utf8 [init]
+  + Utf8 [instance has already benn initialized]
+  + Utf8 [java/lang/IllegalStateException]
+  + Utf8 [java/lang/Object]
+  + Utf8 [loadFull]
+  + Utf8 [loadThumb]
+  + Utf8 [mContext]
+  + Utf8 [mDefaultNumResults]
+  + Utf8 [putString]
+  + Utf8 [sInstance]
+  + Utf8 [search]
+  + Utf8 [setInstance]
+  + Utf8 [with]
+
+Fields (count = 7):
+  + Field:        DEFAULT_OFFSET I
+    Access flags: 0x18
+      = static final int DEFAULT_OFFSET
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + Integer [0]
+  + Field:        DEFAULT_RESULTS I
+    Access flags: 0x18
+      = static final int DEFAULT_RESULTS
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + Integer [60]
+  + Field:        PREF_FILE Ljava/lang/String;
+    Access flags: 0x1a
+      = private static final java.lang.String PREF_FILE
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [imoji-store]
+  + Field:        API_KEY_PROPERTY Ljava/lang/String;
+    Access flags: 0x1a
+      = private static final java.lang.String API_KEY_PROPERTY
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [API_KEY_PROPERTY]
+  + Field:        sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;
+    Access flags: 0x4c
+      = protected static volatile com.imojiapp.imoji.sdk.ImojiApi sInstance
+  + Field:        mDefaultNumResults I
+    Access flags: 0x0
+      = int mDefaultNumResults
+  + Field:        mContext Landroid/content/Context;
+    Access flags: 0x4
+      = protected android.content.Context mContext
+
+Methods (count = 16):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public ImojiApi()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #19
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getFeatured(II)Ljava/util/List;
+    Access flags: 0x401
+      = public abstract java.util.List getFeatured(int,int)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       getFeatured()Ljava/util/List;
+    Access flags: 0x401
+      = public abstract java.util.List getFeatured()
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       search(Ljava/lang/String;)Ljava/util/List;
+    Access flags: 0x401
+      = public abstract java.util.List search(java.lang.String)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       search(Ljava/lang/String;II)Ljava/util/List;
+    Access flags: 0x401
+      = public abstract java.util.List search(java.lang.String,int,int)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       getFeatured(IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x401
+      = public abstract void getFeatured(int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       getFeatured(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x401
+      = public abstract void getFeatured(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       search(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x401
+      = public abstract void search(java.lang.String,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       search(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x401
+      = public abstract void search(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       getImojiCategories()Ljava/util/List;
+    Access flags: 0x401
+      = public abstract java.util.List getImojiCategories()
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Method:       getImojiCategories(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x401
+      = public abstract void getImojiCategories(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Method:       loadThumb(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;
+    Access flags: 0x401
+      = public abstract com.squareup.picasso.RequestCreator loadThumb(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.OutlineOptions)
+  + Method:       loadFull(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;
+    Access flags: 0x401
+      = public abstract com.squareup.picasso.RequestCreator loadFull(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.OutlineOptions)
+  + Method:       init(Landroid/content/Context;Ljava/lang/String;)V
+    Access flags: 0x9
+      = public static void init(android.content.Context,java.lang.String)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 28, locals = 3, stack = 3):
+      [0] aload_0 v0
+      [1] ldc #5
+        + String [imoji-store]
+      [3] iconst_0
+      [4] invokevirtual #15
+        + Methodref [android/content/Context.getSharedPreferences (Ljava/lang/String;I)Landroid/content/SharedPreferences;]
+      [7] astore_2 v2
+      [8] aload_2 v2
+      [9] invokeinterface #20, 256
+        + InterfaceMethodref [android/content/SharedPreferences.edit ()Landroid/content/SharedPreferences$Editor;]
+      [14] ldc #3
+        + String [API_KEY_PROPERTY]
+      [16] aload_1 v1
+      [17] invokeinterface #23, 768
+        + InterfaceMethodref [android/content/SharedPreferences$Editor.putString (Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;]
+      [22] invokeinterface #22, 256
+        + InterfaceMethodref [android/content/SharedPreferences$Editor.apply ()V]
+      [27] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       setInstance(Lcom/imojiapp/imoji/sdk/ImojiApi;)V
+    Access flags: 0x9
+      = public static void setInstance(com.imojiapp.imoji.sdk.ImojiApi)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 36, locals = 3, stack = 3):
+      [0] ldc #10
+        + Class [com/imojiapp/imoji/sdk/ImojiApi]
+      [2] dup
+      [3] astore_1 v1
+      [4] monitorenter
+      [5] getstatic #14
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [8] ifnull +13 (target=21)
+      [11] new #12
+        + Class [java/lang/IllegalStateException]
+      [14] dup
+      [15] ldc #6
+        + String [instance has already benn initialized]
+      [17] invokespecial #18
+        + Methodref [java/lang/IllegalStateException.<init> (Ljava/lang/String;)V]
+      [20] athrow
+      [21] aload_0 v0
+      [22] putstatic #14
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [25] aload_1 v1
+      [26] monitorexit
+      [27] goto +8 (target=35)
+      [30] astore_2 v2
+      [31] aload_1 v1
+      [32] monitorexit
+      [33] aload_2 v2
+      [34] athrow
+      [35] return
+      Code attribute exceptions (count = 2):
+      - ExceptionInfo (5 -> 27: 30):
+      - ExceptionInfo (30 -> 33: 30):
+      Code attribute attributes (attribute count = 0):
+  + Method:       with(Landroid/content/Context;)Lcom/imojiapp/imoji/sdk/ImojiApi;
+    Access flags: 0x9
+      = public static com.imojiapp.imoji.sdk.ImojiApi with(android.content.Context)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 74, locals = 5, stack = 4):
+      [0] getstatic #14
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [3] ifnonnull +67 (target=70)
+      [6] aload_0 v0
+      [7] ldc #5
+        + String [imoji-store]
+      [9] iconst_0
+      [10] invokevirtual #15
+        + Methodref [android/content/Context.getSharedPreferences (Ljava/lang/String;I)Landroid/content/SharedPreferences;]
+      [13] astore_1 v1
+      [14] aload_1 v1
+      [15] ldc #3
+        + String [API_KEY_PROPERTY]
+      [17] aconst_null
+      [18] invokeinterface #21, 768
+        + InterfaceMethodref [android/content/SharedPreferences.getString (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;]
+      [23] astore_2 v2
+      [24] aload_2 v2
+      [25] ifnonnull +13 (target=38)
+      [28] new #12
+        + Class [java/lang/IllegalStateException]
+      [31] dup
+      [32] ldc #4
+        + String [ApiKey missing. Have you called init?]
+      [34] invokespecial #18
+        + Methodref [java/lang/IllegalStateException.<init> (Ljava/lang/String;)V]
+      [37] athrow
+      [38] ldc #10
+        + Class [com/imojiapp/imoji/sdk/ImojiApi]
+      [40] dup
+      [41] astore_3 v3
+      [42] monitorenter
+      [43] new #11
+        + Class [com/imojiapp/imoji/sdk/ImojiApi$Builder]
+      [46] dup
+      [47] aload_0 v0
+      [48] aload_2 v2
+      [49] invokespecial #16
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$Builder.<init> (Landroid/content/Context;Ljava/lang/String;)V]
+      [52] invokevirtual #17
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$Builder.build ()Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [55] putstatic #14
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [58] aload_3 v3
+      [59] monitorexit
+      [60] goto +10 (target=70)
+      [63] astore v4
+      [65] aload_3 v3
+      [66] monitorexit
+      [67] aload v4
+      [69] athrow
+      [70] getstatic #14
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.sInstance Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [73] areturn
+      Code attribute exceptions (count = 2):
+      - ExceptionInfo (43 -> 60: 63):
+      - ExceptionInfo (63 -> 67: 63):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiApi$Builder
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.ImojiApi$Builder extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 29):
+  + Class [com/imojiapp/imoji/sdk/ImojiApi]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi$Builder]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.mDefaultNumResults I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$Builder.mApi Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.<init> (Landroid/content/Context;Ljava/lang/String;)V]
+  + Methodref [java/lang/Object.<init> ()V]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Landroid/content/Context;Ljava/lang/String;)V]
+  + NameAndType [mApi Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + NameAndType [mDefaultNumResults I]
+  + Utf8 [()Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [()V]
+  + Utf8 [(I)Lcom/imojiapp/imoji/sdk/ImojiApi$Builder;]
+  + Utf8 [(Landroid/content/Context;Ljava/lang/String;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [I]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/ImojiApi;]
+  + Utf8 [build]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi$Builder]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl]
+  + Utf8 [java/lang/Object]
+  + Utf8 [mApi]
+  + Utf8 [mDefaultNumResults]
+  + Utf8 [numResults]
+
+Fields (count = 1):
+  + Field:        mApi Lcom/imojiapp/imoji/sdk/ImojiApi;
+    Access flags: 0x2
+      = private com.imojiapp.imoji.sdk.ImojiApi mApi
+
+Methods (count = 3):
+  - Method:       <init>(Landroid/content/Context;Ljava/lang/String;)V
+    Access flags: 0x1
+      = public ImojiApi$Builder(android.content.Context,java.lang.String)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 18, locals = 3, stack = 5):
+      [0] aload_0 v0
+      [1] invokespecial #8
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] aload_0 v0
+      [5] new #3
+        + Class [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl]
+      [8] dup
+      [9] aload_1 v1
+      [10] aload_2 v2
+      [11] invokespecial #7
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.<init> (Landroid/content/Context;Ljava/lang/String;)V]
+      [14] putfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$Builder.mApi Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [17] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       numResults(I)Lcom/imojiapp/imoji/sdk/ImojiApi$Builder;
+    Access flags: 0x1
+      = public com.imojiapp.imoji.sdk.ImojiApi$Builder numResults(int)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 2, stack = 2):
+      [0] aload_0 v0
+      [1] getfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$Builder.mApi Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [4] iload_1 v1
+      [5] putfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi.mDefaultNumResults I]
+      [8] aload_0 v0
+      [9] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       build()Lcom/imojiapp/imoji/sdk/ImojiApi;
+    Access flags: 0x1
+      = public com.imojiapp.imoji.sdk.ImojiApi build()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$Builder.mApi Lcom/imojiapp/imoji/sdk/ImojiApi;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl
+  Superclass:    com/imojiapp/imoji/sdk/ImojiApi
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x20
+    = class com.imojiapp.imoji.sdk.ImojiApi$ImojiApiImpl extends com.imojiapp.imoji.sdk.ImojiApi
+
+Interfaces (count = 0):
+
+Constant Pool (count = 98):
+  + Class [com/imojiapp/imoji/sdk/Imoji]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi]
+  + Class [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Class [com/imojiapp/imoji/sdk/OutlineTransformation]
+  + Class [com/squareup/picasso/Picasso]
+  + Class [com/squareup/picasso/RequestCreator]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+  + Methodref [com/imojiapp/imoji/sdk/Imoji.getThumbImageUrl ()Ljava/lang/String;]
+  + Methodref [com/imojiapp/imoji/sdk/Imoji.getUrl ()Ljava/lang/String;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi.<init> ()V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.getFeatured (IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.search (Ljava/lang/String;II)Ljava/util/List;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.search (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getFeaturedImojis (Ljava/lang/String;II)Ljava/util/List;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getFeaturedImojis (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getImojiCategories (Ljava/lang/String;)Ljava/util/List;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getImojiCategories (Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.searchImojis (Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.searchImojis (Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/OutlineTransformation.<init> (Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Methodref [com/squareup/picasso/Picasso.load (Ljava/lang/String;)Lcom/squareup/picasso/RequestCreator;]
+  + Methodref [com/squareup/picasso/Picasso.with (Landroid/content/Context;)Lcom/squareup/picasso/Picasso;]
+  + Methodref [com/squareup/picasso/RequestCreator.transform (Lcom/squareup/picasso/Transformation;)Lcom/squareup/picasso/RequestCreator;]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + NameAndType [getFeatured (IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [getFeaturedImojis (Ljava/lang/String;II)Ljava/util/List;]
+  + NameAndType [getFeaturedImojis (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [getImojiCategories (Ljava/lang/String;)Ljava/util/List;]
+  + NameAndType [getImojiCategories (Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [getThumbImageUrl ()Ljava/lang/String;]
+  + NameAndType [getUrl ()Ljava/lang/String;]
+  + NameAndType [load (Ljava/lang/String;)Lcom/squareup/picasso/RequestCreator;]
+  + NameAndType [mApiToken Ljava/lang/String;]
+  + NameAndType [mContext Landroid/content/Context;]
+  + NameAndType [search (Ljava/lang/String;II)Ljava/util/List;]
+  + NameAndType [search (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [searchImojis (Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;]
+  + NameAndType [searchImojis (Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [transform (Lcom/squareup/picasso/Transformation;)Lcom/squareup/picasso/RequestCreator;]
+  + NameAndType [with (Landroid/content/Context;)Lcom/squareup/picasso/Picasso;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()Ljava/util/List;]
+  + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Utf8 [()V]
+  + Utf8 [(II)Ljava/util/List;]
+  + Utf8 [(II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Landroid/content/Context;)Lcom/squareup/picasso/Picasso;]
+  + Utf8 [(Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Utf8 [(Landroid/content/Context;Ljava/lang/String;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;]
+  + Utf8 [(Lcom/squareup/picasso/Transformation;)Lcom/squareup/picasso/RequestCreator;]
+  + Utf8 [(Ljava/lang/String;)Lcom/squareup/picasso/RequestCreator;]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Landroid/content/Context;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/Imoji]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Utf8 [com/imojiapp/imoji/sdk/OutlineTransformation]
+  + Utf8 [com/squareup/picasso/Picasso]
+  + Utf8 [com/squareup/picasso/RequestCreator]
+  + Utf8 [getFeatured]
+  + Utf8 [getFeaturedImojis]
+  + Utf8 [getImojiCategories]
+  + Utf8 [getThumbImageUrl]
+  + Utf8 [getUrl]
+  + Utf8 [load]
+  + Utf8 [loadFull]
+  + Utf8 [loadThumb]
+  + Utf8 [mApiToken]
+  + Utf8 [mContext]
+  + Utf8 [search]
+  + Utf8 [searchImojis]
+  + Utf8 [transform]
+  + Utf8 [with]
+
+Fields (count = 1):
+  + Field:        mApiToken Ljava/lang/String;
+    Access flags: 0x2
+      = private java.lang.String mApiToken
+
+Methods (count = 13):
+  - Method:       <init>(Landroid/content/Context;Ljava/lang/String;)V
+    Access flags: 0x0
+      = ImojiApi$ImojiApiImpl(android.content.Context,java.lang.String)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 15, locals = 3, stack = 2):
+      [0] aload_0 v0
+      [1] invokespecial #12
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi.<init> ()V]
+      [4] aload_0 v0
+      [5] aload_1 v1
+      [6] putfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+      [9] aload_0 v0
+      [10] aload_2 v2
+      [11] putfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [14] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getFeatured(II)Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List getFeatured(int,int)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 10, locals = 3, stack = 3):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] iload_1 v1
+      [5] iload_2 v2
+      [6] invokestatic #16
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getFeaturedImojis (Ljava/lang/String;II)Ljava/util/List;]
+      [9] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       getFeatured()Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List getFeatured()
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 11, locals = 1, stack = 3):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] iconst_0
+      [5] bipush 60
+      [7] invokestatic #16
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getFeaturedImojis (Ljava/lang/String;II)Ljava/util/List;]
+      [10] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       search(Ljava/lang/String;)Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List search(java.lang.String)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 9, locals = 2, stack = 4):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] iconst_0
+      [3] bipush 60
+      [5] invokevirtual #14
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.search (Ljava/lang/String;II)Ljava/util/List;]
+      [8] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       search(Ljava/lang/String;II)Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List search(java.lang.String,int,int)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 11, locals = 4, stack = 4):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] aload_1 v1
+      [5] iload_2 v2
+      [6] iload_3 v3
+      [7] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.searchImojis (Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;]
+      [10] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       getFeatured(IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x1
+      = public void getFeatured(int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 11, locals = 4, stack = 4):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] iload_1 v1
+      [5] iload_2 v2
+      [6] aload_3 v3
+      [7] invokestatic #17
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getFeaturedImojis (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+      [10] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       getFeatured(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x1
+      = public void getFeatured(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 9, locals = 2, stack = 4):
+      [0] aload_0 v0
+      [1] iconst_0
+      [2] bipush 60
+      [4] aload_1 v1
+      [5] invokevirtual #13
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.getFeatured (IILcom/imojiapp/imoji/sdk/Callback;)V]
+      [8] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       search(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x1
+      = public void search(java.lang.String,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 10, locals = 3, stack = 5):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] iconst_0
+      [3] bipush 60
+      [5] aload_2 v2
+      [6] invokevirtual #15
+        + Methodref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.search (Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       search(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x1
+      = public void search(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 13, locals = 5, stack = 5):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] aload_1 v1
+      [5] iload_2 v2
+      [6] iload_3 v3
+      [7] aload v4
+      [9] invokestatic #21
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.searchImojis (Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+      [12] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       getImojiCategories(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x1
+      = public void getImojiCategories(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 9, locals = 2, stack = 2):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] aload_1 v1
+      [5] invokestatic #19
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getImojiCategories (Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+      [8] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Method:       getImojiCategories()Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List getImojiCategories()
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 8, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mApiToken Ljava/lang/String;]
+      [4] invokestatic #18
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.getImojiCategories (Ljava/lang/String;)Ljava/util/List;]
+      [7] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [()Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Method:       loadThumb(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;
+    Access flags: 0x1
+      = public com.squareup.picasso.RequestCreator loadThumb(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.OutlineOptions)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 30, locals = 3, stack = 5):
+      [0] aload_0 v0
+      [1] getfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+      [4] invokestatic #24
+        + Methodref [com/squareup/picasso/Picasso.with (Landroid/content/Context;)Lcom/squareup/picasso/Picasso;]
+      [7] aload_1 v1
+      [8] invokevirtual #10
+        + Methodref [com/imojiapp/imoji/sdk/Imoji.getThumbImageUrl ()Ljava/lang/String;]
+      [11] invokevirtual #23
+        + Methodref [com/squareup/picasso/Picasso.load (Ljava/lang/String;)Lcom/squareup/picasso/RequestCreator;]
+      [14] new #5
+        + Class [com/imojiapp/imoji/sdk/OutlineTransformation]
+      [17] dup
+      [18] aload_0 v0
+      [19] getfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+      [22] aload_2 v2
+      [23] invokespecial #22
+        + Methodref [com/imojiapp/imoji/sdk/OutlineTransformation.<init> (Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+      [26] invokevirtual #25
+        + Methodref [com/squareup/picasso/RequestCreator.transform (Lcom/squareup/picasso/Transformation;)Lcom/squareup/picasso/RequestCreator;]
+      [29] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       loadFull(Lcom/imojiapp/imoji/sdk/Imoji;Lcom/imojiapp/imoji/sdk/OutlineOptions;)Lcom/squareup/picasso/RequestCreator;
+    Access flags: 0x1
+      = public com.squareup.picasso.RequestCreator loadFull(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.OutlineOptions)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 30, locals = 3, stack = 5):
+      [0] aload_0 v0
+      [1] getfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+      [4] invokestatic #24
+        + Methodref [com/squareup/picasso/Picasso.with (Landroid/content/Context;)Lcom/squareup/picasso/Picasso;]
+      [7] aload_1 v1
+      [8] invokevirtual #11
+        + Methodref [com/imojiapp/imoji/sdk/Imoji.getUrl ()Ljava/lang/String;]
+      [11] invokevirtual #23
+        + Methodref [com/squareup/picasso/Picasso.load (Ljava/lang/String;)Lcom/squareup/picasso/RequestCreator;]
+      [14] new #5
+        + Class [com/imojiapp/imoji/sdk/OutlineTransformation]
+      [17] dup
+      [18] aload_0 v0
+      [19] getfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiApi$ImojiApiImpl.mContext Landroid/content/Context;]
+      [22] aload_2 v2
+      [23] invokespecial #22
+        + Methodref [com/imojiapp/imoji/sdk/OutlineTransformation.<init> (Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+      [26] invokevirtual #25
+        + Methodref [com/squareup/picasso/RequestCreator.transform (Lcom/squareup/picasso/Transformation;)Lcom/squareup/picasso/RequestCreator;]
+      [29] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiApiInterface
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x600
+    = interface com.imojiapp.imoji.sdk.ImojiApiInterface extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 34):
+  + Class [com/imojiapp/imoji/sdk/ImojiApiInterface]
+  + Class [java/lang/Object]
+  + Utf8 [(Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/FetchImojisResponse;]
+  + Utf8 [(Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;]
+  + Utf8 [(Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + Utf8 [(Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;)V]
+  + Utf8 [(Ljava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;>;)V]
+  + Utf8 [/featuredImojis]
+  + Utf8 [/imojiCategories]
+  + Utf8 [/imojiSearch]
+  + Utf8 [/imojis]
+  + Utf8 [Lretrofit/http/GET;]
+  + Utf8 [Lretrofit/http/Query;]
+  + Utf8 [RuntimeVisibleAnnotations]
+  + Utf8 [RuntimeVisibleParameterAnnotations]
+  + Utf8 [Signature]
+  + Utf8 [apiKey]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApiInterface]
+  + Utf8 [fetchImojis]
+  + Utf8 [getFeaturedImojis]
+  + Utf8 [getImojiCategories]
+  + Utf8 [ids]
+  + Utf8 [java/lang/Object]
+  + Utf8 [numResults]
+  + Utf8 [offset]
+  + Utf8 [query]
+  + Utf8 [searchImojis]
+  + Utf8 [value]
+
+Fields (count = 0):
+
+Methods (count = 7):
+  + Method:       getFeaturedImojis(Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V
+    Access flags: 0x401
+      = public abstract void getFeaturedImojis(java.lang.String,int,java.lang.String,retrofit.Callback)
+    Class member attributes (count = 3):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/featuredImojis]
+    + Runtime visible parameter annotations attribute (parameter count = 4):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [offset]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [numResults]
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;)V]
+  + Method:       getFeaturedImojis(Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;
+    Access flags: 0x401
+      = public abstract com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse getFeaturedImojis(java.lang.String,int,java.lang.String)
+    Class member attributes (count = 2):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/featuredImojis]
+    + Runtime visible parameter annotations attribute (parameter count = 3):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [offset]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [numResults]
+  + Method:       searchImojis(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V
+    Access flags: 0x401
+      = public abstract void searchImojis(java.lang.String,java.lang.String,int,java.lang.String,retrofit.Callback)
+    Class member attributes (count = 3):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/imojiSearch]
+    + Runtime visible parameter annotations attribute (parameter count = 5):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [query]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [offset]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [numResults]
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;)V]
+  + Method:       searchImojis(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;
+    Access flags: 0x401
+      = public abstract com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse searchImojis(java.lang.String,java.lang.String,int,java.lang.String)
+    Class member attributes (count = 2):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/imojiSearch]
+    + Runtime visible parameter annotations attribute (parameter count = 4):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [query]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [offset]
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [numResults]
+  + Method:       fetchImojis(Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/FetchImojisResponse;
+    Access flags: 0x401
+      = public abstract com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse fetchImojis(java.lang.String)
+    Class member attributes (count = 2):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/imojis]
+    + Runtime visible parameter annotations attribute (parameter count = 1):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [ids]
+  + Method:       getImojiCategories(Ljava/lang/String;Lretrofit/Callback;)V
+    Access flags: 0x401
+      = public abstract void getImojiCategories(java.lang.String,retrofit.Callback)
+    Class member attributes (count = 3):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/imojiCategories]
+    + Runtime visible parameter annotations attribute (parameter count = 2):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;>;)V]
+  + Method:       getImojiCategories(Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;
+    Access flags: 0x401
+      = public abstract com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse getImojiCategories(java.lang.String)
+    Class member attributes (count = 2):
+    + Runtime visible annotations attribute:
+      - Annotation [Lretrofit/http/GET;]:
+        - Constant element value [value 's']
+          + Utf8 [/imojiCategories]
+    + Runtime visible parameter annotations attribute (parameter count = 1):
+      - Annotation [Lretrofit/http/Query;]:
+        - Constant element value [value 's']
+          + Utf8 [apiKey]
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiCategory
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.ImojiCategory extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 26):
+  + Class [com/imojiapp/imoji/sdk/ImojiCategory]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.id Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.imoji Lcom/imojiapp/imoji/sdk/Imoji;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.title Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + NameAndType [<init> ()V]
+  + NameAndType [id Ljava/lang/String;]
+  + NameAndType [imoji Lcom/imojiapp/imoji/sdk/Imoji;]
+  + NameAndType [title Ljava/lang/String;]
+  + Utf8 [()Lcom/imojiapp/imoji/sdk/Imoji;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/Imoji;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiCategory]
+  + Utf8 [getId]
+  + Utf8 [getImoji]
+  + Utf8 [getTitle]
+  + Utf8 [id]
+  + Utf8 [imoji]
+  + Utf8 [java/lang/Object]
+  + Utf8 [title]
+
+Fields (count = 3):
+  + Field:        id Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String id
+  + Field:        title Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String title
+  + Field:        imoji Lcom/imojiapp/imoji/sdk/Imoji;
+    Access flags: 0x1
+      = public com.imojiapp.imoji.sdk.Imoji imoji
+
+Methods (count = 4):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public ImojiCategory()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #6
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getId()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String getId()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #3
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.id Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getTitle()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String getTitle()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.title Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getImoji()Lcom/imojiapp/imoji/sdk/Imoji;
+    Access flags: 0x1
+      = public com.imojiapp.imoji.sdk.Imoji getImoji()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] getfield #4
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiCategory.imoji Lcom/imojiapp/imoji/sdk/Imoji;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiNetApiHandle
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x20
+    = class com.imojiapp.imoji.sdk.ImojiNetApiHandle extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 131):
+  + String [https://api.imoji.io/v1]
+  + Class [com/imojiapp/imoji/sdk/ImojiApiInterface]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Class [java/lang/Class]
+  + Class [java/lang/Object]
+  + Class [java/lang/String]
+  + Class [retrofit/RestAdapter]
+  + Class [retrofit/RestAdapter$Builder]
+  + Class [retrofit/RetrofitError]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.LOG_TAG Ljava/lang/String;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.categories Ljava/util/List;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1.<init> ()V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.isSuccess ()Z]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+  + Methodref [java/lang/Class.getSimpleName ()Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/String.valueOf (I)Ljava/lang/String;]
+  + Methodref [retrofit/RestAdapter.create (Ljava/lang/Class;)Ljava/lang/Object;]
+  + Methodref [retrofit/RestAdapter$Builder.<init> ()V]
+  + Methodref [retrofit/RestAdapter$Builder.build ()Lretrofit/RestAdapter;]
+  + Methodref [retrofit/RestAdapter$Builder.setEndpoint (Ljava/lang/String;)Lretrofit/RestAdapter$Builder;]
+  + Methodref [retrofit/RestAdapter$Builder.setRequestInterceptor (Lretrofit/RequestInterceptor;)Lretrofit/RestAdapter$Builder;]
+  + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getImojiCategories (Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getImojiCategories (Ljava/lang/String;Lretrofit/Callback;)V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + NameAndType [LOG_TAG Ljava/lang/String;]
+  + NameAndType [build ()Lretrofit/RestAdapter;]
+  + NameAndType [categories Ljava/util/List;]
+  + NameAndType [create (Ljava/lang/Class;)Ljava/lang/Object;]
+  + NameAndType [get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + NameAndType [getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + NameAndType [getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + NameAndType [getImojiCategories (Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;]
+  + NameAndType [getImojiCategories (Ljava/lang/String;Lretrofit/Callback;)V]
+  + NameAndType [getSimpleName ()Ljava/lang/String;]
+  + NameAndType [isSuccess ()Z]
+  + NameAndType [printStackTrace ()V]
+  + NameAndType [results Ljava/util/ArrayList;]
+  + NameAndType [sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + NameAndType [searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + NameAndType [searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + NameAndType [setEndpoint (Ljava/lang/String;)Lretrofit/RestAdapter$Builder;]
+  + NameAndType [setRequestInterceptor (Lretrofit/RequestInterceptor;)Lretrofit/RestAdapter$Builder;]
+  + NameAndType [valueOf (I)Ljava/lang/String;]
+  + Utf8 [()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()Lretrofit/RestAdapter;]
+  + Utf8 [()V]
+  + Utf8 [()Z]
+  + Utf8 [(I)Ljava/lang/String;]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/Class;)Ljava/lang/Object;]
+  + Utf8 [(Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Utf8 [(Ljava/lang/String;)Lretrofit/RestAdapter$Builder;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + Utf8 [(Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Ljava/lang/String;Lretrofit/Callback;)V]
+  + Utf8 [(Lretrofit/RequestInterceptor;)Lretrofit/RestAdapter$Builder;]
+  + Utf8 [<clinit>]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [LOG_TAG]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [Ljava/util/ArrayList;]
+  + Utf8 [Ljava/util/List;]
+  + Utf8 [Signature]
+  + Utf8 [access$000]
+  + Utf8 [build]
+  + Utf8 [categories]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiApiInterface]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Utf8 [create]
+  + Utf8 [get]
+  + Utf8 [getFeaturedImojis]
+  + Utf8 [getImojiCategories]
+  + Utf8 [getSimpleName]
+  + Utf8 [https://api.imoji.io/v1]
+  + Utf8 [isSuccess]
+  + Utf8 [java/lang/Class]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/lang/String]
+  + Utf8 [printStackTrace]
+  + Utf8 [results]
+  + Utf8 [retrofit/RestAdapter]
+  + Utf8 [retrofit/RestAdapter$Builder]
+  + Utf8 [retrofit/RetrofitError]
+  + Utf8 [sApiService]
+  + Utf8 [searchImojis]
+  + Utf8 [setEndpoint]
+  + Utf8 [setRequestInterceptor]
+  + Utf8 [valueOf]
+
+Fields (count = 2):
+  + Field:        LOG_TAG Ljava/lang/String;
+    Access flags: 0x1a
+      = private static final java.lang.String LOG_TAG
+  + Field:        sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;
+    Access flags: 0xa
+      = private static com.imojiapp.imoji.sdk.ImojiApiInterface sApiService
+
+Methods (count = 10):
+  - Method:       <init>()V
+    Access flags: 0x0
+      = ImojiNetApiHandle()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #28
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       get()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;
+    Access flags: 0xa
+      = private static com.imojiapp.imoji.sdk.ImojiApiInterface get()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 50, locals = 2, stack = 2):
+      [0] getstatic #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [3] ifnonnull +43 (target=46)
+      [6] new #4
+        + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1]
+      [9] dup
+      [10] invokespecial #21
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1.<init> ()V]
+      [13] astore_0 v0
+      [14] new #14
+        + Class [retrofit/RestAdapter$Builder]
+      [17] dup
+      [18] invokespecial #31
+        + Methodref [retrofit/RestAdapter$Builder.<init> ()V]
+      [21] ldc #1
+        + String [https://api.imoji.io/v1]
+      [23] invokevirtual #33
+        + Methodref [retrofit/RestAdapter$Builder.setEndpoint (Ljava/lang/String;)Lretrofit/RestAdapter$Builder;]
+      [26] aload_0 v0
+      [27] invokevirtual #34
+        + Methodref [retrofit/RestAdapter$Builder.setRequestInterceptor (Lretrofit/RequestInterceptor;)Lretrofit/RestAdapter$Builder;]
+      [30] astore_1 v1
+      [31] aload_1 v1
+      [32] invokevirtual #32
+        + Methodref [retrofit/RestAdapter$Builder.build ()Lretrofit/RestAdapter;]
+      [35] ldc #2
+        + Class [com/imojiapp/imoji/sdk/ImojiApiInterface]
+      [37] invokevirtual #30
+        + Methodref [retrofit/RestAdapter.create (Ljava/lang/Class;)Ljava/lang/Object;]
+      [40] checkcast #2
+        + Class [com/imojiapp/imoji/sdk/ImojiApiInterface]
+      [43] putstatic #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [46] getstatic #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.sApiService Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [49] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       getFeaturedImojis(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x8
+      = static void getFeaturedImojis(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 34, locals = 5, stack = 7):
+      [0] aconst_null
+      [1] astore v4
+      [3] iload_2 v2
+      [4] ifle +9 (target=13)
+      [7] iload_2 v2
+      [8] invokestatic #29
+        + Methodref [java/lang/String.valueOf (I)Ljava/lang/String;]
+      [11] astore v4
+      [13] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [16] aload_0 v0
+      [17] iload_1 v1
+      [18] aload v4
+      [20] new #5
+        + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2]
+      [23] dup
+      [24] aload_3 v3
+      [25] invokespecial #22
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+      [28] invokeinterface #37, 1280
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+      [33] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       getFeaturedImojis(Ljava/lang/String;II)Ljava/util/List;
+    Access flags: 0x8
+      = static java.util.List getFeaturedImojis(java.lang.String,int,int)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 55, locals = 5, stack = 4):
+      [0] aconst_null
+      [1] astore_3 v3
+      [2] iload_2 v2
+      [3] ifle +8 (target=11)
+      [6] iload_2 v2
+      [7] invokestatic #29
+        + Methodref [java/lang/String.valueOf (I)Ljava/lang/String;]
+      [10] astore_3 v3
+      [11] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [14] aload_0 v0
+      [15] iload_1 v1
+      [16] aload_3 v3
+      [17] invokeinterface #36, 1024
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getFeaturedImojis (Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+      [22] astore v4
+      [24] aload v4
+      [26] ifnull +17 (target=43)
+      [29] aload v4
+      [31] invokevirtual #26
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+      [34] ifeq +9 (target=43)
+      [37] aload v4
+      [39] getfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+      [42] areturn
+      [43] goto +10 (target=53)
+      [46] astore v4
+      [48] aload v4
+      [50] invokevirtual #35
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [53] aconst_null
+      [54] areturn
+      Code attribute exceptions (count = 1):
+      - ExceptionInfo (11 -> 42: 46):
+      + Class [retrofit/RetrofitError]
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       searchImojis(Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x8
+      = static void searchImojis(java.lang.String,java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 36, locals = 6, stack = 8):
+      [0] aconst_null
+      [1] astore v5
+      [3] iload_3 v3
+      [4] ifle +9 (target=13)
+      [7] iload_3 v3
+      [8] invokestatic #29
+        + Methodref [java/lang/String.valueOf (I)Ljava/lang/String;]
+      [11] astore v5
+      [13] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [16] aload_0 v0
+      [17] aload_1 v1
+      [18] iload_2 v2
+      [19] aload v5
+      [21] new #6
+        + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3]
+      [24] dup
+      [25] aload v4
+      [27] invokespecial #23
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+      [30] invokeinterface #41, 1536
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lretrofit/Callback;)V]
+      [35] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Ljava/lang/String;IILcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;>;)V]
+  + Method:       searchImojis(Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List;
+    Access flags: 0x8
+      = static java.util.List searchImojis(java.lang.String,java.lang.String,int,int)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 59, locals = 6, stack = 5):
+      [0] aconst_null
+      [1] astore v4
+      [3] iload_3 v3
+      [4] ifle +9 (target=13)
+      [7] iload_3 v3
+      [8] invokestatic #29
+        + Methodref [java/lang/String.valueOf (I)Ljava/lang/String;]
+      [11] astore v4
+      [13] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [16] aload_0 v0
+      [17] aload_1 v1
+      [18] iload_2 v2
+      [19] aload v4
+      [21] invokeinterface #40, 1280
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.searchImojis (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;]
+      [26] astore v5
+      [28] aload v5
+      [30] ifnull +17 (target=47)
+      [33] aload v5
+      [35] invokevirtual #26
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+      [38] ifeq +9 (target=47)
+      [41] aload v5
+      [43] getfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+      [46] areturn
+      [47] goto +10 (target=57)
+      [50] astore v5
+      [52] aload v5
+      [54] invokevirtual #35
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [57] aconst_null
+      [58] areturn
+      Code attribute exceptions (count = 1):
+      - ExceptionInfo (13 -> 46: 50):
+      + Class [retrofit/RetrofitError]
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Ljava/lang/String;II)Ljava/util/List<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Method:       getImojiCategories(Ljava/lang/String;)Ljava/util/List;
+    Access flags: 0x8
+      = static java.util.List getImojiCategories(java.lang.String)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 36, locals = 2, stack = 2):
+      [0] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [3] aload_0 v0
+      [4] invokeinterface #38, 512
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getImojiCategories (Ljava/lang/String;)Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;]
+      [9] astore_1 v1
+      [10] aload_1 v1
+      [11] ifnull +15 (target=26)
+      [14] aload_1 v1
+      [15] invokevirtual #25
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.isSuccess ()Z]
+      [18] ifeq +8 (target=26)
+      [21] aload_1 v1
+      [22] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.categories Ljava/util/List;]
+      [25] areturn
+      [26] goto +8 (target=34)
+      [29] astore_1 v1
+      [30] aload_1 v1
+      [31] invokevirtual #35
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [34] aconst_null
+      [35] areturn
+      Code attribute exceptions (count = 1):
+      - ExceptionInfo (0 -> 25: 29):
+      + Class [retrofit/RetrofitError]
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;)Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Method:       getImojiCategories(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x8
+      = static void getImojiCategories(java.lang.String,com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 2):
+    + Code attribute instructions (code length = 18, locals = 2, stack = 5):
+      [0] invokestatic #20
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.get ()Lcom/imojiapp/imoji/sdk/ImojiApiInterface;]
+      [3] aload_0 v0
+      [4] new #7
+        + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4]
+      [7] dup
+      [8] aload_1 v1
+      [9] invokespecial #24
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.<init> (Lcom/imojiapp/imoji/sdk/Callback;)V]
+      [12] invokeinterface #39, 768
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/ImojiApiInterface.getImojiCategories (Ljava/lang/String;Lretrofit/Callback;)V]
+      [17] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+    + Signature attribute:
+      + Utf8 [(Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Callback<Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;>;)V]
+  + Method:       access$000()Ljava/lang/String;
+    Access flags: 0x1008
+      = static synthetic java.lang.String access$000()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 4, locals = 0, stack = 1):
+      [0] getstatic #16
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.LOG_TAG Ljava/lang/String;]
+      [3] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  - Method:       <clinit>()V
+    Access flags: 0x8
+      = static void <clinit>()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 9, locals = 0, stack = 1):
+      [0] ldc #3
+        + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+      [2] invokevirtual #27
+        + Methodref [java/lang/Class.getSimpleName ()Ljava/lang/String;]
+      [5] putstatic #16
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.LOG_TAG Ljava/lang/String;]
+      [8] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiNetApiHandle$1
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.ImojiNetApiHandle$1 extends java.lang.Object
+
+Interfaces (count = 1):
+  + Class [retrofit/RequestInterceptor]
+
+Constant Pool (count = 36):
+  + String [2.0.0]
+  + String [android]
+  + String [x-client-model]
+  + String [x-client-os-version]
+  + String [x-client-version]
+  + Class [android/os/Build$VERSION]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1]
+  + Class [java/lang/Object]
+  + Class [retrofit/RequestInterceptor]
+  + Class [retrofit/RequestInterceptor$RequestFacade]
+  + Fieldref [android/os/Build$VERSION.RELEASE Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + InterfaceMethodref [retrofit/RequestInterceptor$RequestFacade.addHeader (Ljava/lang/String;Ljava/lang/String;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [RELEASE Ljava/lang/String;]
+  + NameAndType [addHeader (Ljava/lang/String;Ljava/lang/String;)V]
+  + Utf8 [()V]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;)V]
+  + Utf8 [(Lretrofit/RequestInterceptor$RequestFacade;)V]
+  + Utf8 [2.0.0]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [RELEASE]
+  + Utf8 [addHeader]
+  + Utf8 [android]
+  + Utf8 [android/os/Build$VERSION]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$1]
+  + Utf8 [intercept]
+  + Utf8 [java/lang/Object]
+  + Utf8 [retrofit/RequestInterceptor]
+  + Utf8 [retrofit/RequestInterceptor$RequestFacade]
+  + Utf8 [x-client-model]
+  + Utf8 [x-client-os-version]
+  + Utf8 [x-client-version]
+
+Fields (count = 0):
+
+Methods (count = 2):
+  - Method:       <init>()V
+    Access flags: 0x0
+      = ImojiNetApiHandle$1()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #12
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       intercept(Lretrofit/RequestInterceptor$RequestFacade;)V
+    Access flags: 0x1
+      = public void intercept(retrofit.RequestInterceptor$RequestFacade)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 32, locals = 2, stack = 3):
+      [0] aload_1 v1
+      [1] ldc #5
+        + String [x-client-version]
+      [3] ldc #1
+        + String [2.0.0]
+      [5] invokeinterface #13, 768
+        + InterfaceMethodref [retrofit/RequestInterceptor$RequestFacade.addHeader (Ljava/lang/String;Ljava/lang/String;)V]
+      [10] aload_1 v1
+      [11] ldc #3
+        + String [x-client-model]
+      [13] ldc #2
+        + String [android]
+      [15] invokeinterface #13, 768
+        + InterfaceMethodref [retrofit/RequestInterceptor$RequestFacade.addHeader (Ljava/lang/String;Ljava/lang/String;)V]
+      [20] aload_1 v1
+      [21] ldc #4
+        + String [x-client-os-version]
+      [23] getstatic #11
+        + Fieldref [android/os/Build$VERSION.RELEASE Ljava/lang/String;]
+      [26] invokeinterface #13, 768
+        + InterfaceMethodref [retrofit/RequestInterceptor$RequestFacade.addHeader (Ljava/lang/String;Ljava/lang/String;)V]
+      [31] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiNetApiHandle$2
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.ImojiNetApiHandle$2 extends java.lang.Object
+
+Interfaces (count = 1):
+  + Class [retrofit/Callback]
+
+Constant Pool (count = 78):
+  + String [failure: ]
+  + Class [android/util/Log]
+  + Class [com/imojiapp/imoji/sdk/Callback]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Class [java/lang/Object]
+  + Class [java/lang/StringBuilder]
+  + Class [retrofit/Callback]
+  + Class [retrofit/RetrofitError]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.status Ljava/lang/String;]
+  + Methodref [android/util/Log.d (Ljava/lang/String;Ljava/lang/String;)I]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.access$000 ()Ljava/lang/String;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/StringBuilder.<init> ()V]
+  + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + Methodref [java/lang/StringBuilder.toString ()Ljava/lang/String;]
+  + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [access$000 ()Ljava/lang/String;]
+  + NameAndType [append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + NameAndType [d (Ljava/lang/String;Ljava/lang/String;)I]
+  + NameAndType [isSuccess ()Z]
+  + NameAndType [onFailure ()V]
+  + NameAndType [onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [printStackTrace ()V]
+  + NameAndType [results Ljava/util/ArrayList;]
+  + NameAndType [status Ljava/lang/String;]
+  + NameAndType [success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + NameAndType [toString ()Ljava/lang/String;]
+  + NameAndType [val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [()Z]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + Utf8 [(Ljava/lang/Object;)V]
+  + Utf8 [(Ljava/lang/Object;Lretrofit/client/Response;)V]
+  + Utf8 [(Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + Utf8 [(Ljava/lang/String;Ljava/lang/String;)I]
+  + Utf8 [(Lretrofit/RetrofitError;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [Ljava/util/ArrayList;]
+  + Utf8 [Signature]
+  + Utf8 [access$000]
+  + Utf8 [android/util/Log]
+  + Utf8 [append]
+  + Utf8 [com/imojiapp/imoji/sdk/Callback]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Utf8 [d]
+  + Utf8 [failure]
+  + Utf8 [failure: ]
+  + Utf8 [isSuccess]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/lang/StringBuilder]
+  + Utf8 [onFailure]
+  + Utf8 [onSuccess]
+  + Utf8 [printStackTrace]
+  + Utf8 [results]
+  + Utf8 [retrofit/Callback]
+  + Utf8 [retrofit/RetrofitError]
+  + Utf8 [status]
+  + Utf8 [success]
+  + Utf8 [toString]
+  + Utf8 [val$callback]
+
+Fields (count = 1):
+  + Field:        val$callback Lcom/imojiapp/imoji/sdk/Callback;
+    Access flags: 0x1010
+      = final synthetic com.imojiapp.imoji.sdk.Callback val$callback
+
+Methods (count = 4):
+  - Method:       <init>(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x0
+      = ImojiNetApiHandle$2(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 2, stack = 2):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] putfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [5] aload_0 v0
+      [6] invokespecial #18
+        + Methodref [java/lang/Object.<init> ()V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V
+    Access flags: 0x1
+      = public void success(com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 62, locals = 3, stack = 3):
+      [0] aload_1 v1
+      [1] invokevirtual #17
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+      [4] ifeq +19 (target=23)
+      [7] aload_0 v0
+      [8] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [11] aload_1 v1
+      [12] getfield #12
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+      [15] invokeinterface #24, 512
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+      [20] goto +41 (target=61)
+      [23] invokestatic #15
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle.access$000 ()Ljava/lang/String;]
+      [26] new #8
+        + Class [java/lang/StringBuilder]
+      [29] dup
+      [30] invokespecial #19
+        + Methodref [java/lang/StringBuilder.<init> ()V]
+      [33] ldc #1
+        + String [failure: ]
+      [35] invokevirtual #20
+        + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+      [38] aload_1 v1
+      [39] getfield #13
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.status Ljava/lang/String;]
+      [42] invokevirtual #20
+        + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+      [45] invokevirtual #21
+        + Methodref [java/lang/StringBuilder.toString ()Ljava/lang/String;]
+      [48] invokestatic #14
+        + Methodref [android/util/Log.d (Ljava/lang/String;Ljava/lang/String;)I]
+      [51] pop
+      [52] aload_0 v0
+      [53] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [56] invokeinterface #23, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [61] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       failure(Lretrofit/RetrofitError;)V
+    Access flags: 0x1
+      = public void failure(retrofit.RetrofitError)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 14, locals = 2, stack = 1):
+      [0] aload_1 v1
+      [1] invokevirtual #22
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [4] aload_0 v0
+      [5] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [8] invokeinterface #23, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [13] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Ljava/lang/Object;Lretrofit/client/Response;)V
+    Access flags: 0x1041
+      = public bridge synthetic void success(java.lang.Object,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 3, stack = 3):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] checkcast #6
+        + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+      [5] aload_2 v2
+      [6] invokevirtual #16
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$2.success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 1):
+  + Signature attribute:
+    + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;]
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiNetApiHandle$3
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.ImojiNetApiHandle$3 extends java.lang.Object
+
+Interfaces (count = 1):
+  + Class [retrofit/Callback]
+
+Constant Pool (count = 50):
+  + Class [com/imojiapp/imoji/sdk/Callback]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Class [java/lang/Object]
+  + Class [retrofit/Callback]
+  + Class [retrofit/RetrofitError]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [isSuccess ()Z]
+  + NameAndType [onFailure ()V]
+  + NameAndType [onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [printStackTrace ()V]
+  + NameAndType [results Ljava/util/ArrayList;]
+  + NameAndType [success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + NameAndType [val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [()V]
+  + Utf8 [()Z]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+  + Utf8 [(Ljava/lang/Object;)V]
+  + Utf8 [(Ljava/lang/Object;Lretrofit/client/Response;)V]
+  + Utf8 [(Lretrofit/RetrofitError;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;]
+  + Utf8 [Ljava/util/ArrayList;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/Callback]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Utf8 [failure]
+  + Utf8 [isSuccess]
+  + Utf8 [java/lang/Object]
+  + Utf8 [onFailure]
+  + Utf8 [onSuccess]
+  + Utf8 [printStackTrace]
+  + Utf8 [results]
+  + Utf8 [retrofit/Callback]
+  + Utf8 [retrofit/RetrofitError]
+  + Utf8 [success]
+  + Utf8 [val$callback]
+
+Fields (count = 1):
+  + Field:        val$callback Lcom/imojiapp/imoji/sdk/Callback;
+    Access flags: 0x1010
+      = final synthetic com.imojiapp.imoji.sdk.Callback val$callback
+
+Methods (count = 4):
+  - Method:       <init>(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x0
+      = ImojiNetApiHandle$3(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 2, stack = 2):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] putfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [5] aload_0 v0
+      [6] invokespecial #11
+        + Methodref [java/lang/Object.<init> ()V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V
+    Access flags: 0x1
+      = public void success(com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 33, locals = 3, stack = 2):
+      [0] aload_1 v1
+      [1] invokevirtual #10
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.isSuccess ()Z]
+      [4] ifeq +19 (target=23)
+      [7] aload_0 v0
+      [8] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [11] aload_1 v1
+      [12] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse.results Ljava/util/ArrayList;]
+      [15] invokeinterface #14, 512
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+      [20] goto +12 (target=32)
+      [23] aload_0 v0
+      [24] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [27] invokeinterface #13, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [32] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       failure(Lretrofit/RetrofitError;)V
+    Access flags: 0x1
+      = public void failure(retrofit.RetrofitError)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 14, locals = 2, stack = 1):
+      [0] aload_1 v1
+      [1] invokevirtual #12
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [4] aload_0 v0
+      [5] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.val$callback Lcom/imojiapp/imoji/sdk/Callback;]
+      [8] invokeinterface #13, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [13] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Ljava/lang/Object;Lretrofit/client/Response;)V
+    Access flags: 0x1041
+      = public bridge synthetic void success(java.lang.Object,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 3, stack = 3):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] checkcast #3
+        + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+      [5] aload_2 v2
+      [6] invokevirtual #9
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$3.success (Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;Lretrofit/client/Response;)V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 1):
+  + Signature attribute:
+    + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse;>;]
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiNetApiHandle$4
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.ImojiNetApiHandle$4 extends java.lang.Object
+
+Interfaces (count = 1):
+  + Class [retrofit/Callback]
+
+Constant Pool (count = 50):
+  + Class [com/imojiapp/imoji/sdk/Callback]
+  + Class [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+  + Class [java/lang/Object]
+  + Class [retrofit/Callback]
+  + Class [retrofit/RetrofitError]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.categories Ljava/util/List;]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.success (Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;Lretrofit/client/Response;)V]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.isSuccess ()Z]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+  + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [<init> ()V]
+  + NameAndType [categories Ljava/util/List;]
+  + NameAndType [isSuccess ()Z]
+  + NameAndType [onFailure ()V]
+  + NameAndType [onSuccess (Ljava/lang/Object;)V]
+  + NameAndType [printStackTrace ()V]
+  + NameAndType [success (Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;Lretrofit/client/Response;)V]
+  + NameAndType [val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [()V]
+  + Utf8 [()Z]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/Callback;)V]
+  + Utf8 [(Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;Lretrofit/client/Response;)V]
+  + Utf8 [(Ljava/lang/Object;)V]
+  + Utf8 [(Ljava/lang/Object;Lretrofit/client/Response;)V]
+  + Utf8 [(Lretrofit/RetrofitError;)V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/Callback;]
+  + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;>;]
+  + Utf8 [Ljava/util/List;]
+  + Utf8 [Signature]
+  + Utf8 [categories]
+  + Utf8 [com/imojiapp/imoji/sdk/Callback]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+  + Utf8 [failure]
+  + Utf8 [isSuccess]
+  + Utf8 [java/lang/Object]
+  + Utf8 [onFailure]
+  + Utf8 [onSuccess]
+  + Utf8 [printStackTrace]
+  + Utf8 [retrofit/Callback]
+  + Utf8 [retrofit/RetrofitError]
+  + Utf8 [success]
+  + Utf8 [val$cb]
+
+Fields (count = 1):
+  + Field:        val$cb Lcom/imojiapp/imoji/sdk/Callback;
+    Access flags: 0x1010
+      = final synthetic com.imojiapp.imoji.sdk.Callback val$cb
+
+Methods (count = 4):
+  - Method:       <init>(Lcom/imojiapp/imoji/sdk/Callback;)V
+    Access flags: 0x0
+      = ImojiNetApiHandle$4(com.imojiapp.imoji.sdk.Callback)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 2, stack = 2):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] putfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+      [5] aload_0 v0
+      [6] invokespecial #11
+        + Methodref [java/lang/Object.<init> ()V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;Lretrofit/client/Response;)V
+    Access flags: 0x1
+      = public void success(com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 33, locals = 3, stack = 2):
+      [0] aload_1 v1
+      [1] invokevirtual #10
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.isSuccess ()Z]
+      [4] ifeq +19 (target=23)
+      [7] aload_0 v0
+      [8] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+      [11] aload_1 v1
+      [12] getfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse.categories Ljava/util/List;]
+      [15] invokeinterface #14, 512
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onSuccess (Ljava/lang/Object;)V]
+      [20] goto +12 (target=32)
+      [23] aload_0 v0
+      [24] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+      [27] invokeinterface #13, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [32] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       failure(Lretrofit/RetrofitError;)V
+    Access flags: 0x1
+      = public void failure(retrofit.RetrofitError)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 14, locals = 2, stack = 1):
+      [0] aload_1 v1
+      [1] invokevirtual #12
+        + Methodref [retrofit/RetrofitError.printStackTrace ()V]
+      [4] aload_0 v0
+      [5] getfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.val$cb Lcom/imojiapp/imoji/sdk/Callback;]
+      [8] invokeinterface #13, 256
+        + InterfaceMethodref [com/imojiapp/imoji/sdk/Callback.onFailure ()V]
+      [13] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       success(Ljava/lang/Object;Lretrofit/client/Response;)V
+    Access flags: 0x1041
+      = public bridge synthetic void success(java.lang.Object,retrofit.client.Response)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 3, stack = 3):
+      [0] aload_0 v0
+      [1] aload_1 v1
+      [2] checkcast #3
+        + Class [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+      [5] aload_2 v2
+      [6] invokevirtual #9
+        + Methodref [com/imojiapp/imoji/sdk/ImojiNetApiHandle$4.success (Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;Lretrofit/client/Response;)V]
+      [9] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 1):
+  + Signature attribute:
+    + Utf8 [Ljava/lang/Object;Lretrofit/Callback<Lcom/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse;>;]
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiOutline
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.ImojiOutline extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 111):
+  + Integer [-2147483648]
+  + Integer [16]
+  + Integer [2147483647]
+  + Class [android/content/Context]
+  + Class [android/content/res/Resources]
+  + Class [android/graphics/Bitmap]
+  + Class [android/graphics/Canvas]
+  + Class [com/imojiapp/imoji/imojisdk/R$dimen]
+  + Class [com/imojiapp/imoji/renderscript/NativeOutline]
+  + Class [com/imojiapp/imoji/sdk/ImojiOutline]
+  + Class [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Class [java/lang/Math]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/imojisdk/R$dimen.one_dp I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.color I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.context Landroid/content/Context;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.tempBitmap Landroid/graphics/Bitmap;]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.color I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowColor I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetX I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetY I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowRadius I]
+  + Methodref [android/content/Context.getResources ()Landroid/content/res/Resources;]
+  + Methodref [android/content/res/Resources.getDimensionPixelSize (I)I]
+  + Methodref [android/graphics/Bitmap.createBitmap (IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;]
+  + Methodref [android/graphics/Bitmap.getConfig ()Landroid/graphics/Bitmap$Config;]
+  + Methodref [android/graphics/Bitmap.getHeight ()I]
+  + Methodref [android/graphics/Bitmap.getWidth ()I]
+  + Methodref [android/graphics/Canvas.<init> (Landroid/graphics/Bitmap;)V]
+  + Methodref [android/graphics/Canvas.drawBitmap (Landroid/graphics/Bitmap;FFLandroid/graphics/Paint;)V]
+  + Methodref [com/imojiapp/imoji/renderscript/NativeOutline.perform (Landroid/graphics/Bitmap;IIIIII)I]
+  + Methodref [java/lang/Math.max (II)I]
+  + Methodref [java/lang/Object.<init> ()V]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Landroid/graphics/Bitmap;)V]
+  + NameAndType [color I]
+  + NameAndType [context Landroid/content/Context;]
+  + NameAndType [createBitmap (IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;]
+  + NameAndType [drawBitmap (Landroid/graphics/Bitmap;FFLandroid/graphics/Paint;)V]
+  + NameAndType [getConfig ()Landroid/graphics/Bitmap$Config;]
+  + NameAndType [getDimensionPixelSize (I)I]
+  + NameAndType [getHeight ()I]
+  + NameAndType [getResources ()Landroid/content/res/Resources;]
+  + NameAndType [getWidth ()I]
+  + NameAndType [max (II)I]
+  + NameAndType [one_dp I]
+  + NameAndType [options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + NameAndType [outlineRadius I]
+  + NameAndType [perform (Landroid/graphics/Bitmap;IIIIII)I]
+  + NameAndType [shadowColor I]
+  + NameAndType [shadowOffsetX I]
+  + NameAndType [shadowOffsetY I]
+  + NameAndType [shadowRadius I]
+  + NameAndType [sourceBitmap Landroid/graphics/Bitmap;]
+  + NameAndType [tempBitmap Landroid/graphics/Bitmap;]
+  + Utf8 [()I]
+  + Utf8 [()Landroid/content/res/Resources;]
+  + Utf8 [()Landroid/graphics/Bitmap$Config;]
+  + Utf8 [()Landroid/graphics/Bitmap;]
+  + Utf8 [()V]
+  + Utf8 [(I)I]
+  + Utf8 [(II)I]
+  + Utf8 [(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;]
+  + Utf8 [(Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Utf8 [(Landroid/graphics/Bitmap;)V]
+  + Utf8 [(Landroid/graphics/Bitmap;FFLandroid/graphics/Paint;)V]
+  + Utf8 [(Landroid/graphics/Bitmap;IIIIII)I]
+  + Utf8 [<init>]
+  + Utf8 [ALIGN_TO]
+  + Utf8 [Code]
+  + Utf8 [ConstantValue]
+  + Utf8 [I]
+  + Utf8 [Landroid/content/Context;]
+  + Utf8 [Landroid/graphics/Bitmap;]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + Utf8 [android/content/Context]
+  + Utf8 [android/content/res/Resources]
+  + Utf8 [android/graphics/Bitmap]
+  + Utf8 [android/graphics/Canvas]
+  + Utf8 [color]
+  + Utf8 [com/imojiapp/imoji/imojisdk/R$dimen]
+  + Utf8 [com/imojiapp/imoji/renderscript/NativeOutline]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiOutline]
+  + Utf8 [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Utf8 [context]
+  + Utf8 [createBitmap]
+  + Utf8 [drawBitmap]
+  + Utf8 [getConfig]
+  + Utf8 [getDimensionPixelSize]
+  + Utf8 [getHeight]
+  + Utf8 [getResources]
+  + Utf8 [getWidth]
+  + Utf8 [java/lang/Math]
+  + Utf8 [java/lang/Object]
+  + Utf8 [max]
+  + Utf8 [one_dp]
+  + Utf8 [options]
+  + Utf8 [outBitmap]
+  + Utf8 [outlineRadius]
+  + Utf8 [perform]
+  + Utf8 [render]
+  + Utf8 [shadowColor]
+  + Utf8 [shadowOffsetX]
+  + Utf8 [shadowOffsetY]
+  + Utf8 [shadowRadius]
+  + Utf8 [sourceBitmap]
+  + Utf8 [tempBitmap]
+
+Fields (count = 7):
+  + Field:        ALIGN_TO I
+    Access flags: 0x1a
+      = private static final int ALIGN_TO
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + Integer [16]
+  + Field:        outBitmap Landroid/graphics/Bitmap;
+    Access flags: 0x2
+      = private android.graphics.Bitmap outBitmap
+  + Field:        context Landroid/content/Context;
+    Access flags: 0x2
+      = private android.content.Context context
+  + Field:        sourceBitmap Landroid/graphics/Bitmap;
+    Access flags: 0x2
+      = private android.graphics.Bitmap sourceBitmap
+  + Field:        color I
+    Access flags: 0x2
+      = private int color
+  + Field:        options Lcom/imojiapp/imoji/sdk/OutlineOptions;
+    Access flags: 0x2
+      = private com.imojiapp.imoji.sdk.OutlineOptions options
+  + Field:        tempBitmap Landroid/graphics/Bitmap;
+    Access flags: 0x2
+      = private android.graphics.Bitmap tempBitmap
+
+Methods (count = 2):
+  - Method:       <init>(Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V
+    Access flags: 0x0
+      = ImojiOutline(android.content.Context,android.graphics.Bitmap,com.imojiapp.imoji.sdk.OutlineOptions)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 31, locals = 4, stack = 2):
+      [0] aload_0 v0
+      [1] invokespecial #36
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] aload_0 v0
+      [5] aload_2 v2
+      [6] putfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [9] aload_0 v0
+      [10] aload_3 v3
+      [11] ifnull +10 (target=21)
+      [14] aload_3 v3
+      [15] getfield #20
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.color I]
+      [18] goto +4 (target=22)
+      [21] iconst_m1
+      [22] putfield #15
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.color I]
+      [25] aload_0 v0
+      [26] aload_1 v1
+      [27] putfield #16
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.context Landroid/content/Context;]
+      [30] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       render()Landroid/graphics/Bitmap;
+    Access flags: 0x0
+      = android.graphics.Bitmap render()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 345, locals = 11, stack = 7):
+      [0] iconst_1
+      [1] aload_0 v0
+      [2] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [5] invokevirtual #31
+        + Methodref [android/graphics/Bitmap.getWidth ()I]
+      [8] aload_0 v0
+      [9] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [12] invokevirtual #30
+        + Methodref [android/graphics/Bitmap.getHeight ()I]
+      [15] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [18] bipush 30
+      [20] idiv
+      [21] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [24] istore_1 v1
+      [25] aload_0 v0
+      [26] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [29] ifnull +25 (target=54)
+      [32] aload_0 v0
+      [33] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [36] getfield #21
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+      [39] ldc #3
+        + Integer [2147483647]
+      [41] ificmpeq +13 (target=54)
+      [44] aload_0 v0
+      [45] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [48] getfield #21
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+      [51] goto +27 (target=78)
+      [54] iconst_1
+      [55] aload_0 v0
+      [56] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [59] invokevirtual #31
+        + Methodref [android/graphics/Bitmap.getWidth ()I]
+      [62] aload_0 v0
+      [63] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [66] invokevirtual #30
+        + Methodref [android/graphics/Bitmap.getHeight ()I]
+      [69] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [72] bipush 50
+      [74] idiv
+      [75] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [78] istore_2 v2
+      [79] aload_0 v0
+      [80] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [83] ifnull +25 (target=108)
+      [86] aload_0 v0
+      [87] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [90] getfield #25
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowRadius I]
+      [93] ldc #3
+        + Integer [2147483647]
+      [95] ificmpeq +13 (target=108)
+      [98] aload_0 v0
+      [99] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [102] getfield #21
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+      [105] goto +31 (target=136)
+      [108] iconst_1
+      [109] iconst_1
+      [110] aload_0 v0
+      [111] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [114] invokevirtual #31
+        + Methodref [android/graphics/Bitmap.getWidth ()I]
+      [117] aload_0 v0
+      [118] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [121] invokevirtual #30
+        + Methodref [android/graphics/Bitmap.getHeight ()I]
+      [124] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [127] bipush 30
+      [129] idiv
+      [130] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [133] invokestatic #35
+        + Methodref [java/lang/Math.max (II)I]
+      [136] istore_3 v3
+      [137] aload_0 v0
+      [138] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [141] ifnull +25 (target=166)
+      [144] aload_0 v0
+      [145] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [148] getfield #23
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetX I]
+      [151] ldc #3
+        + Integer [2147483647]
+      [153] ificmpeq +13 (target=166)
+      [156] aload_0 v0
+      [157] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [160] getfield #23
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetX I]
+      [163] goto +4 (target=167)
+      [166] iconst_0
+      [167] istore v4
+      [169] aload_0 v0
+      [170] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [173] ifnull +25 (target=198)
+      [176] aload_0 v0
+      [177] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [180] getfield #24
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetY I]
+      [183] ldc #3
+        + Integer [2147483647]
+      [185] ificmpeq +13 (target=198)
+      [188] aload_0 v0
+      [189] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [192] getfield #24
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetY I]
+      [195] goto +16 (target=211)
+      [198] aload_0 v0
+      [199] getfield #16
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.context Landroid/content/Context;]
+      [202] invokevirtual #26
+        + Methodref [android/content/Context.getResources ()Landroid/content/res/Resources;]
+      [205] getstatic #14
+        + Fieldref [com/imojiapp/imoji/imojisdk/R$dimen.one_dp I]
+      [208] invokevirtual #27
+        + Methodref [android/content/res/Resources.getDimensionPixelSize (I)I]
+      [211] istore v5
+      [213] aload_0 v0
+      [214] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [217] ifnull +13 (target=230)
+      [220] aload_0 v0
+      [221] getfield #17
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.options Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [224] getfield #22
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowColor I]
+      [227] goto +5 (target=232)
+      [230] ldc #1
+        + Integer [-2147483648]
+      [232] istore v6
+      [234] iload_2 v2
+      [235] iload_3 v3
+      [236] iadd
+      [237] iload_1 v1
+      [238] iadd
+      [239] istore v7
+      [241] aload_0 v0
+      [242] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [245] invokevirtual #31
+        + Methodref [android/graphics/Bitmap.getWidth ()I]
+      [248] iload v7
+      [250] iconst_4
+      [251] imul
+      [252] iadd
+      [253] istore v8
+      [255] aload_0 v0
+      [256] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [259] invokevirtual #30
+        + Methodref [android/graphics/Bitmap.getHeight ()I]
+      [262] iload v7
+      [264] iconst_4
+      [265] imul
+      [266] iadd
+      [267] istore v9
+      [269] aload_0 v0
+      [270] iload v8
+      [272] iload v9
+      [274] aload_0 v0
+      [275] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [278] invokevirtual #29
+        + Methodref [android/graphics/Bitmap.getConfig ()Landroid/graphics/Bitmap$Config;]
+      [281] invokestatic #28
+        + Methodref [android/graphics/Bitmap.createBitmap (IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;]
+      [284] putfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.tempBitmap Landroid/graphics/Bitmap;]
+      [287] new #7
+        + Class [android/graphics/Canvas]
+      [290] dup
+      [291] aload_0 v0
+      [292] getfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.tempBitmap Landroid/graphics/Bitmap;]
+      [295] invokespecial #32
+        + Methodref [android/graphics/Canvas.<init> (Landroid/graphics/Bitmap;)V]
+      [298] astore v10
+      [300] aload v10
+      [302] aload_0 v0
+      [303] getfield #18
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.sourceBitmap Landroid/graphics/Bitmap;]
+      [306] iload v7
+      [308] iconst_2
+      [309] imul
+      [310] i2f
+      [311] iload v7
+      [313] iconst_2
+      [314] imul
+      [315] i2f
+      [316] aconst_null
+      [317] invokevirtual #33
+        + Methodref [android/graphics/Canvas.drawBitmap (Landroid/graphics/Bitmap;FFLandroid/graphics/Paint;)V]
+      [320] aload_0 v0
+      [321] getfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.tempBitmap Landroid/graphics/Bitmap;]
+      [324] iload_2 v2
+      [325] aload_0 v0
+      [326] getfield #15
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.color I]
+      [329] iload_3 v3
+      [330] iload v4
+      [332] iload v5
+      [334] iload v6
+      [336] invokestatic #34
+        + Methodref [com/imojiapp/imoji/renderscript/NativeOutline.perform (Landroid/graphics/Bitmap;IIIIII)I]
+      [339] pop
+      [340] aload_0 v0
+      [341] getfield #19
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline.tempBitmap Landroid/graphics/Bitmap;]
+      [344] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 33):
+  + Integer [-2147483648]
+  + Integer [2147483647]
+  + Class [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.outlineRadius I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowColor I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowOffsetX I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowOffsetY I]
+  + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowRadius I]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/Object.toString ()Ljava/lang/String;]
+  + NameAndType [<init> ()V]
+  + NameAndType [outlineRadius I]
+  + NameAndType [shadowColor I]
+  + NameAndType [shadowOffsetX I]
+  + NameAndType [shadowOffsetY I]
+  + NameAndType [shadowRadius I]
+  + NameAndType [toString ()Ljava/lang/String;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [I]
+  + Utf8 [color]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions]
+  + Utf8 [java/lang/Object]
+  + Utf8 [outlineRadius]
+  + Utf8 [shadowColor]
+  + Utf8 [shadowOffsetX]
+  + Utf8 [shadowOffsetY]
+  + Utf8 [shadowRadius]
+  + Utf8 [toString]
+
+Fields (count = 6):
+  + Field:        color I
+    Access flags: 0x1
+      = public int color
+  + Field:        outlineRadius I
+    Access flags: 0x1
+      = public int outlineRadius
+  + Field:        shadowRadius I
+    Access flags: 0x1
+      = public int shadowRadius
+  + Field:        shadowOffsetX I
+    Access flags: 0x1
+      = public int shadowOffsetX
+  + Field:        shadowOffsetY I
+    Access flags: 0x1
+      = public int shadowOffsetY
+  + Field:        shadowColor I
+    Access flags: 0x1
+      = public int shadowColor
+
+Methods (count = 2):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public ImojiOutline$OutlineOptions()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 35, locals = 1, stack = 2):
+      [0] aload_0 v0
+      [1] invokespecial #10
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] aload_0 v0
+      [5] ldc #2
+        + Integer [2147483647]
+      [7] putfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.outlineRadius I]
+      [10] aload_0 v0
+      [11] ldc #2
+        + Integer [2147483647]
+      [13] putfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowRadius I]
+      [16] aload_0 v0
+      [17] ldc #2
+        + Integer [2147483647]
+      [19] putfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowOffsetX I]
+      [22] aload_0 v0
+      [23] ldc #2
+        + Integer [2147483647]
+      [25] putfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowOffsetY I]
+      [28] aload_0 v0
+      [29] ldc #1
+        + Integer [-2147483648]
+      [31] putfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/ImojiOutline$OutlineOptions.shadowColor I]
+      [34] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       toString()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String toString()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #11
+        + Methodref [java/lang/Object.toString ()Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/OutlineOptions
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.OutlineOptions extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 33):
+  + Integer [-2147483648]
+  + Integer [2147483647]
+  + Class [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Class [java/lang/Object]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowColor I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetX I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetY I]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowRadius I]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/Object.toString ()Ljava/lang/String;]
+  + NameAndType [<init> ()V]
+  + NameAndType [outlineRadius I]
+  + NameAndType [shadowColor I]
+  + NameAndType [shadowOffsetX I]
+  + NameAndType [shadowOffsetY I]
+  + NameAndType [shadowRadius I]
+  + NameAndType [toString ()Ljava/lang/String;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [I]
+  + Utf8 [color]
+  + Utf8 [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Utf8 [java/lang/Object]
+  + Utf8 [outlineRadius]
+  + Utf8 [shadowColor]
+  + Utf8 [shadowOffsetX]
+  + Utf8 [shadowOffsetY]
+  + Utf8 [shadowRadius]
+  + Utf8 [toString]
+
+Fields (count = 6):
+  + Field:        color I
+    Access flags: 0x1
+      = public int color
+  + Field:        outlineRadius I
+    Access flags: 0x1
+      = public int outlineRadius
+  + Field:        shadowRadius I
+    Access flags: 0x1
+      = public int shadowRadius
+  + Field:        shadowOffsetX I
+    Access flags: 0x1
+      = public int shadowOffsetX
+  + Field:        shadowOffsetY I
+    Access flags: 0x1
+      = public int shadowOffsetY
+  + Field:        shadowColor I
+    Access flags: 0x1
+      = public int shadowColor
+
+Methods (count = 2):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public OutlineOptions()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 35, locals = 1, stack = 2):
+      [0] aload_0 v0
+      [1] invokespecial #10
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] aload_0 v0
+      [5] ldc #2
+        + Integer [2147483647]
+      [7] putfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.outlineRadius I]
+      [10] aload_0 v0
+      [11] ldc #2
+        + Integer [2147483647]
+      [13] putfield #9
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowRadius I]
+      [16] aload_0 v0
+      [17] ldc #2
+        + Integer [2147483647]
+      [19] putfield #7
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetX I]
+      [22] aload_0 v0
+      [23] ldc #2
+        + Integer [2147483647]
+      [25] putfield #8
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowOffsetY I]
+      [28] aload_0 v0
+      [29] ldc #1
+        + Integer [-2147483648]
+      [31] putfield #6
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineOptions.shadowColor I]
+      [34] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       toString()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String toString()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #11
+        + Methodref [java/lang/Object.toString ()Ljava/lang/String;]
+      [4] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/OutlineTransformation
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x30
+    = final class com.imojiapp.imoji.sdk.OutlineTransformation extends java.lang.Object
+
+Interfaces (count = 1):
+  + Class [com/squareup/picasso/Transformation]
+
+Constant Pool (count = 56):
+  + String []
+  + String [outline]
+  + Class [android/graphics/Bitmap]
+  + Class [com/imojiapp/imoji/sdk/ImojiOutline]
+  + Class [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Class [com/imojiapp/imoji/sdk/OutlineTransformation]
+  + Class [com/squareup/picasso/Transformation]
+  + Class [java/lang/Object]
+  + Class [java/lang/StringBuilder]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mContext Landroid/content/Context;]
+  + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + Methodref [android/graphics/Bitmap.recycle ()V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiOutline.<init> (Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Methodref [com/imojiapp/imoji/sdk/ImojiOutline.render ()Landroid/graphics/Bitmap;]
+  + Methodref [com/imojiapp/imoji/sdk/OutlineOptions.toString ()Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/StringBuilder.<init> ()V]
+  + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + Methodref [java/lang/StringBuilder.toString ()Ljava/lang/String;]
+  + NameAndType [<init> ()V]
+  + NameAndType [<init> (Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + NameAndType [append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + NameAndType [mContext Landroid/content/Context;]
+  + NameAndType [mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + NameAndType [recycle ()V]
+  + NameAndType [render ()Landroid/graphics/Bitmap;]
+  + NameAndType [toString ()Ljava/lang/String;]
+  + Utf8 []
+  + Utf8 [()Landroid/graphics/Bitmap;]
+  + Utf8 [()Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [(Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Utf8 [(Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+  + Utf8 [(Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;]
+  + Utf8 [(Ljava/lang/String;)Ljava/lang/StringBuilder;]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Landroid/content/Context;]
+  + Utf8 [Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+  + Utf8 [android/graphics/Bitmap]
+  + Utf8 [append]
+  + Utf8 [com/imojiapp/imoji/sdk/ImojiOutline]
+  + Utf8 [com/imojiapp/imoji/sdk/OutlineOptions]
+  + Utf8 [com/imojiapp/imoji/sdk/OutlineTransformation]
+  + Utf8 [com/squareup/picasso/Transformation]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/lang/StringBuilder]
+  + Utf8 [key]
+  + Utf8 [mContext]
+  + Utf8 [mOptions]
+  + Utf8 [outline]
+  + Utf8 [recycle]
+  + Utf8 [render]
+  + Utf8 [toString]
+  + Utf8 [transform]
+
+Fields (count = 2):
+  + Field:        mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;
+    Access flags: 0x2
+      = private com.imojiapp.imoji.sdk.OutlineOptions mOptions
+  + Field:        mContext Landroid/content/Context;
+    Access flags: 0x2
+      = private android.content.Context mContext
+
+Methods (count = 3):
+  - Method:       <init>(Landroid/content/Context;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V
+    Access flags: 0x1
+      = public OutlineTransformation(android.content.Context,com.imojiapp.imoji.sdk.OutlineOptions)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 15, locals = 3, stack = 2):
+      [0] aload_0 v0
+      [1] invokespecial #16
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] aload_0 v0
+      [5] aload_2 v2
+      [6] putfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [9] aload_0 v0
+      [10] aload_1 v1
+      [11] putfield #10
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mContext Landroid/content/Context;]
+      [14] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       transform(Landroid/graphics/Bitmap;)Landroid/graphics/Bitmap;
+    Access flags: 0x1
+      = public android.graphics.Bitmap transform(android.graphics.Bitmap)
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 28, locals = 4, stack = 5):
+      [0] new #4
+        + Class [com/imojiapp/imoji/sdk/ImojiOutline]
+      [3] dup
+      [4] aload_0 v0
+      [5] getfield #10
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mContext Landroid/content/Context;]
+      [8] aload_1 v1
+      [9] aload_0 v0
+      [10] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [13] invokespecial #13
+        + Methodref [com/imojiapp/imoji/sdk/ImojiOutline.<init> (Landroid/content/Context;Landroid/graphics/Bitmap;Lcom/imojiapp/imoji/sdk/OutlineOptions;)V]
+      [16] astore_2 v2
+      [17] aload_2 v2
+      [18] invokevirtual #14
+        + Methodref [com/imojiapp/imoji/sdk/ImojiOutline.render ()Landroid/graphics/Bitmap;]
+      [21] astore_3 v3
+      [22] aload_1 v1
+      [23] invokevirtual #12
+        + Methodref [android/graphics/Bitmap.recycle ()V]
+      [26] aload_3 v3
+      [27] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       key()Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String key()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 38, locals = 1, stack = 2):
+      [0] new #9
+        + Class [java/lang/StringBuilder]
+      [3] dup
+      [4] invokespecial #17
+        + Methodref [java/lang/StringBuilder.<init> ()V]
+      [7] ldc #2
+        + String [outline]
+      [9] invokevirtual #18
+        + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+      [12] aload_0 v0
+      [13] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [16] ifnull +13 (target=29)
+      [19] aload_0 v0
+      [20] getfield #11
+        + Fieldref [com/imojiapp/imoji/sdk/OutlineTransformation.mOptions Lcom/imojiapp/imoji/sdk/OutlineOptions;]
+      [23] invokevirtual #15
+        + Methodref [com/imojiapp/imoji/sdk/OutlineOptions.toString ()Ljava/lang/String;]
+      [26] goto +5 (target=31)
+      [29] ldc #1
+        + String []
+      [31] invokevirtual #18
+        + Methodref [java/lang/StringBuilder.append (Ljava/lang/String;)Ljava/lang/StringBuilder;]
+      [34] invokevirtual #19
+        + Methodref [java/lang/StringBuilder.toString ()Ljava/lang/String;]
+      [37] areturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/networking/responses/BasicResponse
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.networking.responses.BasicResponse extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 26):
+  + String [SUCCESS]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Class [java/lang/Object]
+  + Class [java/lang/String]
+  + Fieldref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.status Ljava/lang/String;]
+  + Methodref [java/lang/Object.<init> ()V]
+  + Methodref [java/lang/String.equals (Ljava/lang/Object;)Z]
+  + NameAndType [<init> ()V]
+  + NameAndType [equals (Ljava/lang/Object;)Z]
+  + NameAndType [status Ljava/lang/String;]
+  + Utf8 [()V]
+  + Utf8 [()Z]
+  + Utf8 [(Ljava/lang/Object;)Z]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/lang/Object;]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [SUCCESS]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Utf8 [equals]
+  + Utf8 [isSuccess]
+  + Utf8 [java/lang/Object]
+  + Utf8 [java/lang/String]
+  + Utf8 [mCallerPayload]
+  + Utf8 [status]
+
+Fields (count = 2):
+  + Field:        status Ljava/lang/String;
+    Access flags: 0x1
+      = public java.lang.String status
+  + Field:        mCallerPayload Ljava/lang/Object;
+    Access flags: 0x1
+      = public java.lang.Object mCallerPayload
+
+Methods (count = 2):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public BasicResponse()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #6
+        + Methodref [java/lang/Object.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+  + Method:       isSuccess()Z
+    Access flags: 0x1
+      = public boolean isSuccess()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 10, locals = 1, stack = 2):
+      [0] ldc #1
+        + String [SUCCESS]
+      [2] aload_0 v0
+      [3] getfield #5
+        + Fieldref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.status Ljava/lang/String;]
+      [6] invokevirtual #7
+        + Methodref [java/lang/String.equals (Ljava/lang/Object;)Z]
+      [9] ireturn
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/networking/responses/BasicResponse$Status
+  Superclass:    java/lang/Object
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x601
+    = public interface com.imojiapp.imoji.sdk.networking.responses.BasicResponse$Status extends java.lang.Object
+
+Interfaces (count = 0):
+
+Constant Pool (count = 49):
+  + String [AGE_MISSING]
+  + String [EMAIL_IN_USE]
+  + String [EMAIL_MISSING]
+  + String [ERROR_DELETION]
+  + String [ERROR_INSERTION]
+  + String [ERROR_UPDATE]
+  + String [EXTERNAL_ID_MISSING]
+  + String [GROUP_ID_MISSING]
+  + String [GROUP_TITLE_MISSING]
+  + String [IMAGE_CONTENTS_ID_MISSING]
+  + String [IMOJI_ID_MISSING]
+  + String [INTERNAL_ERROR]
+  + String [INVALID_LOGIN]
+  + String [NETWORK_ERROR]
+  + String [PASSWORD_MISSING]
+  + String [PASSWORD_UPDATE_REQUIRED]
+  + String [PROVIDER_NAME_MISSING]
+  + String [SUCCESS]
+  + String [USER_EXISTS]
+  + String [USER_ID_MISSING]
+  + String [USER_NAME_IN_USE]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/BasicResponse$Status]
+  + Class [java/lang/Object]
+  + Utf8 [AGE_MISSING]
+  + Utf8 [ConstantValue]
+  + Utf8 [EMAIL_IN_USE]
+  + Utf8 [EMAIL_MISSING]
+  + Utf8 [ERROR_DELETION]
+  + Utf8 [ERROR_INSERTION]
+  + Utf8 [ERROR_UPDATE]
+  + Utf8 [EXTERNAL_ID_MISSING]
+  + Utf8 [GROUP_ID_MISSING]
+  + Utf8 [GROUP_TITLE_MISSING]
+  + Utf8 [IMAGE_CONTENTS_ID_MISSING]
+  + Utf8 [IMOJI_ID_MISSING]
+  + Utf8 [INTERNAL_ERROR]
+  + Utf8 [INVALID_LOGIN]
+  + Utf8 [Ljava/lang/String;]
+  + Utf8 [NETWORK_ERROR]
+  + Utf8 [PASSWORD_MISSING]
+  + Utf8 [PASSWORD_UPDATE_REQUIRED]
+  + Utf8 [PROVIDER_NAME_MISSING]
+  + Utf8 [SUCCESS]
+  + Utf8 [USER_EXISTS]
+  + Utf8 [USER_ID_MISSING]
+  + Utf8 [USER_NAME_IN_USE]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/BasicResponse$Status]
+  + Utf8 [java/lang/Object]
+
+Fields (count = 21):
+  + Field:        SUCCESS Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String SUCCESS
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [SUCCESS]
+  + Field:        ERROR_UPDATE Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String ERROR_UPDATE
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [ERROR_UPDATE]
+  + Field:        ERROR_INSERTION Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String ERROR_INSERTION
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [ERROR_INSERTION]
+  + Field:        ERROR_DELETION Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String ERROR_DELETION
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [ERROR_DELETION]
+  + Field:        INTERNAL_ERROR Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String INTERNAL_ERROR
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [INTERNAL_ERROR]
+  + Field:        INVALID_LOGIN Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String INVALID_LOGIN
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [INVALID_LOGIN]
+  + Field:        USER_EXISTS Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String USER_EXISTS
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [USER_EXISTS]
+  + Field:        EMAIL_IN_USE Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String EMAIL_IN_USE
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [EMAIL_IN_USE]
+  + Field:        USER_NAME_IN_USE Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String USER_NAME_IN_USE
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [USER_NAME_IN_USE]
+  + Field:        USER_ID_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String USER_ID_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [USER_ID_MISSING]
+  + Field:        PASSWORD_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String PASSWORD_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [PASSWORD_MISSING]
+  + Field:        EMAIL_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String EMAIL_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [EMAIL_MISSING]
+  + Field:        AGE_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String AGE_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [AGE_MISSING]
+  + Field:        EXTERNAL_ID_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String EXTERNAL_ID_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [EXTERNAL_ID_MISSING]
+  + Field:        PROVIDER_NAME_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String PROVIDER_NAME_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [PROVIDER_NAME_MISSING]
+  + Field:        IMOJI_ID_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String IMOJI_ID_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [IMOJI_ID_MISSING]
+  + Field:        IMAGE_CONTENTS_ID_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String IMAGE_CONTENTS_ID_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [IMAGE_CONTENTS_ID_MISSING]
+  + Field:        GROUP_ID_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String GROUP_ID_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [GROUP_ID_MISSING]
+  + Field:        GROUP_TITLE_MISSING Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String GROUP_TITLE_MISSING
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [GROUP_TITLE_MISSING]
+  + Field:        PASSWORD_UPDATE_REQUIRED Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String PASSWORD_UPDATE_REQUIRED
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [PASSWORD_UPDATE_REQUIRED]
+  + Field:        NETWORK_ERROR Ljava/lang/String;
+    Access flags: 0x19
+      = public static final java.lang.String NETWORK_ERROR
+    Class member attributes (count = 1):
+    + Constant value attribute:
+    + String [NETWORK_ERROR]
+
+Methods (count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/networking/responses/FetchImojisResponse
+  Superclass:    com/imojiapp/imoji/sdk/networking/responses/BasicResponse
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse extends com.imojiapp.imoji.sdk.networking.responses.BasicResponse
+
+Interfaces (count = 0):
+
+Constant Pool (count = 14):
+  + Class [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/FetchImojisResponse]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+  + NameAndType [<init> ()V]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/util/LinkedHashMap;]
+  + Utf8 [Ljava/util/LinkedHashMap<Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/FetchImojisResponse]
+  + Utf8 [results]
+
+Fields (count = 1):
+  + Field:        results Ljava/util/LinkedHashMap;
+    Access flags: 0x1
+      = public java.util.LinkedHashMap results
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [Ljava/util/LinkedHashMap<Ljava/lang/String;Lcom/imojiapp/imoji/sdk/Imoji;>;]
+
+Methods (count = 1):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public FetchImojisResponse()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #3
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse
+  Superclass:    com/imojiapp/imoji/sdk/networking/responses/BasicResponse
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse extends com.imojiapp.imoji.sdk.networking.responses.BasicResponse
+
+Interfaces (count = 0):
+
+Constant Pool (count = 14):
+  + Class [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+  + NameAndType [<init> ()V]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/util/List;]
+  + Utf8 [Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+  + Utf8 [Signature]
+  + Utf8 [categories]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/GetCategoryResponse]
+
+Fields (count = 1):
+  + Field:        categories Ljava/util/List;
+    Access flags: 0x1
+      = public java.util.List categories
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [Ljava/util/List<Lcom/imojiapp/imoji/sdk/ImojiCategory;>;]
+
+Methods (count = 1):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public GetCategoryResponse()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #3
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+
+_____________________________________________________________________
++ Program class: com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse
+  Superclass:    com/imojiapp/imoji/sdk/networking/responses/BasicResponse
+  Major version: 0x33
+  Minor version: 0x0
+    = target 1.7
+  Access flags:  0x21
+    = public class com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse extends com.imojiapp.imoji.sdk.networking.responses.BasicResponse
+
+Interfaces (count = 0):
+
+Constant Pool (count = 15):
+  + Class [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Class [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+  + NameAndType [<init> ()V]
+  + Utf8 [()V]
+  + Utf8 [<init>]
+  + Utf8 [Code]
+  + Utf8 [Ljava/util/ArrayList;]
+  + Utf8 [Ljava/util/ArrayList<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Utf8 [Signature]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/BasicResponse]
+  + Utf8 [com/imojiapp/imoji/sdk/networking/responses/ImojiSearchResponse]
+  + Utf8 [data]
+  + Utf8 [results]
+
+Fields (count = 2):
+  + Field:        results Ljava/util/ArrayList;
+    Access flags: 0x1
+      = public java.util.ArrayList results
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [Ljava/util/ArrayList<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+  + Field:        data Ljava/util/ArrayList;
+    Access flags: 0x1
+      = public java.util.ArrayList data
+    Class member attributes (count = 1):
+    + Signature attribute:
+      + Utf8 [Ljava/util/ArrayList<Lcom/imojiapp/imoji/sdk/Imoji;>;]
+
+Methods (count = 1):
+  - Method:       <init>()V
+    Access flags: 0x1
+      = public ImojiSearchResponse()
+    Class member attributes (count = 1):
+    + Code attribute instructions (code length = 5, locals = 1, stack = 1):
+      [0] aload_0 v0
+      [1] invokespecial #3
+        + Methodref [com/imojiapp/imoji/sdk/networking/responses/BasicResponse.<init> ()V]
+      [4] return
+      Code attribute exceptions (count = 0):
+      Code attribute attributes (attribute count = 0):
+
+Class file attributes (count = 0):
+

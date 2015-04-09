@@ -1,0 +1,160 @@
+com.imojiapp.imoji.renderscript.NativeOutline -> com.imojiapp.imoji.renderscript.NativeOutline:
+    int perform(android.graphics.Bitmap,int,int,int,int,int,int) -> perform
+com.imojiapp.imoji.sdk.Callback -> com.imojiapp.imoji.sdk.Callback:
+    void onSuccess(java.lang.Object) -> onSuccess
+    void onFailure() -> onFailure
+com.imojiapp.imoji.sdk.Config -> com.imojiapp.imoji.sdk.Config:
+    java.lang.String BASE_URL -> BASE_URL
+com.imojiapp.imoji.sdk.Imoji -> com.imojiapp.imoji.sdk.Imoji:
+    java.lang.String parentId -> parentId
+    java.lang.String imojiId -> imojiId
+    java.util.ArrayList tags -> tags
+    java.lang.String thumbImageUrl -> thumbImageUrl
+    java.lang.String url -> url
+    java.lang.String webpThumbImageUrl -> webpThumbImageUrl
+    java.lang.String webpFullImageUrl -> webpFullImageUrl
+    java.lang.String getImojiId() -> getImojiId
+    java.util.ArrayList getTags() -> getTags
+    java.lang.String getThumbImageUrl() -> getThumbImageUrl
+    java.lang.String getUrl() -> getUrl
+    java.lang.String getWebpThumbImageUrl() -> getWebpThumbImageUrl
+    java.lang.String getWebpFullImageUrl() -> getWebpFullImageUrl
+com.imojiapp.imoji.sdk.ImojiApi -> com.imojiapp.imoji.sdk.ImojiApi:
+    int DEFAULT_OFFSET -> DEFAULT_OFFSET
+    int DEFAULT_RESULTS -> DEFAULT_RESULTS
+    java.lang.String PREF_FILE -> PREF_FILE
+    java.lang.String API_KEY_PROPERTY -> API_KEY_PROPERTY
+    com.imojiapp.imoji.sdk.ImojiApi sInstance -> sInstance
+    int mDefaultNumResults -> mDefaultNumResults
+    android.content.Context mContext -> mContext
+    java.util.List getFeatured(int,int) -> getFeatured
+    java.util.List getFeatured() -> getFeatured
+    java.util.List search(java.lang.String) -> search
+    java.util.List search(java.lang.String,int,int) -> search
+    void getFeatured(int,int,com.imojiapp.imoji.sdk.Callback) -> getFeatured
+    void getFeatured(com.imojiapp.imoji.sdk.Callback) -> getFeatured
+    void search(java.lang.String,com.imojiapp.imoji.sdk.Callback) -> search
+    void search(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback) -> search
+    java.util.List getImojiCategories() -> getImojiCategories
+    void getImojiCategories(com.imojiapp.imoji.sdk.Callback) -> getImojiCategories
+    com.squareup.picasso.RequestCreator loadThumb(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions) -> loadThumb
+    com.squareup.picasso.RequestCreator loadFull(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions) -> loadFull
+    void init(android.content.Context,java.lang.String) -> init
+    void setInstance(com.imojiapp.imoji.sdk.ImojiApi) -> setInstance
+    com.imojiapp.imoji.sdk.ImojiApi with(android.content.Context) -> with
+com.imojiapp.imoji.sdk.ImojiApi$Builder -> com.imojiapp.imoji.sdk.ImojiApi$Builder:
+    com.imojiapp.imoji.sdk.ImojiApi mApi -> mApi
+    com.imojiapp.imoji.sdk.ImojiApi$Builder numResults(int) -> numResults
+    com.imojiapp.imoji.sdk.ImojiApi build() -> build
+com.imojiapp.imoji.sdk.ImojiApi$ImojiApiImpl -> com.imojiapp.imoji.sdk.ImojiApi$ImojiApiImpl:
+    java.lang.String mApiToken -> mApiToken
+    java.util.List getFeatured(int,int) -> getFeatured
+    java.util.List getFeatured() -> getFeatured
+    java.util.List search(java.lang.String) -> search
+    java.util.List search(java.lang.String,int,int) -> search
+    void getFeatured(int,int,com.imojiapp.imoji.sdk.Callback) -> getFeatured
+    void getFeatured(com.imojiapp.imoji.sdk.Callback) -> getFeatured
+    void search(java.lang.String,com.imojiapp.imoji.sdk.Callback) -> search
+    void search(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback) -> search
+    void getImojiCategories(com.imojiapp.imoji.sdk.Callback) -> getImojiCategories
+    java.util.List getImojiCategories() -> getImojiCategories
+    com.squareup.picasso.RequestCreator loadThumb(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions) -> loadThumb
+    com.squareup.picasso.RequestCreator loadFull(com.imojiapp.imoji.sdk.Imoji,com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions) -> loadFull
+com.imojiapp.imoji.sdk.ImojiApiInterface -> com.imojiapp.imoji.sdk.ImojiApiInterface:
+    void getFeaturedImojis(java.lang.String,int,java.lang.String,retrofit.Callback) -> getFeaturedImojis
+    com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse getFeaturedImojis(java.lang.String,int,java.lang.String) -> getFeaturedImojis
+    void searchImojis(java.lang.String,java.lang.String,int,java.lang.String,retrofit.Callback) -> searchImojis
+    com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse searchImojis(java.lang.String,java.lang.String,int,java.lang.String) -> searchImojis
+    com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse fetchImojis(java.lang.String) -> fetchImojis
+    void getImojiCategories(java.lang.String,retrofit.Callback) -> getImojiCategories
+    com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse getImojiCategories(java.lang.String) -> getImojiCategories
+com.imojiapp.imoji.sdk.ImojiCategory -> com.imojiapp.imoji.sdk.ImojiCategory:
+    java.lang.String id -> id
+    java.lang.String title -> title
+    com.imojiapp.imoji.sdk.Imoji imoji -> imoji
+    java.lang.String getId() -> getId
+    java.lang.String getTitle() -> getTitle
+    com.imojiapp.imoji.sdk.Imoji getImoji() -> getImoji
+com.imojiapp.imoji.sdk.ImojiNetApiHandle -> com.imojiapp.imoji.sdk.ImojiNetApiHandle:
+    java.lang.String LOG_TAG -> LOG_TAG
+    com.imojiapp.imoji.sdk.ImojiApiInterface sApiService -> sApiService
+    com.imojiapp.imoji.sdk.ImojiApiInterface get() -> get
+    void getFeaturedImojis(java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback) -> getFeaturedImojis
+    java.util.List getFeaturedImojis(java.lang.String,int,int) -> getFeaturedImojis
+    void searchImojis(java.lang.String,java.lang.String,int,int,com.imojiapp.imoji.sdk.Callback) -> searchImojis
+    java.util.List searchImojis(java.lang.String,java.lang.String,int,int) -> searchImojis
+    java.util.List getImojiCategories(java.lang.String) -> getImojiCategories
+    void getImojiCategories(java.lang.String,com.imojiapp.imoji.sdk.Callback) -> getImojiCategories
+    java.lang.String access$000() -> access$000
+com.imojiapp.imoji.sdk.ImojiNetApiHandle$1 -> com.imojiapp.imoji.sdk.ImojiNetApiHandle$1:
+    void intercept(retrofit.RequestInterceptor$RequestFacade) -> intercept
+com.imojiapp.imoji.sdk.ImojiNetApiHandle$2 -> com.imojiapp.imoji.sdk.ImojiNetApiHandle$2:
+    com.imojiapp.imoji.sdk.Callback val$callback -> val$callback
+    void success(com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse,retrofit.client.Response) -> success
+    void failure(retrofit.RetrofitError) -> failure
+    void success(java.lang.Object,retrofit.client.Response) -> success
+com.imojiapp.imoji.sdk.ImojiNetApiHandle$3 -> com.imojiapp.imoji.sdk.ImojiNetApiHandle$3:
+    com.imojiapp.imoji.sdk.Callback val$callback -> val$callback
+    void success(com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse,retrofit.client.Response) -> success
+    void failure(retrofit.RetrofitError) -> failure
+    void success(java.lang.Object,retrofit.client.Response) -> success
+com.imojiapp.imoji.sdk.ImojiNetApiHandle$4 -> com.imojiapp.imoji.sdk.ImojiNetApiHandle$4:
+    com.imojiapp.imoji.sdk.Callback val$cb -> val$cb
+    void success(com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse,retrofit.client.Response) -> success
+    void failure(retrofit.RetrofitError) -> failure
+    void success(java.lang.Object,retrofit.client.Response) -> success
+com.imojiapp.imoji.sdk.ImojiOutline -> com.imojiapp.imoji.sdk.ImojiOutline:
+    int ALIGN_TO -> ALIGN_TO
+    android.graphics.Bitmap outBitmap -> outBitmap
+    android.content.Context context -> context
+    android.graphics.Bitmap sourceBitmap -> sourceBitmap
+    int color -> color
+    com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions options -> options
+    android.graphics.Bitmap tempBitmap -> tempBitmap
+    android.graphics.Bitmap render() -> render
+com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions -> com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions:
+    int color -> color
+    int outlineRadius -> outlineRadius
+    int shadowRadius -> shadowRadius
+    int shadowOffsetX -> shadowOffsetX
+    int shadowOffsetY -> shadowOffsetY
+    int shadowColor -> shadowColor
+    java.lang.String toString() -> toString
+com.imojiapp.imoji.sdk.OutlineTransformation -> com.imojiapp.imoji.sdk.OutlineTransformation:
+    com.imojiapp.imoji.sdk.ImojiOutline$OutlineOptions mOptions -> mOptions
+    android.content.Context mContext -> mContext
+    android.graphics.Bitmap transform(android.graphics.Bitmap) -> transform
+    java.lang.String key() -> key
+com.imojiapp.imoji.sdk.networking.responses.BasicResponse -> com.imojiapp.imoji.sdk.networking.responses.BasicResponse:
+    java.lang.String status -> status
+    java.lang.Object mCallerPayload -> mCallerPayload
+    boolean isSuccess() -> isSuccess
+com.imojiapp.imoji.sdk.networking.responses.BasicResponse$Status -> com.imojiapp.imoji.sdk.networking.responses.BasicResponse$Status:
+    java.lang.String SUCCESS -> SUCCESS
+    java.lang.String ERROR_UPDATE -> ERROR_UPDATE
+    java.lang.String ERROR_INSERTION -> ERROR_INSERTION
+    java.lang.String ERROR_DELETION -> ERROR_DELETION
+    java.lang.String INTERNAL_ERROR -> INTERNAL_ERROR
+    java.lang.String INVALID_LOGIN -> INVALID_LOGIN
+    java.lang.String USER_EXISTS -> USER_EXISTS
+    java.lang.String EMAIL_IN_USE -> EMAIL_IN_USE
+    java.lang.String USER_NAME_IN_USE -> USER_NAME_IN_USE
+    java.lang.String USER_ID_MISSING -> USER_ID_MISSING
+    java.lang.String PASSWORD_MISSING -> PASSWORD_MISSING
+    java.lang.String EMAIL_MISSING -> EMAIL_MISSING
+    java.lang.String AGE_MISSING -> AGE_MISSING
+    java.lang.String EXTERNAL_ID_MISSING -> EXTERNAL_ID_MISSING
+    java.lang.String PROVIDER_NAME_MISSING -> PROVIDER_NAME_MISSING
+    java.lang.String IMOJI_ID_MISSING -> IMOJI_ID_MISSING
+    java.lang.String IMAGE_CONTENTS_ID_MISSING -> IMAGE_CONTENTS_ID_MISSING
+    java.lang.String GROUP_ID_MISSING -> GROUP_ID_MISSING
+    java.lang.String GROUP_TITLE_MISSING -> GROUP_TITLE_MISSING
+    java.lang.String PASSWORD_UPDATE_REQUIRED -> PASSWORD_UPDATE_REQUIRED
+    java.lang.String NETWORK_ERROR -> NETWORK_ERROR
+com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse -> com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse:
+    java.util.LinkedHashMap results -> results
+com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse -> com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse:
+    java.util.List categories -> categories
+com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse -> com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse:
+    java.util.ArrayList results -> results
+    java.util.ArrayList data -> data

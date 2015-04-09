@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/sajjadtabib/Development/projects/imoji-android-sdk/imojisdk/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="one_dp">1dp</dimen>
+    <!-- From: file:/Users/sajjadtabib/Development/projects/imoji-android-sdk/imojisdk/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">ImojiSDK</string>
+    <!-- From: file:/Users/sajjadtabib/Development/projects/imoji-android-sdk/imojisdk/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

@@ -1,0 +1,3 @@
+com.imojiapp.imoji.imojisdk.BuildConfig
+com.imojiapp.imoji.renderscript.NativeOutline:
+    8:8:public NativeOutline()
