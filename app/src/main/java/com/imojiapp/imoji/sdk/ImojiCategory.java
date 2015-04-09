@@ -11,7 +11,7 @@ public class ImojiCategory {
 
     public String title;
 
-    public Object imoji; //why is imoji an object and not a string???
+    public Imoji imoji; //why is imoji an object and not a string???
 
     public String getId() {
         return id;
@@ -21,7 +21,7 @@ public class ImojiCategory {
         return title;
     }
 
-    public Object getImoji() {
+    public Imoji getImoji() {
         return imoji;
     }
 

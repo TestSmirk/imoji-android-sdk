@@ -58,11 +58,7 @@ class ImojiNetApiHandle {
             @Override
             public void success(ImojiSearchResponse imojiSearchResponse, Response response) {
                 if (imojiSearchResponse.isSuccess()) {
-                    List<Imoji> imojis = new ArrayList<>();
-                    for (ImojiInternal imojiInternal : imojiSearchResponse.results) {
-                        imojis.add(imojiInternal.getImoji());
-                    }
-                    callback.onSuccess(imojis);
+                    callback.onSuccess(imojiSearchResponse.results);
                 } else {
                     Log.d(LOG_TAG, "failure: " + imojiSearchResponse.status);
                     callback.onFailure();
@@ -85,11 +81,7 @@ class ImojiNetApiHandle {
         try {
             ImojiSearchResponse response = ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count);
             if (response != null && response.isSuccess()) {
-                List<Imoji> imojis = new ArrayList<>();
-                for (ImojiInternal imojiInternal : response.results) {
-                    imojis.add(imojiInternal.getImoji());
-                }
-                return imojis;
+                return response.results;
             }
         } catch (RetrofitError error) {
             error.printStackTrace();
@@ -110,11 +102,7 @@ class ImojiNetApiHandle {
             @Override
             public void success(final ImojiSearchResponse imojiSearchResponse, Response response) {
                 if (imojiSearchResponse.isSuccess()) {
-                    List<Imoji> imojis = new ArrayList<>();
-                    for (ImojiInternal i : imojiSearchResponse.results) {
-                        imojis.add(i.getImoji());
-                    }
-                    callback.onSuccess(imojis);
+                    callback.onSuccess(imojiSearchResponse.results);
                 } else {
                     callback.onFailure();
                 }
@@ -137,11 +125,7 @@ class ImojiNetApiHandle {
         try {
             ImojiSearchResponse response = ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count);
             if (response != null && response.isSuccess()) {
-                List<Imoji> imojis = new ArrayList<>();
-                for (ImojiInternal imojiInternal : response.results) {
-                    imojis.add(imojiInternal.getImoji());
-                }
-                return imojis;
+                return response.results;
             }
 
         } catch (RetrofitError error) {
@@ -169,12 +153,7 @@ class ImojiNetApiHandle {
         ImojiNetApiHandle.get().getImojiCategories(apiToken, new Callback<GetCategoryResponse>() {
             @Override
             public void success(GetCategoryResponse getCategoryResponse, Response response) {
-                try {
-                    InputStream is = response.getBody().in();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
                 if (getCategoryResponse.isSuccess()) {
                     cb.onSuccess(getCategoryResponse.categories);
                 } else {

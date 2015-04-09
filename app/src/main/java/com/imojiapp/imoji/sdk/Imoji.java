@@ -11,7 +11,9 @@ public class Imoji {
     private String imojiId;
     private ArrayList<String> tags;
     private String thumbImageUrl;
-    private String fullImageUrl;
+    private String url;
+    private String webpThumbImageUrl;
+    private String webpFullImageUrl;
 
 
     public String getImojiId() {
@@ -26,16 +28,19 @@ public class Imoji {
         return thumbImageUrl;
     }
 
-    String getFullImageUrl() {
-        return fullImageUrl;
+    String getUrl() {
+        return url;
+    }
+
+    String getWebpThumbImageUrl() {
+        return webpThumbImageUrl;
+    }
+
+    String getWebpFullImageUrl() {
+        return webpFullImageUrl;
     }
 
 
-    Imoji(String parentId, String imojiId, String thumbImageUrl, String fullImageUrl, ArrayList<String> tags) {
-        this.parentId = parentId;
-        this.imojiId = imojiId;
-        this.tags = tags;
-        this.thumbImageUrl = thumbImageUrl;
-        this.fullImageUrl = fullImageUrl;
+    Imoji() {
     }
 }

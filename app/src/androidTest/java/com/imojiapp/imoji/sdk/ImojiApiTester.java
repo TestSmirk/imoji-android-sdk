@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -224,7 +225,7 @@ public class ImojiApiTester extends AndroidTestCase {
     }
 
     
-    public void testLoadFull(Context context, Imoji imoji, ImojiOutline.OutlineOptions options) {
+    public void testLoadFull() {
         List<Imoji> imojis = mApi.getFeatured();
         Imoji i = imojis.get(0);
         try {

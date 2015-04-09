@@ -242,7 +242,7 @@ public abstract class ImojiApi {
 
         @Override
         public RequestCreator loadFull(Imoji imoji, ImojiOutline.OutlineOptions options) {
-            return Picasso.with(mContext).load(imoji.getFullImageUrl()).transform(new OutlineTransformation(mContext, options));
+            return Picasso.with(mContext).load(imoji.getUrl()).transform(new OutlineTransformation(mContext, options));
         }
     }
 }
