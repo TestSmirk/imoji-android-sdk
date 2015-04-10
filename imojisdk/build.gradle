@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
     buildTypes {
 
@@ -39,4 +41,16 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        def deployPath = file(getProperty('aar.deployPath'))
+        repository(url: "file://${deployPath.absolutePath}")
+        pom.project {
+            groupId 'com.imojiapp.imoji'
+            artifactId 'imoji-sdk'
+            version android.defaultConfig.versionName
+        }
+    }
 }
