@@ -1,7 +1,12 @@
 package com.imojiapp.imoji.sdk;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -12,6 +17,10 @@ import java.util.List;
  * Created by sajjadtabib on 4/6/15.
  */
 public abstract class ImojiApi {
+
+    private static final String INTENT_CREATE_IMOJI_ACTION = "com.imojiapp.imoji.CREATE_IMOJI";
+    private static final String LANDING_PAGE_BUNDLE_ARG_KEY = "LANDING_PAGE_BUNDLE_ARG_KEY";
+    private static final int  CAMERA_PAGE = 0;
     static final int DEFAULT_OFFSET = 0;
     static final int DEFAULT_RESULTS = 60;
     private static final String PREF_FILE = "imoji-store";
@@ -19,6 +28,7 @@ public abstract class ImojiApi {
     protected static volatile ImojiApi sInstance;
     int mDefaultNumResults;
     protected Context mContext;
+    protected Picasso mPicasso;
 
 
 
@@ -121,6 +131,35 @@ public abstract class ImojiApi {
     public abstract RequestCreator loadFull(Imoji imoji, OutlineOptions options);
 
     /**
+     * Takes user to the imojiapp so that they can create an imoji
+     * If the app does not exist, then the user is taken to the
+     * Google Play store to download the app
+     *
+     */
+    public final void createImoji() {
+        PackageManager packageManager = mContext.getPackageManager();
+        Intent intent = new Intent();
+        intent.setAction(INTENT_CREATE_IMOJI_ACTION);
+        intent.putExtra(LANDING_PAGE_BUNDLE_ARG_KEY, CAMERA_PAGE);
+        ResolveInfo resolveInfo = packageManager.resolveActivity(intent, 0);
+
+        if (resolveInfo == null) {
+            Intent playStoreIntent = new Intent();
+            playStoreIntent.setAction(Intent.ACTION_VIEW);
+            playStoreIntent.setData(Uri.parse("market://details?id=" + Constants.IMOJI_APP_PACKAGE));
+            try {
+                mContext.startActivity(playStoreIntent);
+            } catch (ActivityNotFoundException e) {
+
+            }
+            return;
+        }
+
+        mContext.startActivity(intent);
+
+    }
+
+    /**
      * Initialize the API instance
      * @param context context used for api operations
      * @param apiKey your api key
@@ -170,6 +209,7 @@ public abstract class ImojiApi {
         }
 
         public ImojiApi build() {
+            mApi.mPicasso = new Picasso.Builder(mApi.mContext).build();
             return mApi;
         }
     }
@@ -234,13 +274,13 @@ public abstract class ImojiApi {
 
         @Override
         public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
-            return Picasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
+            return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
 
         }
 
         @Override
         public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
-            return Picasso.with(mContext).load(imoji.getUrl()).transform(new OutlineTransformation(mContext, options));
+            return mPicasso.with(mContext).load(imoji.getUrl()).transform(new OutlineTransformation(mContext, options));
         }
     }
 }
