@@ -23,7 +23,7 @@ public class ImojiApiTester extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
 
-        ImojiApi.init(getContext(), "test_api_key");
+        ImojiApi.init(getContext(), "test client id", "test client secret");
         mApi = ImojiApi.with(getContext());
         query = "hi";
         off = 0;
