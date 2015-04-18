@@ -19,7 +19,7 @@
 # this line protects method signatures including generic types
 -verbose
 -keepattributes Signature
-
+-keepattributes SourceFile,LineNumberTable
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }

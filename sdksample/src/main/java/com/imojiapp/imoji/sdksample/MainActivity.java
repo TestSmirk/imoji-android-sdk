@@ -50,7 +50,6 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        ImojiApi.init(this, "Your API Key");
 
         mImojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -5,12 +5,12 @@ apply plugin: 'maven'
 android {
     compileSdkVersion 21
     buildToolsVersion "22.0.1"
+    defaultPublishConfig "prodRelease"
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "0.1.0"
     }
     buildTypes {
 
@@ -24,6 +24,16 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors{
+        local {
+            versionName "0.1.0"
+        }
+
+        prod {
+            versionName "0.1.1"
         }
     }
 

@@ -1,15 +1,22 @@
 package com.imojiapp.imoji.sdk;
 
+import android.content.res.Resources;
 import android.os.Build;
+import android.util.Base64;
 import android.util.Log;
 
+import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +24,7 @@ import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 /**
@@ -26,8 +34,8 @@ class ImojiNetApiHandle {
     private static final String LOG_TAG = ImojiNetApiHandle.class.getSimpleName();
     private static ImojiApiInterface sApiService;
 
-    private static ImojiApiInterface get(){
-        if(sApiService == null){
+    private static ImojiApiInterface get() {
+        if (sApiService == null) {
 
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
@@ -38,9 +46,15 @@ class ImojiNetApiHandle {
                 }
             };
 
+
             RestAdapter.Builder builder = new RestAdapter.Builder()
                     .setEndpoint(Config.BASE_URL)
                     .setRequestInterceptor(requestInterceptor);
+
+//            Log.w(LOG_TAG, "PROXY ENABLED");
+//            SocketAddress addr = new InetSocketAddress("10.0.1.6", 8888);
+//            Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
+//            builder.setClient(new OkClient(new OkHttpClient().setProxy(proxy)));
             sApiService = builder.build().create(ImojiApiInterface.class);
         }
 
@@ -48,11 +62,14 @@ class ImojiNetApiHandle {
         return sApiService;
     }
 
-    static void getFeaturedImojis(String apiToken, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback){
+
+    static void getFeaturedImojis(String apiToken, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
         String count = null;
-        if(numResults > 0){
+        if (numResults > 0) {
             count = String.valueOf(numResults);
         }
+
+        Log.d(LOG_TAG, "api token is: " + apiToken);
 
         ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count, new Callback<ImojiSearchResponse>() {
             @Override
@@ -75,7 +92,7 @@ class ImojiNetApiHandle {
 
     static List<Imoji> getFeaturedImojis(String apiToken, int offset, int numResults) {
         String count = null;
-        if(numResults > 0){
+        if (numResults > 0) {
             count = String.valueOf(numResults);
         }
         try {
@@ -91,11 +108,10 @@ class ImojiNetApiHandle {
     }
 
 
-
-    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback){
+    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
 
         String count = null;
-        if(numResults > 0){
+        if (numResults > 0) {
             count = String.valueOf(numResults);
         }
         ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new Callback<ImojiSearchResponse>() {
@@ -116,9 +132,9 @@ class ImojiNetApiHandle {
         });
     }
 
-    static List<Imoji> searchImojis(String apiToken, String query, int offset, int numResults){
+    static List<Imoji> searchImojis(String apiToken, String query, int offset, int numResults) {
         String count = null;
-        if(numResults > 0){
+        if (numResults > 0) {
             count = String.valueOf(numResults);
         }
 
@@ -168,4 +184,16 @@ class ImojiNetApiHandle {
             }
         });
     }
+
+    static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
+        try {
+            return ImojiNetApiHandle.get().getAuthToken("Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(),  Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE), "client_credentials", refreshToken);
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 }
