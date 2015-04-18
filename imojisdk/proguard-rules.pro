@@ -15,4 +15,27 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# this line protects method signatures including generic types
+-verbose
+-keepattributes Signature
 -keepattributes SourceFile,LineNumberTable
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+-dontwarn com.squareup.okhttp.**
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keep class com.imojiapp.imoji.sdk.networking.responses.** { *; }
+-keep class com.imojiapp.imoji.sdk.* { *; }
