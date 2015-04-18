@@ -1,17 +1,19 @@
 package com.imojiapp.imoji.sdksample;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethod;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imojiapp.imoji.sdk.OutlineOptions;
 
 import java.util.List;
 
@@ -37,6 +40,9 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
     @InjectView(R.id.et_search)
     EditText mSearchEt;
 
+    @InjectView(R.id.iv_full_imoji)
+    ImageView mFullImoji;
+
 
 
     @Override
@@ -44,7 +50,18 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        ImojiApi.init(this, "Your API Key");
+
+        mImojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Imoji imoji = (Imoji) parent.getItemAtPosition(position);
+                OutlineOptions options = new OutlineOptions();
+                options.color = Color.parseColor("#F88920");
+                ImojiApi.with(MainActivity.this).loadFull(imoji, options).into(mFullImoji);
+
+
+            }
+        });
 
         ImojiApi.with(this).getFeatured(new Callback<List<Imoji>>() {
             @Override
@@ -82,6 +99,21 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_create_imoji) {
+            ImojiApi.with(this).createImoji();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class ImojiAdapter extends ArrayAdapter<Imoji> {

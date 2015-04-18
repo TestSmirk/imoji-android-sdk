@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/imoji-android-sdk.iml" filepath="$PROJECT_DIR$/imoji-android-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imojisdk/imojisdk.iml" filepath="$PROJECT_DIR$/imojisdk/imojisdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdksample/sdksample.iml" filepath="$PROJECT_DIR$/sdksample/sdksample.iml" />
     </modules>
   </component>
