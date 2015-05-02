@@ -68,8 +68,8 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    List<Imoji> getCollectionImojis() {
-        throw new IllegalStateException("not implemented");
+    List<Imoji> getUserImojis() {
+        return null;
     }
 
     @Override
@@ -132,6 +132,16 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
+    public void getUserImojis(final Callback<List<Imoji>> cb) {
+        execute(new Command() {
+            @Override
+            public void run() {
+                ImojiNetApiHandle.getUserImojis(mOauthToken, cb);
+            }
+        });
+    }
+
+    @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
         return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
 
@@ -147,6 +157,12 @@ class ImojiApiImpl extends ImojiApi {
         if (!Utils.isImojiAppInstalled(mContext)) {
             Intent intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
             mContext.startActivity(intent);
+        } else {
+            Intent intent = new Intent(ExternalIntents.IntentActions.INTENT_CREATE_IMOJI_ACTION);
+            intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+
         }
     }
 

@@ -4,6 +4,7 @@ import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
+import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.util.List;
@@ -65,6 +66,12 @@ interface ImojiApiInterface {
     @GET("/imoji/categories/fetch")
     GetCategoryResponse getImojiCategories(
             @Query("access_token") String accessToken);
+
+    @GET("/user/imoji/fetch")
+    GetUserImojiResponse getUserImojis(@Query("access_token") String accessToken);
+
+    @GET("/user/imoji/fetch")
+    void getUserImojis(@Query("access_token") String accessToken, Callback<GetUserImojiResponse> cb);
 
     @FormUrlEncoded
     @POST("/oauth/token")
