@@ -48,3 +48,5 @@
 -keep class com.imojiapp.imoji.sdk.Callback { *; }
 -keep class com.imojiapp.imoji.sdk.Imoji { *; }
 -keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
+-keep class com.imojiapp.imoji.sdk.ExternalIntents { *; }
+-keep class com.imojiapp.imoji.sdk.ExternalGrantReceiver { *; }

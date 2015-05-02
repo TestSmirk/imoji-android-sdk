@@ -1,7 +1,6 @@
 package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -131,6 +130,7 @@ public abstract class ImojiApi {
      */
     public abstract RequestCreator loadFull(Imoji imoji, OutlineOptions options);
 
+
     /**
      * Takes user to the imojiapp so that they can create an imoji
      * If the app does not exist, then the user is taken to the
@@ -140,7 +140,7 @@ public abstract class ImojiApi {
      */
     public abstract void createImoji();
 
-    protected abstract void initiateUserOauth();
+    public abstract void initiateUserOauth();
 
 
     /**

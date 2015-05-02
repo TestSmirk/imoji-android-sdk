@@ -73,8 +73,8 @@ interface ImojiApiInterface {
 
     @FormUrlEncoded
     @POST("/oauth/external/getIdPayload")
-    void requestExternalOauth(@Query("access_token") String accessToken,
-                              @Query("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
+    void requestExternalOauth(@Field("access_token") String accessToken,
+                              @Field("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
 
 
 }

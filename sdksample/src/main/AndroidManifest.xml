@@ -24,7 +24,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.imojiapp.imoji.oauth.external.GRANT"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="com.imojiapp.imoji.category.EXTERNAL_CATEGORY"></category>
             </intent-filter>
         </receiver>
     </application>

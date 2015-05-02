@@ -2,7 +2,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
-    <item android:id="@+id/action_create_imoji"
-          android:title="@string/create_imoji"
-          app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_create_imoji"
+        android:title="@string/create_imoji"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_external_oauth"
+        android:title="User Access"
+        app:showAsAction="always"></item>
 </menu>
