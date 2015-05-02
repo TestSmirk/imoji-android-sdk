@@ -116,6 +116,18 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         }else if (item.getItemId() == R.id.action_external_oauth) {
             ImojiApi.with(this).initiateUserOauth();
             return true;
+        }else if (item.getItemId() == R.id.action_get_user_imojis) {
+            ImojiApi.with(this).getUserImojis(new Callback<List<Imoji>>() {
+                @Override
+                public void onSuccess(List<Imoji> result) {
+                    Log.d(LOG_TAG, "got user imojis: " + result.size());
+                }
+
+                @Override
+                public void onFailure() {
+                    Log.d(LOG_TAG, "failed to get user imojis");
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }

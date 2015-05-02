@@ -1,32 +1,21 @@
 package com.imojiapp.imoji.sdk;
 
-import android.content.res.Resources;
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
+import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
-import com.squareup.okhttp.OkHttpClient;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 /**
@@ -86,6 +75,10 @@ class ImojiNetApiHandle {
 
     static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>> cb) {
         ImojiNetApiHandle.get().getImojiCategories(apiToken, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+    }
+
+    static void getUserImojis(String apiToken, com.imojiapp.imoji.sdk.Callback<List<Imoji>> cb) {
+        ImojiNetApiHandle.get().getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
     static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
@@ -155,7 +148,6 @@ class ImojiNetApiHandle {
 
         return null;
     }
-
 
     static class CallbackWrapper<T extends BasicResponse<V>, V> implements Callback<T> {
 

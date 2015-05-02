@@ -105,7 +105,12 @@ public abstract class ImojiApi {
     /**
      * @return a list of the user's collection imojis
      */
-    abstract List<Imoji> getCollectionImojis();
+    abstract List<Imoji> getUserImojis();
+
+    /**
+     * @return a list of the user's collection imojis
+     */
+    public abstract void getUserImojis(Callback<List<Imoji>> cb);
 
 
     /**
