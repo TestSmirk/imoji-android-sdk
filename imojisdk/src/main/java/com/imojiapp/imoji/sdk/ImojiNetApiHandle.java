@@ -5,6 +5,8 @@ import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
+import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
@@ -69,27 +71,41 @@ class ImojiNetApiHandle {
             count = String.valueOf(numResults);
         }
 
-        Log.d(LOG_TAG, "api token is: " + apiToken);
-
-        ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count, new Callback<ImojiSearchResponse>() {
-            @Override
-            public void success(ImojiSearchResponse imojiSearchResponse, Response response) {
-                if (imojiSearchResponse.isSuccess()) {
-                    callback.onSuccess(imojiSearchResponse.results);
-                } else {
-                    Log.d(LOG_TAG, "failure: " + imojiSearchResponse.status);
-                    callback.onFailure();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-                callback.onFailure();
-            }
-        });
+        ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
+
+    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
+
+        String count = null;
+        if (numResults > 0) {
+            count = String.valueOf(numResults);
+        }
+        ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
+    }
+
+    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>> cb) {
+        ImojiNetApiHandle.get().getImojiCategories(apiToken, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+    }
+
+    static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
+        String grantType = "client_credentials";
+        if (refreshToken != null) {
+            grantType = "refresh_token";
+        }
+        try {
+            return ImojiNetApiHandle.get().getAuthToken("Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE), grantType, refreshToken);
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
+    static void requestExternalOauth(String apiToken, String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse> cb) {
+        ImojiNetApiHandle.get().requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
+    }
+
+    /* Synchronous Methods */
     static List<Imoji> getFeaturedImojis(String apiToken, int offset, int numResults) {
         String count = null;
         if (numResults > 0) {
@@ -105,31 +121,6 @@ class ImojiNetApiHandle {
         }
 
         return null;
-    }
-
-
-    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
-
-        String count = null;
-        if (numResults > 0) {
-            count = String.valueOf(numResults);
-        }
-        ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new Callback<ImojiSearchResponse>() {
-            @Override
-            public void success(final ImojiSearchResponse imojiSearchResponse, Response response) {
-                if (imojiSearchResponse.isSuccess()) {
-                    callback.onSuccess(imojiSearchResponse.results);
-                } else {
-                    callback.onFailure();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-                callback.onFailure();
-            }
-        });
     }
 
     static List<Imoji> searchImojis(String apiToken, String query, int offset, int numResults) {
@@ -165,35 +156,28 @@ class ImojiNetApiHandle {
         return null;
     }
 
-    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>> cb) {
-        ImojiNetApiHandle.get().getImojiCategories(apiToken, new Callback<GetCategoryResponse>() {
-            @Override
-            public void success(GetCategoryResponse getCategoryResponse, Response response) {
 
-                if (getCategoryResponse.isSuccess()) {
-                    cb.onSuccess(getCategoryResponse.categories);
-                } else {
-                    cb.onFailure();
-                }
-            }
+    static class CallbackWrapper<T extends BasicResponse<V>, V> implements Callback<T> {
 
-            @Override
-            public void failure(RetrofitError error) {
-                error.printStackTrace();
-                cb.onFailure();
-            }
-        });
-    }
+        private com.imojiapp.imoji.sdk.Callback<V> mCallback;
 
-    static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
-        try {
-            return ImojiNetApiHandle.get().getAuthToken("Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(),  Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE), "client_credentials", refreshToken);
-        } catch (RetrofitError error) {
-            error.printStackTrace();
+        public CallbackWrapper(com.imojiapp.imoji.sdk.Callback callback) {
+            mCallback = callback;
         }
-        return null;
+
+        @Override
+        public void success(T result, Response response) {
+            if (result.isSuccess()) {
+                mCallback.onSuccess(result.getPayload());
+            } else {
+                mCallback.onFailure();
+            }
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            error.printStackTrace();
+            mCallback.onFailure();
+        }
     }
-
-
-
 }
