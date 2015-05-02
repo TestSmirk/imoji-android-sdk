@@ -4,6 +4,7 @@ import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
+import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.util.List;
@@ -66,6 +67,12 @@ interface ImojiApiInterface {
     GetCategoryResponse getImojiCategories(
             @Query("access_token") String accessToken);
 
+    @GET("/user/imoji/fetch")
+    GetUserImojiResponse getUserImojis(@Query("access_token") String accessToken);
+
+    @GET("/user/imoji/fetch")
+    void getUserImojis(@Query("access_token") String accessToken, Callback<GetUserImojiResponse> cb);
+
     @FormUrlEncoded
     @POST("/oauth/token")
     GetAuthTokenResponse getAuthToken(@Header("Authorization") String authorizationHeader,
@@ -73,8 +80,8 @@ interface ImojiApiInterface {
 
     @FormUrlEncoded
     @POST("/oauth/external/getIdPayload")
-    void requestExternalOauth(@Query("access_token") String accessToken,
-                              @Query("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
+    void requestExternalOauth(@Field("access_token") String accessToken,
+                              @Field("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
 
 
 }

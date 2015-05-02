@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -67,8 +68,8 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    List<Imoji> getCollectionImojis() {
-        throw new IllegalStateException("not implemented");
+    List<Imoji> getUserImojis() {
+        return null;
     }
 
     @Override
@@ -130,6 +131,15 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
+    @Override
+    public void getUserImojis(final Callback<List<Imoji>> cb) {
+        execute(new Command() {
+            @Override
+            public void run() {
+                ImojiNetApiHandle.getUserImojis(mOauthToken, cb);
+            }
+        });
+    }
 
     @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
@@ -147,33 +157,43 @@ class ImojiApiImpl extends ImojiApi {
         if (!Utils.isImojiAppInstalled(mContext)) {
             Intent intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
             mContext.startActivity(intent);
+        } else {
+            Intent intent = new Intent(ExternalIntents.IntentActions.INTENT_CREATE_IMOJI_ACTION);
+            intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+
         }
     }
 
     //TODO: take a callback so that when things fail we can notify the client
     @Override
-    protected void initiateUserOauth() {
+    public void initiateUserOauth() {
         ImojiNetApiHandle.requestExternalOauth(mOauthToken, SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse>() {
             @Override
             public void onSuccess(ExternalOauthPayloadResponse result) {
                 String externalToken = result.payload;
+                SharedPreferenceManager.putString(ImojiApi.PrefKeys.EXTERNAL_TOKEN, externalToken);
+                //save the payload so that we can check later
 
                 //check to see if the app is available or not
                 if (Utils.isImojiAppInstalled(mContext)) {
                     //send a broadcast to the main app telling it to grant us access
                     Intent intent = new Intent();
-                    intent.putExtra(ImojiAppConstants.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
-                    intent.setAction(ImojiAppConstants.IntentActions.INTENT_GRANT_ACCESS);
-                    intent.addCategory(ImojiAppConstants.IntentCategories.EXTERNAL_CATEGORY);
+                    intent.putExtra(ExternalIntents.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
+                    intent.setAction(ExternalIntents.IntentActions.INTENT_REQUEST_ACCESS);
+                    intent.addCategory(ExternalIntents.IntentCategories.EXTERNAL_CATEGORY);
                     mContext.sendBroadcast(intent);
                 } else {
                     Intent playStoreIntent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
+                    playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(playStoreIntent);
                 }
             }
 
             @Override
             public void onFailure() {
+                Log.d("api", "couldn't get token");
                 //failed to initiate user oauth
             }
         });
