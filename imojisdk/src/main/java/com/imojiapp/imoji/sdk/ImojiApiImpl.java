@@ -27,7 +27,7 @@ class ImojiApiImpl extends ImojiApi {
     ImojiApiImpl(Context context) {
         mContext = context;
         mPendingCommands = new LinkedBlockingQueue<>();
-
+        SharedPreferenceManager.init(context);
         //check to see if the token exists or expired
         mOauthToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         if (mOauthToken != null) {

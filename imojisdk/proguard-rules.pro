@@ -17,6 +17,12 @@
 #}
 
 # this line protects method signatures including generic types
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+-dontpreverify
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
 -verbose
 -keepattributes Signature
 -keepattributes SourceFile,LineNumberTable
@@ -38,4 +44,7 @@
 }
 
 -keep class com.imojiapp.imoji.sdk.networking.responses.** { *; }
--keep class com.imojiapp.imoji.sdk.* { *; }
+-keep class com.imojiapp.imoji.sdk.ImojiApi { *; }
+-keep class com.imojiapp.imoji.sdk.Callback { *; }
+-keep class com.imojiapp.imoji.sdk.Imoji { *; }
+-keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
