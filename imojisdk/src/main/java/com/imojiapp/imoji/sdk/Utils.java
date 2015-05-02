@@ -21,8 +21,8 @@ class Utils {
     static boolean isImojiAppInstalled(Context context) {
         PackageManager packageManager = context.getPackageManager();
         Intent intent = new Intent();
-        intent.setAction(ImojiAppConstants.IntentActions.INTENT_CREATE_IMOJI_ACTION);
-        intent.putExtra(ImojiAppConstants.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ImojiAppConstants.BundleValues.CAMERA_PAGE);
+        intent.setAction(ExternalIntents.IntentActions.INTENT_CREATE_IMOJI_ACTION);
+        intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
         ResolveInfo resolveInfo = packageManager.resolveActivity(intent, 0);
 
         if (resolveInfo == null) {

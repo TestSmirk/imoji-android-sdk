@@ -3,14 +3,15 @@ package com.imojiapp.imoji.sdk;
 /**
  * Created by sajjadtabib on 4/29/15.
  */
-class ImojiAppConstants {
+class ExternalIntents {
 
     /**
      * * Intent Actions ***
      */
     interface IntentActions {
         String INTENT_CREATE_IMOJI_ACTION = "com.imojiapp.imoji.CREATE_IMOJI";
-        String INTENT_GRANT_ACCESS = "com.imojiapp.imoji.GRANT_ACCESS";
+        String INTENT_REQUEST_ACCESS = "com.imojiapp.imoji.oauth.external.REQUEST";
+        String INTENT_ACCESS_GRANT = "com.imojiapp.imoji.oauth.external.GRANT";
     }
 
     /**
@@ -24,6 +25,7 @@ class ImojiAppConstants {
      * * Bundle Arguments ***
      */
     interface BundleKeys{
+        String GRANTED = "granted";
         String LANDING_PAGE_BUNDLE_ARG_KEY = "LANDING_PAGE_BUNDLE_ARG_KEY";
         String EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY = "EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY";
     }

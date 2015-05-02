@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -130,7 +131,6 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
-
     @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
         return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
@@ -152,28 +152,32 @@ class ImojiApiImpl extends ImojiApi {
 
     //TODO: take a callback so that when things fail we can notify the client
     @Override
-    protected void initiateUserOauth() {
+    public void initiateUserOauth() {
         ImojiNetApiHandle.requestExternalOauth(mOauthToken, SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse>() {
             @Override
             public void onSuccess(ExternalOauthPayloadResponse result) {
                 String externalToken = result.payload;
+                SharedPreferenceManager.putString(ImojiApi.PrefKeys.EXTERNAL_TOKEN, externalToken);
+                //save the payload so that we can check later
 
                 //check to see if the app is available or not
                 if (Utils.isImojiAppInstalled(mContext)) {
                     //send a broadcast to the main app telling it to grant us access
                     Intent intent = new Intent();
-                    intent.putExtra(ImojiAppConstants.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
-                    intent.setAction(ImojiAppConstants.IntentActions.INTENT_GRANT_ACCESS);
-                    intent.addCategory(ImojiAppConstants.IntentCategories.EXTERNAL_CATEGORY);
+                    intent.putExtra(ExternalIntents.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
+                    intent.setAction(ExternalIntents.IntentActions.INTENT_REQUEST_ACCESS);
+                    intent.addCategory(ExternalIntents.IntentCategories.EXTERNAL_CATEGORY);
                     mContext.sendBroadcast(intent);
                 } else {
                     Intent playStoreIntent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
+                    playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(playStoreIntent);
                 }
             }
 
             @Override
             public void onFailure() {
+                Log.d("api", "couldn't get token");
                 //failed to initiate user oauth
             }
         });

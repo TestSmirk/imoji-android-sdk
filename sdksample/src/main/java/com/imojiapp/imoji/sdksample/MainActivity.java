@@ -112,6 +112,10 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_create_imoji) {
             ImojiApi.with(this).createImoji();
+            return true;
+        }else if (item.getItemId() == R.id.action_external_oauth) {
+            ImojiApi.with(this).initiateUserOauth();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
