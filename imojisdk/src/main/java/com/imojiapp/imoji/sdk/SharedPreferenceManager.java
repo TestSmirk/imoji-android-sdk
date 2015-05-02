@@ -14,7 +14,11 @@ class SharedPreferenceManager {
     static final String PREF_FILE = "imoji-store";
 
     static void init(Context context) {
-        sPrefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+        if (sPrefs == null) {
+            synchronized (SharedPreferenceManager.class) {
+                sPrefs = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+            }
+        }
     }
 
     static void putString(String key, String value) {
