@@ -3,7 +3,7 @@ package com.imojiapp.imoji.sdk.networking.responses;
 /**
  * Created by sajjad on 9/5/14.
  */
-public class BasicResponse {
+public abstract class BasicResponse<V> {
 
     public interface Status{
         public static final String SUCCESS = "SUCCESS";
@@ -31,7 +31,7 @@ public class BasicResponse {
 
     public String status;
 
-    public Object mCallerPayload;
+    public abstract V getPayload();
 
     public boolean isSuccess(){
         return Status.SUCCESS.equals(status);

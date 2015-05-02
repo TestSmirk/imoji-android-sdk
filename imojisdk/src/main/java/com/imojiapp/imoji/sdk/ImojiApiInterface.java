@@ -1,9 +1,12 @@
 package com.imojiapp.imoji.sdk;
 
+import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -22,14 +25,14 @@ interface ImojiApiInterface {
      */
 
 
-    @GET("/imoji/featured")
+    @GET("/imoji/featured/fetch")
     void getFeaturedImojis(
             @Query("access_token") String accessToken,
             @Query("offset") int offset,
             @Query("numResults") String numResults,
             Callback<ImojiSearchResponse> cb);
 
-    @GET("/imoji/featured")
+    @GET("/imoji/featured/fetch")
     ImojiSearchResponse getFeaturedImojis(
             @Query("access_token") String accessToken,
             @Query("offset") int offset,
@@ -50,24 +53,28 @@ interface ImojiApiInterface {
             @Query("offset") int offset,
             @Query("numResults") String numResults);
 
-    @GET("/imojis")
+    @GET("/imoji/fetchMultiple")
     FetchImojisResponse fetchImojis(
-            @Query("ids") String imojiIds);
+            @Query("ids") List<String> imojiIds);
 
-    @GET("/imoji/categories")
+    @GET("/imoji/categories/fetch")
     void getImojiCategories(
             @Query("access_token") String accessToken,
             Callback<GetCategoryResponse> cb);
 
-    @GET("/imoji/categories")
+    @GET("/imoji/categories/fetch")
     GetCategoryResponse getImojiCategories(
             @Query("access_token") String accessToken);
 
     @FormUrlEncoded
-    @POST("/token")
+    @POST("/oauth/token")
     GetAuthTokenResponse getAuthToken(@Header("Authorization") String authorizationHeader,
                                       @Field("grant_type") String grantType, @Field("refresh_token") String refreshToken);
 
+    @FormUrlEncoded
+    @POST("/oauth/external/getIdPayload")
+    void requestExternalOauth(@Query("access_token") String accessToken,
+                              @Query("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
 
 
 }
