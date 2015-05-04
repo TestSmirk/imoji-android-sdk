@@ -63,7 +63,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
         });
 
-        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>>() {
+        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -71,8 +71,8 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
 
             @Override
-            public void onFailure() {
-                Log.d(LOG_TAG, "failure");
+            public void onFailure(String error) {
+                Log.d(LOG_TAG, "failure: " + error);
             }
         });
 
@@ -81,7 +81,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String query = v.getText().toString();
-                    ImojiApi.with(MainActivity.this).search(query, new Callback<List<Imoji>>() {
+                    ImojiApi.with(MainActivity.this).search(query, new Callback<List<Imoji>, String>() {
                         @Override
                         public void onSuccess(List<Imoji> result) {
                             ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -89,8 +89,8 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                         }
 
                         @Override
-                        public void onFailure() {
-
+                        public void onFailure(String error) {
+                            Log.d(LOG_TAG, "failed with error: " + error);
                         }
                     });
                     return true;
@@ -114,18 +114,28 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             ImojiApi.with(this).createImoji();
             return true;
         }else if (item.getItemId() == R.id.action_external_oauth) {
-            ImojiApi.with(this).initiateUserOauth();
+            ImojiApi.with(this).initiateUserOauth(new Callback<String, String>() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(LOG_TAG, "success: " + result);
+                }
+
+                @Override
+                public void onFailure(String err) {
+                    Log.d(LOG_TAG, "error: " + err);
+                }
+            });
             return true;
         }else if (item.getItemId() == R.id.action_get_user_imojis) {
-            ImojiApi.with(this).getUserImojis(new Callback<List<Imoji>>() {
+            ImojiApi.with(this).getUserImojis(new Callback<List<Imoji>, String>() {
                 @Override
                 public void onSuccess(List<Imoji> result) {
                     Log.d(LOG_TAG, "got user imojis: " + result.size());
                 }
 
                 @Override
-                public void onFailure() {
-                    Log.d(LOG_TAG, "failed to get user imojis");
+                public void onFailure(String error) {
+                    Log.d(LOG_TAG, "failed to get user imojis: error");
                 }
             });
         }
