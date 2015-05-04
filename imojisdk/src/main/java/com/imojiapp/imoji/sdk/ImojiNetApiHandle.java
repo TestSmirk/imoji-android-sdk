@@ -54,7 +54,7 @@ class ImojiNetApiHandle {
     }
 
 
-    static void getFeaturedImojis(String apiToken, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
+    static void getFeaturedImojis(String apiToken, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -64,7 +64,7 @@ class ImojiNetApiHandle {
     }
 
 
-    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>> callback) {
+    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
 
         String count = null;
         if (numResults > 0) {
@@ -73,11 +73,11 @@ class ImojiNetApiHandle {
         ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
-    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>> cb) {
+    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
         ImojiNetApiHandle.get().getImojiCategories(apiToken, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
-    static void getUserImojis(String apiToken, com.imojiapp.imoji.sdk.Callback<List<Imoji>> cb) {
+    static void getUserImojis(String apiToken, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
         ImojiNetApiHandle.get().getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
@@ -94,7 +94,7 @@ class ImojiNetApiHandle {
         return null;
     }
 
-    static void requestExternalOauth(String apiToken, String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse> cb) {
+    static void requestExternalOauth(String apiToken, String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
         ImojiNetApiHandle.get().requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
@@ -151,7 +151,7 @@ class ImojiNetApiHandle {
 
     static class CallbackWrapper<T extends BasicResponse<V>, V> implements Callback<T> {
 
-        private com.imojiapp.imoji.sdk.Callback<V> mCallback;
+        private com.imojiapp.imoji.sdk.Callback<V, String> mCallback;
 
         public CallbackWrapper(com.imojiapp.imoji.sdk.Callback callback) {
             mCallback = callback;
@@ -162,14 +162,14 @@ class ImojiNetApiHandle {
             if (result.isSuccess()) {
                 mCallback.onSuccess(result.getPayload());
             } else {
-                mCallback.onFailure();
+                mCallback.onFailure(result.status);
             }
         }
 
         @Override
         public void failure(RetrofitError error) {
             error.printStackTrace();
-            mCallback.onFailure();
+            mCallback.onFailure(Status.NETWORK_ERROR);
         }
     }
 }

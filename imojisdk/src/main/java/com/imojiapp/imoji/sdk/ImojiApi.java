@@ -60,7 +60,7 @@ public abstract class ImojiApi {
      * @param numResults the maximum number of results to return
      * @param cb         a callback, called on the main thread, to notify the status of fetching featured imojis
      */
-    public abstract void getFeatured(int offset, int numResults, Callback<List<Imoji>> cb);
+    public abstract void getFeatured(int offset, int numResults, Callback<List<Imoji>, String> cb);
 
     /**
      * Asynchronous call that fetches featured imojis using default offset of
@@ -68,7 +68,7 @@ public abstract class ImojiApi {
      *
      * @param cb a callback, called on the main thread, to notify the status of fetching featured imojis
      */
-    public abstract void getFeatured(Callback<List<Imoji>> cb);
+    public abstract void getFeatured(Callback<List<Imoji>, String> cb);
 
     /**
      * Asynchronous call that searches for imojis given a query
@@ -76,7 +76,7 @@ public abstract class ImojiApi {
      * @param query the search string to query imojis
      * @param cb    a callback, called on the main thread, to notify the status of searching imojis
      */
-    public abstract void search(String query, Callback<List<Imoji>> cb);
+    public abstract void search(String query, Callback<List<Imoji>, String> cb);
 
     /**
      * @param query      the search string to query imojis
@@ -84,7 +84,7 @@ public abstract class ImojiApi {
      * @param numResults the maximum number of results to return
      * @param cb         a callback, called on the main thread, to notify the status of searching imojis
      */
-    public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>> cb);
+    public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>, String> cb);
 
     /**
      * Synchronously retreives a list of imoji categories that can then be used
@@ -100,7 +100,7 @@ public abstract class ImojiApi {
      * @param cb a callback, called on the main thread, to notify when categories are fetched or whether
      *           it failed
      */
-    public abstract void getImojiCategories(Callback<List<ImojiCategory>> cb);
+    public abstract void getImojiCategories(Callback<List<ImojiCategory>, String> cb);
 
     /**
      * @return a list of the user's collection imojis
@@ -108,9 +108,11 @@ public abstract class ImojiApi {
     abstract List<Imoji> getUserImojis();
 
     /**
+     * This method requires that your client has been granted
+     * user level access via initiateUserOauth
      * @return a list of the user's collection imojis
      */
-    public abstract void getUserImojis(Callback<List<Imoji>> cb);
+    public abstract void getUserImojis(Callback<List<Imoji>, String> cb);
 
 
     /**
@@ -140,12 +142,23 @@ public abstract class ImojiApi {
      * Takes user to the imojiapp so that they can create an imoji
      * If the app does not exist, then the user is taken to the
      * Google Play store to download the app.
-     * This method requires the user to grant access to the request
-     *
+     * In order to retrieve user generated content, you will have to call
+     * initiateUserOauth to gain user privileges.
      */
     public abstract void createImoji();
 
-    public abstract void initiateUserOauth();
+    /**
+     * Initiates flow to give your client access to a user's personal imojis.
+     * You must register a broadcast receiver that extends
+     * @see com.imojiapp.imoji.sdk.ExternalGrantReceiver with an intent-filter action set to
+     * com.imojiapp.imoji.oauth.external.GRANT and an intent-filter category of
+     * com.imojiapp.imoji.category.EXTERNAL_CATEGORY
+     * If access is granted, the broadcast receiver will have the mGranted field set to true.
+     * Note that if the device does not have 'imoji' installed, the user will get redirected
+     * to the play store so they can download imojiapp
+     * @param statusCallback callback with information regarding the result of the call
+     */
+    public abstract void initiateUserOauth(Callback<String, String> statusCallback);
 
 
     /**
