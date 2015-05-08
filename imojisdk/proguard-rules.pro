@@ -50,3 +50,4 @@
 -keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
 -keep class com.imojiapp.imoji.sdk.ExternalIntents { *; }
 -keep class com.imojiapp.imoji.sdk.ExternalGrantReceiver { *; }
+-keep class com.imojiapp.imoji.sdk.Status { *; }

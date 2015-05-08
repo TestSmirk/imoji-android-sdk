@@ -78,7 +78,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void getFeatured(final int offset, final int numResults, final Callback<List<Imoji>> cb) {
+    public void getFeatured(final int offset, final int numResults, final Callback<List<Imoji>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -89,7 +89,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void getFeatured(final Callback<List<Imoji>> cb) {
+    public void getFeatured(final Callback<List<Imoji>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -100,7 +100,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void search(final String query, final Callback<List<Imoji>> cb) {
+    public void search(final String query, final Callback<List<Imoji>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -111,7 +111,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void search(final String query, final int offset, final int numResults, final Callback<List<Imoji>> cb) {
+    public void search(final String query, final int offset, final int numResults, final Callback<List<Imoji>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -122,7 +122,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void getImojiCategories(final Callback<List<ImojiCategory>> cb) {
+    public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -132,7 +132,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void getUserImojis(final Callback<List<Imoji>> cb) {
+    public void getUserImojis(final Callback<List<Imoji>, String> cb) {
         execute(new Command() {
             @Override
             public void run() {
@@ -143,13 +143,13 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).transform(new OutlineTransformation(mContext, options));
+        return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new OutlineTransformation(mContext, options));
 
     }
 
     @Override
     public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getUrl()).transform(new OutlineTransformation(mContext, options));
+        return mPicasso.with(mContext).load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new OutlineTransformation(mContext, options));
     }
 
     @Override
@@ -158,43 +158,54 @@ class ImojiApiImpl extends ImojiApi {
             Intent intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
             mContext.startActivity(intent);
         } else {
-            Intent intent = new Intent(ExternalIntents.IntentActions.INTENT_CREATE_IMOJI_ACTION);
+            Intent intent = new Intent(ExternalIntents.Actions.INTENT_CREATE_IMOJI_ACTION);
             intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
-
         }
     }
 
     //TODO: take a callback so that when things fail we can notify the client
     @Override
-    public void initiateUserOauth() {
-        ImojiNetApiHandle.requestExternalOauth(mOauthToken, SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse>() {
+    public void initiateUserOauth(final Callback<String, String> statusCallback) {
+        ImojiNetApiHandle.requestExternalOauth(mOauthToken, SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
             @Override
             public void onSuccess(ExternalOauthPayloadResponse result) {
                 String externalToken = result.payload;
                 SharedPreferenceManager.putString(ImojiApi.PrefKeys.EXTERNAL_TOKEN, externalToken);
                 //save the payload so that we can check later
 
+                String status = Status.SUCCESS;
                 //check to see if the app is available or not
                 if (Utils.isImojiAppInstalled(mContext)) {
-                    //send a broadcast to the main app telling it to grant us access
-                    Intent intent = new Intent();
-                    intent.putExtra(ExternalIntents.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
-                    intent.setAction(ExternalIntents.IntentActions.INTENT_REQUEST_ACCESS);
-                    intent.addCategory(ExternalIntents.IntentCategories.EXTERNAL_CATEGORY);
-                    mContext.sendBroadcast(intent);
+
+                    if (Utils.canHandleUserOauth(mContext)) {
+                        //send a broadcast to the main app telling it to grant us access
+                        Intent intent = new Intent();
+                        intent.putExtra(ExternalIntents.BundleKeys.EXTERNAL_OAUTH_TOKEN_BUNDLE_ARG_KEY, externalToken);
+                        intent.setAction(ExternalIntents.Actions.INTENT_REQUEST_ACCESS);
+                        intent.addCategory(ExternalIntents.Categories.EXTERNAL_CATEGORY);
+                        mContext.sendBroadcast(intent);
+                        statusCallback.onSuccess(status);
+                        return;
+                    } else {
+                        status = Status.IMOJI_UPDATE_REQUIRED;
+                    }
+
                 } else {
+                    status = Status.LAUNCH_PLAYSTORE;
                     Intent playStoreIntent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
                     playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(playStoreIntent);
                 }
+
+                statusCallback.onFailure(status);
+
             }
 
             @Override
-            public void onFailure() {
-                Log.d("api", "couldn't get token");
-                //failed to initiate user oauth
+            public void onFailure(String error) {
+                statusCallback.onFailure(error);
             }
         });
 

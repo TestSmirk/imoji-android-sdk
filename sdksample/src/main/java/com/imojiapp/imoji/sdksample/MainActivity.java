@@ -1,20 +1,16 @@
 package com.imojiapp.imoji.sdksample;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -24,6 +20,7 @@ import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.OutlineOptions;
+import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 
 import java.util.List;
 
@@ -63,7 +60,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
         });
 
-        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>>() {
+        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -71,8 +68,8 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
 
             @Override
-            public void onFailure() {
-                Log.d(LOG_TAG, "failure");
+            public void onFailure(String error) {
+                Log.d(LOG_TAG, "failure: " + error);
             }
         });
 
@@ -81,7 +78,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String query = v.getText().toString();
-                    ImojiApi.with(MainActivity.this).search(query, new Callback<List<Imoji>>() {
+                    ImojiApi.with(MainActivity.this).search(query, new Callback<List<Imoji>, String>() {
                         @Override
                         public void onSuccess(List<Imoji> result) {
                             ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
@@ -89,8 +86,8 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                         }
 
                         @Override
-                        public void onFailure() {
-
+                        public void onFailure(String error) {
+                            Log.d(LOG_TAG, "failed with error: " + error);
                         }
                     });
                     return true;
@@ -114,60 +111,32 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             ImojiApi.with(this).createImoji();
             return true;
         }else if (item.getItemId() == R.id.action_external_oauth) {
-            ImojiApi.with(this).initiateUserOauth();
+            ImojiApi.with(this).initiateUserOauth(new Callback<String, String>() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(LOG_TAG, "success: " + result);
+                }
+
+                @Override
+                public void onFailure(String err) {
+                    Log.d(LOG_TAG, "error: " + err);
+                }
+            });
             return true;
         }else if (item.getItemId() == R.id.action_get_user_imojis) {
-            ImojiApi.with(this).getUserImojis(new Callback<List<Imoji>>() {
+            ImojiApi.with(this).getUserImojis(new Callback<List<Imoji>, String>() {
                 @Override
                 public void onSuccess(List<Imoji> result) {
                     Log.d(LOG_TAG, "got user imojis: " + result.size());
                 }
 
                 @Override
-                public void onFailure() {
-                    Log.d(LOG_TAG, "failed to get user imojis");
+                public void onFailure(String error) {
+                    Log.d(LOG_TAG, "failed to get user imojis: error");
                 }
             });
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class ImojiAdapter extends ArrayAdapter<Imoji> {
-    
-        private LayoutInflater mInflater;
-    
-        public ImojiAdapter(Context context, int resource, List<Imoji> items) {
-            super(context, resource, items);
-            mInflater = LayoutInflater.from(context);
-        }
-    
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if(convertView == null){
-                convertView = mInflater.inflate(R.layout.imoji_item_layout, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
-            }
-            
-            Imoji item = getItem(position);
-            ImojiApi.with(MainActivity.this).loadThumb(item, null).into(holder.mImojiIv);
-            
-    
-            return convertView;
-        }
-    }
-    
-    static class ViewHolder{
-
-        @InjectView(R.id.iv_imoji)
-        ImageView mImojiIv;
-
-        public ViewHolder(View v){
-            ButterKnife.inject(this, v);
-        }
     }
 
 }

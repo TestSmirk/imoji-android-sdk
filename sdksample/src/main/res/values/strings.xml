@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="create_imoji">Create Imoji</string>
+    <string name="title_activity_search_imoji">SearchImojiActivity</string>
+    <string name="title_activity_trending_imoji">TrendingImojiActivity</string>
 </resources>
