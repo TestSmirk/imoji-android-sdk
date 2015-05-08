@@ -42,7 +42,7 @@ class Utils {
         List<ResolveInfo> resolveInfoList = pm.queryBroadcastReceivers(intent, 0);
         if (resolveInfoList != null && !resolveInfoList.isEmpty()) {
             for (ResolveInfo info : resolveInfoList) {
-                if (info.resolvePackageName.contains(Constants.IMOJI_APP_PACKAGE)) {
+                if (info.activityInfo != null && info.activityInfo.packageName.contains(Constants.IMOJI_APP_PACKAGE)) {
                     return true;
                 }
             }
