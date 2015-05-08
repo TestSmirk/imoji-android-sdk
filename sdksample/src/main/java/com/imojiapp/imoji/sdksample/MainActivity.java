@@ -1,20 +1,16 @@
 package com.imojiapp.imoji.sdksample;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -24,6 +20,7 @@ import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.OutlineOptions;
+import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 
 import java.util.List;
 
@@ -140,44 +137,6 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             });
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class ImojiAdapter extends ArrayAdapter<Imoji> {
-    
-        private LayoutInflater mInflater;
-    
-        public ImojiAdapter(Context context, int resource, List<Imoji> items) {
-            super(context, resource, items);
-            mInflater = LayoutInflater.from(context);
-        }
-    
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if(convertView == null){
-                convertView = mInflater.inflate(R.layout.imoji_item_layout, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
-            }
-            
-            Imoji item = getItem(position);
-            ImojiApi.with(MainActivity.this).loadThumb(item, null).into(holder.mImojiIv);
-            
-    
-            return convertView;
-        }
-    }
-    
-    static class ViewHolder{
-
-        @InjectView(R.id.iv_imoji)
-        ImageView mImojiIv;
-
-        public ViewHolder(View v){
-            ButterKnife.inject(this, v);
-        }
     }
 
 }
