@@ -7,10 +7,9 @@
 2. In your ```builds.gradle``` file, add the following dependencies:
 
         
-        compile 'com.jakewharton:butterknife:6.1.0'
         compile 'com.squareup.retrofit:retrofit:1.9.0'
         compile 'com.squareup.picasso:picasso:2.5.2'
-        compile 'com.squareup.okhttp:okhttp:2.0.0'
+        compile 'com.google.code.gson:gson:2.3.1'
         compile 'com.imojiapp.imoji:imoji-sdk:0.1.1@aar' //Note: adjust the version to match the version you dropped into the libs folder
         
 
