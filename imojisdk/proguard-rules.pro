@@ -25,7 +25,7 @@
 -dontskipnonpubliclibraryclasses
 -verbose
 -keepattributes Signature
--keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable,InnerClasses
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }
@@ -45,9 +45,12 @@
 
 -keep class com.imojiapp.imoji.sdk.networking.responses.** { *; }
 -keep class com.imojiapp.imoji.sdk.ImojiApi { *; }
+-keep class com.imojiapp.imoji.sdk.ImojiApi$* { *; }
 -keep class com.imojiapp.imoji.sdk.Callback { *; }
 -keep class com.imojiapp.imoji.sdk.Imoji { *; }
+-keep class com.imojiapp.imoji.sdk.ImojiCategory { *; }
 -keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
 -keep class com.imojiapp.imoji.sdk.ExternalIntents { *; }
 -keep class com.imojiapp.imoji.sdk.ExternalGrantReceiver { *; }
 -keep class com.imojiapp.imoji.sdk.Status { *; }
+
