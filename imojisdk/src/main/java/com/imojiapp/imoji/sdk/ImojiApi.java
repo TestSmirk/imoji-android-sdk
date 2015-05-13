@@ -21,7 +21,6 @@ public abstract class ImojiApi {
     protected Context mContext;
     protected Picasso mPicasso;
 
-
     /**
      * @param offset     The offset into the results
      * @param numResults The maximum number of results to return
@@ -159,6 +158,11 @@ public abstract class ImojiApi {
      * @param statusCallback callback with information regarding the result of the call
      */
     public abstract void initiateUserOauth(Callback<String, String> statusCallback);
+
+    /**
+     * Given a list of imoji ids, the corresponding imojis are returned in the callback
+     */
+    public abstract void getImojisById(List<String> imojiIds, Callback<List<Imoji>, String> cb);
 
 
     /**

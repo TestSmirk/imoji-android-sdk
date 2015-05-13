@@ -1,10 +1,12 @@
 package com.imojiapp.imoji.sdk;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
+import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
@@ -81,6 +83,10 @@ class ImojiNetApiHandle {
         ImojiNetApiHandle.get().getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
+    static void getImojisById(String apiToken, List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
+        ImojiNetApiHandle.get().fetchImojis(apiToken, TextUtils.join(", ", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
+    }
+
     static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
         String grantType = "client_credentials";
         if (refreshToken != null) {
@@ -149,6 +155,7 @@ class ImojiNetApiHandle {
         return null;
     }
 
+
     static class CallbackWrapper<T extends BasicResponse<V>, V> implements Callback<T> {
 
         private com.imojiapp.imoji.sdk.Callback<V, String> mCallback;
@@ -172,4 +179,5 @@ class ImojiNetApiHandle {
             mCallback.onFailure(Status.NETWORK_ERROR);
         }
     }
+
 }

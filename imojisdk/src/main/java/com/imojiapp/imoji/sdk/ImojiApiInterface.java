@@ -47,6 +47,12 @@ interface ImojiApiInterface {
             @Query("numResults") String numResults,
             Callback<ImojiSearchResponse> cb);
 
+    @FormUrlEncoded
+    @POST("/imoji/fetchMultiple")
+    void fetchImojis(@Field("access_token") String accessToken,
+                     @Field("ids") String imojiIds,
+                     Callback<FetchImojisResponse> cb);
+
     @GET("/imoji/search")
     ImojiSearchResponse searchImojis(
             @Query("access_token") String accessToken,
@@ -54,9 +60,6 @@ interface ImojiApiInterface {
             @Query("offset") int offset,
             @Query("numResults") String numResults);
 
-    @GET("/imoji/fetchMultiple")
-    FetchImojisResponse fetchImojis(
-            @Query("ids") List<String> imojiIds);
 
     @GET("/imoji/categories/fetch")
     void getImojiCategories(

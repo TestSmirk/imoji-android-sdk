@@ -1,6 +1,8 @@
 package com.imojiapp.imoji.sdk.networking.responses;
 
 import com.imojiapp.imoji.sdk.Imoji;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -12,6 +14,6 @@ public class FetchImojisResponse extends BasicResponse<List<Imoji>> {
 
     @Override
     public List<Imoji> getPayload() {
-        return null;
+        return new ArrayList<>(results.values());
     }
 }
