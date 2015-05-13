@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
@@ -209,6 +210,16 @@ class ImojiApiImpl extends ImojiApi {
             }
         });
 
+    }
+
+    @Override
+    public void getImojisById(final List<String> imojiIds, final Callback<List<Imoji>, String> cb) {
+        execute(new Command() {
+            @Override
+            public void run() {
+                ImojiNetApiHandle.getImojisById(mOauthToken, imojiIds, cb);
+            }
+        });
     }
 
     private void execute(Command command) {

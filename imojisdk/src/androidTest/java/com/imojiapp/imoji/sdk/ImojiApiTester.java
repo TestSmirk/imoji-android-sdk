@@ -6,6 +6,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -22,8 +23,8 @@ public class ImojiApiTester extends AndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {
-
-        ImojiApi.init(getContext(), "test client id", "test client secret");
+//        ImojiApi api = new ImojiApi.Builder(getContext()).build();
+//        ImojiApi.init(getContext(), "93c89ce0-d3ee-4697-bfd8-2e0e5fc72bb6", "U2FsdGVkX1+hI9aV1dXW1qY0gcjsbTrE53bPGbHTJ6JwByWThceSki5RiGTpy1e/IdBe/vU3qpZUTPZ34XPcAQ==", api);
         mApi = ImojiApi.with(getContext());
         query = "hi";
         off = 0;
@@ -83,8 +84,7 @@ public class ImojiApiTester extends AndroidTestCase {
     
     public void testGetFeaturedWithOffNumAsync() {
 
-
-        mApi.getFeatured(off, num, new Callback<List<Imoji>>() {
+        mApi.getFeatured(off, num, new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 assertNotNull(result);
@@ -93,7 +93,7 @@ public class ImojiApiTester extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String status) {
                 fail();
                 latch.countDown();
             }
@@ -109,7 +109,7 @@ public class ImojiApiTester extends AndroidTestCase {
 
     
     public void testGetFeaturedDefaultAsync() {
-        mApi.getFeatured(new Callback<List<Imoji>>() {
+        mApi.getFeatured(new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 assertNotNull(result);
@@ -118,7 +118,7 @@ public class ImojiApiTester extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String status) {
                 latch.countDown();
                 fail();
             }
@@ -134,7 +134,7 @@ public class ImojiApiTester extends AndroidTestCase {
 
     
     public void testSearchDefaultAsync() {
-        mApi.search(query, new Callback<List<Imoji>>() {
+        mApi.search(query, new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 assertNotNull(result);
@@ -143,7 +143,7 @@ public class ImojiApiTester extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String status) {
                 fail();
                 latch.countDown();
             }
@@ -158,7 +158,7 @@ public class ImojiApiTester extends AndroidTestCase {
 
     
     public void testSearchOffNumAsync() {
-        mApi.search(query, off, num, new Callback<List<Imoji>>() {
+        mApi.search(query, off, num, new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
                 assertNotNull(result);
@@ -167,7 +167,7 @@ public class ImojiApiTester extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String status) {
                 latch.countDown();
             }
         });
@@ -181,7 +181,7 @@ public class ImojiApiTester extends AndroidTestCase {
     
     public void testGetImojiCategoriesAsync() {
 
-        mApi.getImojiCategories(new Callback<List<ImojiCategory>>() {
+        mApi.getImojiCategories(new Callback<List<ImojiCategory>, String>() {
             @Override
             public void onSuccess(List<ImojiCategory> result) {
                 assertNotNull(result);
@@ -189,7 +189,7 @@ public class ImojiApiTester extends AndroidTestCase {
             }
 
             @Override
-            public void onFailure() {
+            public void onFailure(String status) {
                 fail();
                 latch.countDown();
             }
@@ -234,6 +234,35 @@ public class ImojiApiTester extends AndroidTestCase {
             assertTrue(b.getWidth() > 0);
             assertTrue(b.getHeight() > 0);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testFetchMultiple(){
+        final List<Imoji> imojis = mApi.getFeatured();
+        List<String> ids = new ArrayList<>();
+        for (Imoji i : imojis) {
+            ids.add(i.getImojiId());
+        }
+
+
+        mApi.getImojisById(ids, new Callback<List<Imoji>, String>() {
+            @Override
+            public void onSuccess(List<Imoji> result) {
+                assertEquals(imojis.size(), result.size());
+                latch.countDown();
+            }
+
+            @Override
+            public void onFailure(String result) {
+                fail();
+                latch.countDown();
+            }
+        });
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
