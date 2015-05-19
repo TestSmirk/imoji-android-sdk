@@ -78,6 +78,7 @@ interface ImojiApiInterface {
     @GET("/user/imoji/fetch")
     void getUserImojis(@Query("access_token") String accessToken, Callback<GetUserImojiResponse> cb);
 
+    @FormUrlEncoded
     @POST("/user/imoji/collection/add")
     void addImojiToUserCollection(@Field("access_token") String accessToken, @Field("imojiId") String imojiId, Callback<AddImojiToCollectionResponse> cb);
 

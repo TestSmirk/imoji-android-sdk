@@ -5,4 +5,5 @@ package com.imojiapp.imoji.sdk;
  */
 public class Config {
     public static final String BASE_URL = "https://api.imoji.io/v2";
+    static final String IMOJI_APP_PACKAGE = "com.imojiapp.imoji.prod";
 }
