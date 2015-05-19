@@ -164,6 +164,11 @@ public abstract class ImojiApi {
      */
     public abstract void getImojisById(List<String> imojiIds, Callback<List<Imoji>, String> cb);
 
+    /**
+     *
+     */
+    public abstract void addImojiToUserCollection(String imojiId, Callback<String, String> cb);
+
 
     /**
      * Initialize the API instance

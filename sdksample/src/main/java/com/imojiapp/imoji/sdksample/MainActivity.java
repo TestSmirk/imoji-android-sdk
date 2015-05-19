@@ -1,6 +1,8 @@
 package com.imojiapp.imoji.sdksample;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,8 @@ import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.OutlineOptions;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -107,6 +111,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == R.id.action_create_imoji) {
             ImojiApi.with(this).createImoji();
             return true;
@@ -138,5 +143,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

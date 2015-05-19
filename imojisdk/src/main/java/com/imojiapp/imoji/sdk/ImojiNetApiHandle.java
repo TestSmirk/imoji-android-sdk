@@ -4,6 +4,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
@@ -84,7 +85,11 @@ class ImojiNetApiHandle {
     }
 
     static void getImojisById(String apiToken, List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
-        ImojiNetApiHandle.get().fetchImojis(apiToken, TextUtils.join(", ", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
+        ImojiNetApiHandle.get().fetchImojis(apiToken, TextUtils.join(",", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
+    }
+
+    static void addImojiToUserCollection(String apiToken, String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
+        ImojiNetApiHandle.get().addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb));
     }
 
     static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
