@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -13,10 +15,22 @@ import java.util.List;
  */
 class Utils {
 
+    private static Gson sGson;
+    static Gson gson() {
+        if (sGson == null) {
+            synchronized (Gson.class) {
+                if (sGson == null) {
+                    sGson = new Gson();
+                }
+            }
+        }
+        return  sGson;
+    }
+
     static Intent getPlayStoreIntent(String referrer) {
         Intent playStoreIntent = new Intent();
         playStoreIntent.setAction(Intent.ACTION_VIEW);
-        playStoreIntent.setData(Uri.parse("market://details?id=" + Constants.IMOJI_APP_PACKAGE + "&referrer=" + referrer));
+        playStoreIntent.setData(Uri.parse("market://details?id=" + Config.IMOJI_APP_PACKAGE + "&referrer=" + referrer));
         return playStoreIntent;
     }
 
@@ -42,7 +56,7 @@ class Utils {
         List<ResolveInfo> resolveInfoList = pm.queryBroadcastReceivers(intent, 0);
         if (resolveInfoList != null && !resolveInfoList.isEmpty()) {
             for (ResolveInfo info : resolveInfoList) {
-                if (info.activityInfo != null && info.activityInfo.packageName.contains(Constants.IMOJI_APP_PACKAGE)) {
+                if (info.activityInfo != null && info.activityInfo.packageName.contains(Config.IMOJI_APP_PACKAGE)) {
                     return true;
                 }
             }

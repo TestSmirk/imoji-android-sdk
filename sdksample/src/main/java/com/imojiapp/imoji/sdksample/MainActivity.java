@@ -64,6 +64,30 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             }
         });
 
+        mImojiGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Imoji imoji = (Imoji) parent.getItemAtPosition(position);
+
+                ImojiApi.with(MainActivity.this).addImojiToUserCollection(imoji.getImojiId(), new Callback<String, String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(LOG_TAG, "Add Imoji Success with result: " + result);
+
+                    }
+
+                    @Override
+                    public void onFailure(String result) {
+                        Log.d(LOG_TAG, "Add Imoji Failed with result: " + result);
+                    }
+                });
+
+
+                return false;
+            }
+
+        });
+
         ImojiApi.with(this).getFeatured(new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
