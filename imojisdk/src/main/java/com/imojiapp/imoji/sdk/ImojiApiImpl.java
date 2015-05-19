@@ -222,6 +222,16 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
+    @Override
+    public void addImojiToUserCollection(final String imojiId, final Callback<String, String> cb) {
+        execute(new Command() {
+            @Override
+            public void run() {
+                ImojiNetApiHandle.addImojiToUserCollection(mOauthToken, imojiId, cb);
+            }
+        });
+    }
+
     private void execute(Command command) {
 
         //check to see if there's a valid oauth token or not

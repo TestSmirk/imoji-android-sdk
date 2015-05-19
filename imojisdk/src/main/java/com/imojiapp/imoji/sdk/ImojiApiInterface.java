@@ -1,5 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
+import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
+import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -75,6 +77,9 @@ interface ImojiApiInterface {
 
     @GET("/user/imoji/fetch")
     void getUserImojis(@Query("access_token") String accessToken, Callback<GetUserImojiResponse> cb);
+
+    @POST("/user/imoji/collection/add")
+    void addImojiToUserCollection(@Field("access_token") String accessToken, @Field("imojiId") String imojiId, Callback<AddImojiToCollectionResponse> cb);
 
     @FormUrlEncoded
     @POST("/oauth/token")
