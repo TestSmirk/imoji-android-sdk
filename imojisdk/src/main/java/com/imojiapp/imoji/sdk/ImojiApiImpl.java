@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -208,7 +209,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void addImojiToUserCollection(final String imojiId, final Callback<String, String> cb) {
-        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency(), new ExternalAuthDependency()}), cb) {
             @Override
             public void run() {
                 ImojiNetApiHandle.addImojiToUserCollection(imojiId, cb);
@@ -222,6 +223,20 @@ class ImojiApiImpl extends ImojiApi {
         }
     }
 
+    private static class ExecutionHandlerThread extends HandlerThread {
+        private final Handler mHandler;
+        public ExecutionHandlerThread() {
+            super("ExecutionHandlerThread");
+            start();
+            mHandler = new Handler(getLooper());
+
+        }
+
+        Handler getHandler() {
+            return mHandler;
+        }
+    }
+
 
     private static class ExecutionManager {
         private volatile boolean mIsExternalGranted;
@@ -231,7 +246,8 @@ class ImojiApiImpl extends ImojiApi {
         protected Queue<Command> mPendingCommands;
         private Context mContext;
         private final long mTimeoutMillis;
-        private final Handler mHandler = new Handler();
+        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
+        private final Handler mHandler;
 
         private volatile boolean mIsAcquiringExternalToken;
         private volatile boolean mIsAcquiringAuthToken;
@@ -240,6 +256,7 @@ class ImojiApiImpl extends ImojiApi {
             mContext = context;
             mTimeoutMillis = 30 * 1000;
             init();
+            mHandler = mHandlerThread.getHandler();
         }
 
         private void init() {
@@ -272,6 +289,7 @@ class ImojiApiImpl extends ImojiApi {
             }
 
             //schedule timeout and failure handling
+            mHandler.removeCallbacksAndMessages(command);
             mHandler.postAtTime(new Runnable() {
                 @Override
                 public void run() {
