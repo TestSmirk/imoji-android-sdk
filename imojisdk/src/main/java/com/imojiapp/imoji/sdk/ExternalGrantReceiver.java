@@ -27,7 +27,7 @@ public class ExternalGrantReceiver extends BroadcastReceiver {
                 if (intent.hasExtra(ExternalIntents.BundleKeys.GRANTED)) {
                     mGranted = intent.getBooleanExtra(ExternalIntents.BundleKeys.GRANTED, false);
                     SharedPreferenceManager.putBoolean(PrefKeys.EXTERNAL_GRANT_STATUS, mGranted);
-                    if (mGranted) {
+                    if (mGranted) { //TODO: send a message to the external grant receiver, rather than using the API to call it
                         ((ImojiApiImpl) ImojiApi.with(context)).executePendingCommands(); //execute pending commands if we were granted access, otherwise allow the commands to expire
                     }
                 }
