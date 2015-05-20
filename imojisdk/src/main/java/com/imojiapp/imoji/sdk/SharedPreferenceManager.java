@@ -43,6 +43,14 @@ class SharedPreferenceManager {
         return sPrefs.getLong(key, defaultValue);
     }
 
+    static void putBoolean(String key, boolean value) {
+        sPrefs.edit().putBoolean(key, value).apply();
+    }
+
+    static boolean getBoolean(String key, boolean defaultValue) {
+        return sPrefs.getBoolean(key, defaultValue);
+    }
+
     static void putStringSet(String key, Set<String> set) {
         sPrefs.edit().putStringSet(key, set).apply();
     }
