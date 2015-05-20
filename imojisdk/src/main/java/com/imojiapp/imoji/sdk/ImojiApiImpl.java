@@ -3,13 +3,13 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.squareup.picasso.RequestCreator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,44 +18,24 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by sajjadtabib on 4/29/15.
  */
 class ImojiApiImpl extends ImojiApi {
+    private static final String LOG_TAG = ImojiApiImpl.class.getSimpleName();
 
-    private volatile String mOauthToken;
-    private volatile String mRefreshToken;
-    private volatile long mExpirationTime;
-    protected volatile boolean mIsAcquiringAuthToken;
-    protected Queue<Command> mPendingCommands;
-
+    private ExecutionManager mExecutionManager;
 
     ImojiApiImpl(Context context) {
         mContext = context;
-        mPendingCommands = new LinkedBlockingQueue<>();
         SharedPreferenceManager.init(context);
-        //check to see if the token exists or expired
-        mOauthToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        if (mOauthToken != null) {
-            mExpirationTime = SharedPreferenceManager.getLong(PrefKeys.EXPIRATION_PROPERTY, -1);
-            mRefreshToken = SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null);
-            if (System.currentTimeMillis() >= mExpirationTime) {
-                //get the refresh token then return
-                acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), mRefreshToken);
-                return;
-            }
-
-            //we have a valid token, return
-            return;
-        }
-
-        acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), null);
+        mExecutionManager = new ExecutionManager();
     }
 
     @Override
     List<Imoji> getFeatured(int offset, int numResults) {
-        return ImojiNetApiHandle.getFeaturedImojis(mOauthToken, offset, numResults);
+        return ImojiNetApiHandle.getFeaturedImojis(offset, numResults);
     }
 
     @Override
     List<Imoji> getFeatured() {
-        return ImojiNetApiHandle.getFeaturedImojis(mOauthToken, DEFAULT_OFFSET, DEFAULT_RESULTS);
+        return ImojiNetApiHandle.getFeaturedImojis(DEFAULT_OFFSET, DEFAULT_RESULTS);
     }
 
     @Override
@@ -65,7 +45,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     List<Imoji> search(String query, int offset, int numResults) {
-        return ImojiNetApiHandle.searchImojis(mOauthToken, query, offset, numResults);
+        return ImojiNetApiHandle.searchImojis(query, offset, numResults);
     }
 
     @Override
@@ -75,15 +55,15 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     List<ImojiCategory> getImojiCategories() {
-        return ImojiNetApiHandle.getImojiCategories(mOauthToken);
+        return ImojiNetApiHandle.getImojiCategories();
     }
 
     @Override
     public void getFeatured(final int offset, final int numResults, final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getFeaturedImojis(mOauthToken, offset, numResults, cb);
+                ImojiNetApiHandle.getFeaturedImojis(offset, numResults, cb);
             }
         });
 
@@ -91,7 +71,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void getFeatured(final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
                 getFeatured(DEFAULT_OFFSET, DEFAULT_RESULTS, cb);
@@ -102,7 +82,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void search(final String query, final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
                 search(query, DEFAULT_OFFSET, DEFAULT_RESULTS, cb);
@@ -113,10 +93,10 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void search(final String query, final int offset, final int numResults, final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.searchImojis(mOauthToken, query, offset, numResults, cb);
+                ImojiNetApiHandle.searchImojis(query, offset, numResults, cb);
             }
         });
 
@@ -124,20 +104,20 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getImojiCategories(mOauthToken, cb);
+                ImojiNetApiHandle.getImojiCategories(cb);
             }
         });
     }
 
     @Override
     public void getUserImojis(final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getUserImojis(mOauthToken, cb);
+                ImojiNetApiHandle.getUserImojis(cb);
             }
         });
     }
@@ -169,11 +149,11 @@ class ImojiApiImpl extends ImojiApi {
     //TODO: take a callback so that when things fail we can notify the client
     @Override
     public void initiateUserOauth(final Callback<String, String> statusCallback) {
-        ImojiNetApiHandle.requestExternalOauth(mOauthToken, SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
+        ImojiNetApiHandle.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
             @Override
             public void onSuccess(ExternalOauthPayloadResponse result) {
                 String externalToken = result.payload;
-                SharedPreferenceManager.putString(ImojiApi.PrefKeys.EXTERNAL_TOKEN, externalToken);
+                SharedPreferenceManager.putString(PrefKeys.EXTERNAL_TOKEN, externalToken);
                 //save the payload so that we can check later
 
                 String status = Status.SUCCESS;
@@ -214,84 +194,167 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void getImojisById(final List<String> imojiIds, final Callback<List<Imoji>, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getImojisById(mOauthToken, imojiIds, cb);
+                ImojiNetApiHandle.getImojisById(imojiIds, cb);
             }
         });
     }
 
     @Override
     public void addImojiToUserCollection(final String imojiId, final Callback<String, String> cb) {
-        execute(new Command() {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()})) {
             @Override
             public void run() {
-                ImojiNetApiHandle.addImojiToUserCollection(mOauthToken, imojiId, cb);
+                ImojiNetApiHandle.addImojiToUserCollection(imojiId, cb);
             }
         });
     }
 
-    private void execute(Command command) {
 
-        //check to see if there's a valid oauth token or not
-        if (mOauthToken != null && mExpirationTime >= (System.currentTimeMillis() - 30 * 1000)) {
+    private static class ExecutionManager {
+        private volatile String mOauthToken;
+        private volatile String mRefreshToken;
+        private volatile long mExpirationTime;
+        protected volatile boolean mIsAcquiringAuthToken;
+        protected Queue<Command> mPendingCommands;
 
-            //we are good, so just execute the command and return
-            command.run();
-            return;
+        public ExecutionManager() {
+            init();
         }
 
-        //otherwise, add the command to the queue
-        mPendingCommands.add(command);
-        if (!mIsAcquiringAuthToken) {
-            acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null));
+        private void init() {
+            mPendingCommands = new LinkedBlockingQueue<>();
+
+            //check to see if the token exists or expired
+            mOauthToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+            if (mOauthToken != null) {
+                mExpirationTime = SharedPreferenceManager.getLong(PrefKeys.EXPIRATION_PROPERTY, -1);
+                mRefreshToken = SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null);
+                if (System.currentTimeMillis() >= mExpirationTime) {
+                    //get the refresh token then return
+                    acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), mRefreshToken);
+                    return;
+                }
+
+                //we have a valid token, return
+                return;
+            }
+
+            acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), null);
+        }
+
+        private void execute(Command command) {
+
+            //check that all dependencies have been satisfied
+            if (command.isDependencySatisfied(this)) {
+                Log.d(LOG_TAG, "dependency is satisified for command");
+                command.run();             //we are good, so just execute the command and return
+                return;
+            }
+
+            Log.w(LOG_TAG, "dependency is not satisified for command");
+            //otherwise, add the command to the queue
+            mPendingCommands.add(command);
+            command.satisfyDependencies(this);
+
+        }
+
+        private synchronized void acquireOauthToken(final String clientId, final String clientSecret, final String refreshToken) {
+            if(!mIsAcquiringAuthToken) {
+                Log.d(LOG_TAG, "acquiring oauth token");
+
+                mIsAcquiringAuthToken = true;
+                //we need to get a new token
+                new AsyncTask<String, Void, String>() { //Use a thread instead?
+                    @Override
+                    protected String doInBackground(String... params) {
+                        String id = params[0];
+                        String secret = params[1];
+                        String refresh = params[2];
+                        Log.d(LOG_TAG, "id: " + id + " secret: " + secret + " refresh: " + refresh);
+                        GetAuthTokenResponse response = ImojiNetApiHandle.getAuthToken(id, secret, refresh);
+
+                        if (response != null) {
+                            long expire = System.currentTimeMillis() + response.expires_in * 1000;
+
+                            SharedPreferenceManager.putString(PrefKeys.TOKEN_PROPERTY, response.access_token);
+                            SharedPreferenceManager.putString(PrefKeys.REFRESH_PROPERTY, response.refresh_token);
+                            SharedPreferenceManager.putLong(PrefKeys.EXPIRATION_PROPERTY, expire);
+
+                            mOauthToken = response.access_token;
+                            mRefreshToken = response.refresh_token;
+                            mExpirationTime = expire;
+
+                            return response.access_token;
+                        }
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String oauthToken) {
+                        mIsAcquiringAuthToken = false;
+                        mOauthToken = oauthToken;
+
+                        //execute all pending commands
+                        Command c;
+                        while ((c = mPendingCommands.poll()) != null) {
+                            execute(c); //execute the command, which may then require another dependency to be resolved
+                        }
+                    }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clientId, clientSecret, refreshToken);
+            }
         }
 
     }
 
-    private synchronized void acquireOauthToken(final String clientId, final String clientSecret, final String refreshToken) {
-        mIsAcquiringAuthToken = true;
-        //we need to get a new token
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
+    private interface ExecutionDependency {
+        boolean isDependencySatisfied(ExecutionManager executionManager);
 
-                GetAuthTokenResponse response = ImojiNetApiHandle.getAuthToken(clientId, clientSecret, refreshToken);
-
-                if (response != null) {
-                    long expire = System.currentTimeMillis() + response.expires_in * 1000;
-
-                    SharedPreferenceManager.putString(PrefKeys.TOKEN_PROPERTY, response.access_token);
-                    SharedPreferenceManager.putString(PrefKeys.REFRESH_PROPERTY, response.refresh_token);
-                    SharedPreferenceManager.putLong(PrefKeys.EXPIRATION_PROPERTY, expire);
-
-                    mOauthToken = response.access_token;
-                    mRefreshToken = response.refresh_token;
-                    mExpirationTime = expire;
-
-                    return response.access_token;
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String oauthToken) {
-                mIsAcquiringAuthToken = false;
-                mOauthToken = oauthToken;
-
-                //execute all pending commands
-                Command c;
-                while ((c = mPendingCommands.poll()) != null) {
-                    c.run();
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        void satisfyDependencies(ExecutionManager executionManager);
     }
 
-    private static abstract class Command implements Runnable {
 
+    private class OauthDependency implements ExecutionDependency {
+
+        @Override
+        public boolean isDependencySatisfied(ExecutionManager executionManager) {
+            return executionManager.mOauthToken != null && executionManager.mExpirationTime >= (System.currentTimeMillis() - 30 * 1000);
+        }
+
+        @Override
+        public void satisfyDependencies(ExecutionManager executionManager) {
+            executionManager.acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null));
+        }
     }
+
+    private static abstract class Command implements Runnable, ExecutionDependency {
+        List<ExecutionDependency> mExecutionDependencies;
+
+        Command(List<ExecutionDependency> dependencies) {
+            mExecutionDependencies = dependencies;
+        }
+
+        @Override
+        public boolean isDependencySatisfied(ExecutionManager executionManager) {
+            boolean isSatisfied = true;
+            for (ExecutionDependency dependency : mExecutionDependencies) {
+                isSatisfied &= dependency.isDependencySatisfied(executionManager);
+            }
+            return isSatisfied;
+        }
+
+        @Override
+        public void satisfyDependencies(ExecutionManager executionManager) {
+            for (ExecutionDependency dependency : mExecutionDependencies) {
+                if (!dependency.isDependencySatisfied(executionManager)) {
+                    dependency.satisfyDependencies(executionManager);
+                }
+            }
+        }
+    }
+
 
 }

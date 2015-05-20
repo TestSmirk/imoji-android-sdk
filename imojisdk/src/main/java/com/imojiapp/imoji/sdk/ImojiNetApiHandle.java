@@ -65,7 +65,8 @@ class ImojiNetApiHandle {
     }
 
 
-    static void getFeaturedImojis(String apiToken, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
+    static void getFeaturedImojis(int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -75,8 +76,8 @@ class ImojiNetApiHandle {
     }
 
 
-    static void searchImojis(String apiToken, String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
-
+    static void searchImojis(String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -84,19 +85,23 @@ class ImojiNetApiHandle {
         ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
-    static void getImojiCategories(String apiToken, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
+    static void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         ImojiNetApiHandle.get().getImojiCategories(apiToken, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
-    static void getUserImojis(String apiToken, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
+    static void getUserImojis(com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         ImojiNetApiHandle.get().getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
-    static void getImojisById(String apiToken, List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
+    static void getImojisById(List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         ImojiNetApiHandle.get().fetchImojis(apiToken, TextUtils.join(",", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
     }
 
-    static void addImojiToUserCollection(String apiToken, String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
+    static void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         ImojiNetApiHandle.get().addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb));
     }
 
@@ -113,12 +118,14 @@ class ImojiNetApiHandle {
         return null;
     }
 
-    static void requestExternalOauth(String apiToken, String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
+    static void requestExternalOauth(String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         ImojiNetApiHandle.get().requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
     /* Synchronous Methods */
-    static List<Imoji> getFeaturedImojis(String apiToken, int offset, int numResults) {
+    static List<Imoji> getFeaturedImojis(int offset, int numResults) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -135,7 +142,8 @@ class ImojiNetApiHandle {
         return null;
     }
 
-    static List<Imoji> searchImojis(String apiToken, String query, int offset, int numResults) {
+    static List<Imoji> searchImojis(String query, int offset, int numResults) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -154,7 +162,8 @@ class ImojiNetApiHandle {
         return null;
     }
 
-    static List<ImojiCategory> getImojiCategories(String apiToken) {
+    static List<ImojiCategory> getImojiCategories() {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         try {
             GetCategoryResponse response = ImojiNetApiHandle.get().getImojiCategories(apiToken);
             if (response != null && response.isSuccess()) {
