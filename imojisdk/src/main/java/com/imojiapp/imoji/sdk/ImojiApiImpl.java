@@ -239,15 +239,14 @@ class ImojiApiImpl extends ImojiApi {
 
 
     private static class ExecutionManager {
-        private volatile boolean mIsExternalGranted;
         private volatile String mOauthToken;
         private volatile String mRefreshToken;
         private volatile long mExpirationTime;
         protected Queue<Command> mPendingCommands;
         private Context mContext;
         private final long mTimeoutMillis;
-        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
-        private final Handler mHandler;
+//        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
+        private final Handler mHandler = new Handler(); //UI Thread Handler
 
         private volatile boolean mIsAcquiringExternalToken;
         private volatile boolean mIsAcquiringAuthToken;
@@ -256,7 +255,7 @@ class ImojiApiImpl extends ImojiApi {
             mContext = context;
             mTimeoutMillis = 30 * 1000;
             init();
-            mHandler = mHandlerThread.getHandler();
+//            mHandler = mHandlerThread.getHandler();
         }
 
         private void init() {
@@ -293,14 +292,16 @@ class ImojiApiImpl extends ImojiApi {
             mHandler.postAtTime(new Runnable() {
                 @Override
                 public void run() {
+                    boolean removed = false;
                     synchronized (ExecutionManager.class) {
-                        boolean removed = mPendingCommands.remove(command);
+                       removed = mPendingCommands.remove(command);
+                    }
                         if (removed) {
                             if (command.mErrCallback != null) {
                                 command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
                             }
                         }
-                    }
+
                 }
             }, command, command.mExpiration);
 
