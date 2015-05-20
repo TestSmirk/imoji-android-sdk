@@ -10,4 +10,5 @@ interface PrefKeys {
     String EXPIRATION_PROPERTY = "e";
     String REFRESH_PROPERTY = "r";
     String EXTERNAL_TOKEN = "external_token";
+    String EXTERNAL_GRANT_STATUS = "external_grant_status";
 }

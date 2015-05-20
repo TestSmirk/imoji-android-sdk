@@ -7,7 +7,7 @@ import android.content.Intent;
 /**
  * Created by sajjad on 5/2/15.
  */
-public abstract class ExternalGrantReceiver extends BroadcastReceiver {
+public class ExternalGrantReceiver extends BroadcastReceiver {
     protected boolean mGranted;
     protected boolean mForUs;
 
@@ -26,6 +26,10 @@ public abstract class ExternalGrantReceiver extends BroadcastReceiver {
                 //this is for us
                 if (intent.hasExtra(ExternalIntents.BundleKeys.GRANTED)) {
                     mGranted = intent.getBooleanExtra(ExternalIntents.BundleKeys.GRANTED, false);
+                    SharedPreferenceManager.putBoolean(PrefKeys.EXTERNAL_GRANT_STATUS, mGranted);
+                    if (mGranted) {
+                        ((ImojiApiImpl) ImojiApi.with(context)).executePendingCommands(); //execute pending commands if we were granted access, otherwise allow the commands to expire
+                    }
                 }
             }
         }
