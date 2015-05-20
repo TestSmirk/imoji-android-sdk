@@ -296,7 +296,10 @@ class ImojiApiImpl extends ImojiApi {
         }
 
         private synchronized void acquireOauthToken(final String clientId, final String clientSecret, final String refreshToken) {
-            if(!mIsAcquiringAuthToken) {
+            if (clientId == null || clientSecret == null) { //hacky way right now
+                return;
+            }
+            if (!mIsAcquiringAuthToken) {
                 mIsAcquiringAuthToken = true;
                 //we need to get a new token
                 new AsyncTask<String, Void, String>() { //Use a thread instead?
