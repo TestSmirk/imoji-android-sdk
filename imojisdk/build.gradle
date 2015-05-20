@@ -5,13 +5,13 @@ apply plugin: 'maven'
 android {
     compileSdkVersion 21
     buildToolsVersion "22.0.1"
-    defaultPublishConfig "localDebug"
+    defaultPublishConfig "prodRelease"
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 5
-        versionName "0.1.7"
+        versionName "0.2.0"
     }
     buildTypes {
 
