@@ -1,6 +1,8 @@
 package com.imojiapp.imoji.sdksample.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdksample.R;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -40,7 +43,23 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        ImojiApi.with(getContext()).loadThumb(item, null).into(holder.mImojiIv);
+        ImojiApi.with(getContext()).loadThumb(item, null).transform(new Transformation() {
+            @Override
+            public Bitmap transform(Bitmap source) {
+                Bitmap b = Bitmap.createBitmap(source.getWidth() + 50, source.getHeight() + 50, Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(b);
+                for (int i = 0; i < 25; i++) {
+                    c.drawBitmap(source, i, i, null);
+                }
+                source.recycle();
+                return b;
+            }
+
+            @Override
+            public String key() {
+                return "stacked";
+            }
+        }).into(holder.mImojiIv);
 
 
         return convertView;
