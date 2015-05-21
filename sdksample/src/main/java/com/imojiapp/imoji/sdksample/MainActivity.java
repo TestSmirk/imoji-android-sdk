@@ -1,10 +1,8 @@
 package com.imojiapp.imoji.sdksample;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,10 +19,9 @@ import android.widget.TextView;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imojiapp.imoji.sdk.ImojiCategory;
 import com.imojiapp.imoji.sdk.OutlineOptions;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -164,6 +161,21 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                     Log.d(LOG_TAG, "failed to get user imojis: error");
                 }
             });
+        }else if (item.getItemId() == R.id.action_get_categories) {
+            ImojiApi.with(this).getImojiCategories(ImojiCategory.Classification.TRENDING, new Callback<List<ImojiCategory>, String>() {
+                @Override
+                public void onSuccess(List<ImojiCategory> result) {
+                    for (ImojiCategory c : result) {
+                        Log.d(LOG_TAG, "" + c.getTitle() + " " + c.getClassification());
+                    }
+                }
+
+                @Override
+                public void onFailure(String result) {
+
+                }
+            });
+
         }
         return super.onOptionsItemSelected(item);
     }
