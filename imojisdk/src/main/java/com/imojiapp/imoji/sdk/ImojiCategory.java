@@ -1,17 +1,21 @@
 package com.imojiapp.imoji.sdk;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by sajjadtabib on 4/7/15.
  */
 public class ImojiCategory {
 
-    public String id;
+    public interface Classification {
+        String NONE = "none";
+        String TRENDING = "trending";
+        String GENERIC = "generic";
+    } 
 
-    public String title;
+    private String id;
 
-    public Imoji imoji; //why is imoji an object and not a string???
+    private String title;
+
+    private Imoji imoji; //why is imoji an object and not a string???
 
     public String getId() {
         return id;
