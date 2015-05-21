@@ -166,7 +166,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                 @Override
                 public void onSuccess(List<ImojiCategory> result) {
                     for (ImojiCategory c : result) {
-                        Log.d(LOG_TAG, "" + c.getTitle() + " " + c.getClassification());
+                        Log.d(LOG_TAG, "" + c.getTitle() );
                     }
                 }
 
