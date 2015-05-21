@@ -4,9 +4,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
@@ -19,7 +17,6 @@ import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
@@ -87,7 +84,12 @@ class ImojiNetApiHandle {
 
     static void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().getImojiCategories(apiToken, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+        ImojiNetApiHandle.get().getImojiCategories(apiToken, ImojiCategory.Classification.NONE, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+    }
+
+    static void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        ImojiNetApiHandle.get().getImojiCategories(apiToken, classification, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
     static void getUserImojis(com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
