@@ -15,4 +15,9 @@
         android:id="@+id/action_get_user_imojis"
         android:title="User Imojis"
         app:showAsAction="always"></item>
+
+    <item
+        android:id="@+id/action_get_categories"
+        android:title="Categories"
+        app:showAsAction="always"></item>
 </menu>

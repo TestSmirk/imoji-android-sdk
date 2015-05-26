@@ -101,6 +101,11 @@ public abstract class ImojiApi {
      */
     public abstract void getImojiCategories(Callback<List<ImojiCategory>, String> cb);
 
+
+    public abstract void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb);
+
+
+
     /**
      * @return a list of the user's collection imojis
      */
