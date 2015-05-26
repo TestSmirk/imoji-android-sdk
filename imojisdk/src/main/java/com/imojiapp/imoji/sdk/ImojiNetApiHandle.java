@@ -200,14 +200,18 @@ class ImojiNetApiHandle {
             error.printStackTrace();
             if (error.getBody() != null) {
                 try {
-                    String json =  new String(((TypedByteArray)error.getResponse().getBody()).getBytes());
-                    Type type = new TypeToken<ErrorResponse>(){}.getType();
+                    String json = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+                    Type type = new TypeToken<ErrorResponse>() {
+                    }.getType();
                     ErrorResponse response = Utils.gson().fromJson(json, type);
                     mCallback.onFailure(response.getPayload());
                 } catch (JsonParseException e) {
                     e.printStackTrace();
                     mCallback.onFailure(Status.NETWORK_ERROR);
                 } catch (ClassCastException e) {
+                    e.printStackTrace();
+                    mCallback.onFailure(Status.NETWORK_ERROR);
+                } catch (Exception e) {
                     e.printStackTrace();
                     mCallback.onFailure(Status.NETWORK_ERROR);
                 }
