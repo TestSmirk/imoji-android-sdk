@@ -1,5 +1,6 @@
 package com.imojiapp.imoji.sdk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ class Utils {
         Intent playStoreIntent = new Intent();
         playStoreIntent.setAction(Intent.ACTION_VIEW);
         playStoreIntent.setData(Uri.parse("market://details?id=" + Config.IMOJI_APP_PACKAGE + "&referrer=" + referrer));
+        playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return playStoreIntent;
     }
 
