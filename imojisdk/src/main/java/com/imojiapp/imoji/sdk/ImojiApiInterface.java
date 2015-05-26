@@ -1,15 +1,12 @@
 package com.imojiapp.imoji.sdk;
 
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
-import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -66,6 +63,7 @@ interface ImojiApiInterface {
     @GET("/imoji/categories/fetch")
     void getImojiCategories(
             @Query("access_token") String accessToken,
+            @Query("classification") String classification,
             Callback<GetCategoryResponse> cb);
 
     @GET("/imoji/categories/fetch")

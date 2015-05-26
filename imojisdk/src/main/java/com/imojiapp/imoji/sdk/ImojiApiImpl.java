@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -107,11 +106,21 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
+     public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
                 ImojiNetApiHandle.getImojiCategories(cb);
+            }
+        });
+    }
+
+    @Override
+    public void getImojiCategories(final String classification, final Callback<List<ImojiCategory>, String> cb) {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
+            @Override
+            public void run() {
+                ImojiNetApiHandle.getImojiCategories(classification, cb);
             }
         });
     }
