@@ -28,6 +28,7 @@ class ImojiApiImpl extends ImojiApi {
     ImojiApiImpl(Context context) {
         mContext = context;
         SharedPreferenceManager.init(context);
+        ImojiNetApiHandle.init(context);
         mExecutionManager = new ExecutionManager(context);
     }
 

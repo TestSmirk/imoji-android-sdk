@@ -12,6 +12,7 @@ public class ExternalIntents {
         String INTENT_CREATE_IMOJI_ACTION = "com.imojiapp.imoji.CREATE_IMOJI";
         String INTENT_REQUEST_ACCESS = "com.imojiapp.imoji.oauth.external.REQUEST";
         String INTENT_ACCESS_GRANT = "com.imojiapp.imoji.oauth.external.GRANT";
+        String INTENT_REQUEST_SYNC = "com.imojiapp.imoji.external.SYNC";
     }
 
     /**

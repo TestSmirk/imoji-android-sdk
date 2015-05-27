@@ -1,5 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -32,6 +34,11 @@ import retrofit.mime.TypedByteArray;
 class ImojiNetApiHandle {
     private static final String LOG_TAG = ImojiNetApiHandle.class.getSimpleName();
     private static ImojiApiInterface sApiService;
+    private static Context sContext;
+
+    static void init(Context context) {
+        sContext = context;
+    }
 
     private static ImojiApiInterface get() {
         if (sApiService == null) {
@@ -104,7 +111,19 @@ class ImojiNetApiHandle {
 
     static void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb));
+        ImojiNetApiHandle.get().addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb){
+            @Override
+            public void success(AddImojiToCollectionResponse result, Response response) {
+                super.success(result, response);
+                if (result.isSuccess()) {
+                    //broadcast a sync intent
+                    Intent intent = new Intent();
+                    intent.setAction(ExternalIntents.Actions.INTENT_REQUEST_SYNC);
+                    intent.addCategory(ExternalIntents.Categories.EXTERNAL_CATEGORY);
+                    sContext.sendBroadcast(intent);
+                }
+            }
+        });
     }
 
     static GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
