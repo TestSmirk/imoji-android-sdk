@@ -143,11 +143,9 @@ public abstract class ImojiApi {
 
 
     /**
-     * Takes user to the imojiapp so that they can create an imoji
-     * If the app does not exist, then the user is taken to the
-     * Google Play store to download the app.
-     * In order to retrieve user generated content, you will have to call
-     * initiateUserOauth to gain user privileges.
+     * Takes user to imojiapp so that they can create an imoji.
+     * If imojiapp does not exist, then the user is taken to the
+     * Google Play store to download imojiapp.
      */
     public abstract void createImoji();
 
@@ -202,7 +200,7 @@ public abstract class ImojiApi {
     static void setInstance(ImojiApi instance) {
         synchronized (ImojiApi.class) {
             if (sInstance != null) {
-                throw new IllegalStateException("instance has already benn initialized");
+                throw new IllegalStateException("instance has already been initialized");
             }
 
             sInstance = instance;
