@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdksample.R;
+import com.koushikdutta.ion.bitmap.Transform;
 import com.squareup.picasso.Transformation;
 
 import java.util.List;
@@ -43,7 +44,25 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        ImojiApi.with(getContext()).loadThumb(item, null).transform(new Transformation() {
+//        ImojiApi.with(getContext()).loadThumb(item, null).transform(new Transformation() {
+//            @Override
+//            public Bitmap transform(Bitmap source) {
+//                Bitmap b = Bitmap.createBitmap(source.getWidth() + 50, source.getHeight() + 50, Bitmap.Config.ARGB_8888);
+//                Canvas c = new Canvas(b);
+//                for (int i = 0; i < 25; i++) {
+//                    c.drawBitmap(source, i, i, null);
+//                }
+//                source.recycle();
+//                return b;
+//            }
+//
+//            @Override
+//            public String key() {
+//                return "stacked";
+//            }
+//        }).into(holder.mImojiIv);
+
+        ImojiApi.with(getContext()).loadThumbWithIon(item, null).transform(new Transform() {
             @Override
             public Bitmap transform(Bitmap source) {
                 Bitmap b = Bitmap.createBitmap(source.getWidth() + 50, source.getHeight() + 50, Bitmap.Config.ARGB_8888);
@@ -59,7 +78,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
             public String key() {
                 return "stacked";
             }
-        }).into(holder.mImojiIv);
+        }).intoImageView(holder.mImojiIv);
 
 
         return convertView;
