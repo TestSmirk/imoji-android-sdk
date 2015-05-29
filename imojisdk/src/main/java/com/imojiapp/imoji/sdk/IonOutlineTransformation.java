@@ -4,17 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.koushikdutta.ion.bitmap.Transform;
-import com.squareup.picasso.Transformation;
 
 /**
- * Created by sajjadtabib on 4/6/15.
+ * Created by sajjadtabib on 5/29/15.
  */
-final class OutlineTransformation implements Transformation, Transform{
-
+class IonOutlineTransformation implements Transform{
     private OutlineOptions mOptions;
     private Context mContext;
 
-    public OutlineTransformation(Context context, OutlineOptions options) {
+    public IonOutlineTransformation(Context context, OutlineOptions options) {
         this.mOptions = options;
         mContext = context;
     }
@@ -31,6 +29,4 @@ final class OutlineTransformation implements Transformation, Transform{
     public String key() {
         return "outline" + (mOptions != null ? mOptions.toString() : "");
     }
-
-
 }
