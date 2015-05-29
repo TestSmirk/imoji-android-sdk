@@ -2,6 +2,7 @@ package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
 
+import com.koushikdutta.ion.builder.Builders;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -19,7 +20,7 @@ public abstract class ImojiApi {
     protected static volatile ImojiApi sInstance;
     protected int mDefaultNumResults;
     protected Context mContext;
-    protected Picasso mPicasso;
+
 
     /**
      * @param offset     The offset into the results
@@ -142,6 +143,10 @@ public abstract class ImojiApi {
     public abstract RequestCreator loadFull(Imoji imoji, OutlineOptions options);
 
 
+    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji, OutlineOptions options);
+
+    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji, OutlineOptions options);
+
     /**
      * Takes user to imojiapp so that they can create an imoji.
      * If imojiapp does not exist, then the user is taken to the
@@ -240,7 +245,6 @@ public abstract class ImojiApi {
         }
 
         public ImojiApi build() {
-            mApi.mPicasso = new Picasso.Builder(mApi.mContext).build();
             return mApi;
         }
     }

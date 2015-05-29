@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 6
-        versionName "0.2.2"
+        versionCode 7
+        versionName "0.2.3"
     }
     buildTypes {
 
@@ -50,6 +50,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.koushikdutta.ion:ion:2.1.4'
 }
 
 uploadArchives {

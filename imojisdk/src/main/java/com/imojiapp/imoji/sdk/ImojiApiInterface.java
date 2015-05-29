@@ -24,6 +24,13 @@ interface ImojiApiInterface {
      * Note: you can pass a fieldmap to retrofit using @FieldMap Map<String, String> params
      */
 
+//    interface Api {
+//        String GET_FEATURED = "/imoji/featured/fetch";
+//        String SEARCH = "/imoji/search";
+//        String FETCH_MULTIPLE = "/imoji/fetchMultiple";
+//        String
+//
+//    }
 
     @GET("/imoji/featured/fetch")
     void getFeaturedImojis(

@@ -9,6 +9,9 @@ import android.os.SystemClock;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.Builders;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
@@ -24,22 +27,38 @@ class ImojiApiImpl extends ImojiApi {
     private static final String LOG_TAG = ImojiApiImpl.class.getSimpleName();
 
     private ExecutionManager mExecutionManager;
+    private ImojiNetworkingInterface mINetworking;
+    protected Picasso mPicasso;
 
     ImojiApiImpl(Context context) {
         mContext = context;
         SharedPreferenceManager.init(context);
-        ImojiNetApiHandle.init(context);
-        mExecutionManager = new ExecutionManager(context);
+        //XXX: Uncomment below for production
+//        try {
+//            Class.forName("com.squareup.picasso.Picasso");
+//            Class.forName("retrofit.RequestInterceptor");
+//            mPicasso = new Picasso.Builder(context).build();
+//            mINetworking = new ImojiNetApiHandle(context);
+//        } catch( ClassNotFoundException e ) {
+//            try {
+//                Class.forName("com.koushikdutta.ion.Ion");
+//                mINetworking = new IonNetApiHandle(context);
+//            } catch (ClassNotFoundException e1) {
+//                throw new IllegalStateException("Picasso/Retrofit or koush/ion dependency missing");
+//            }
+//        }
+        mINetworking = new IonNetApiHandle(context);
+        mExecutionManager = new ExecutionManager(context, mINetworking);
     }
 
     @Override
     List<Imoji> getFeatured(int offset, int numResults) {
-        return ImojiNetApiHandle.getFeaturedImojis(offset, numResults);
+        return null;
     }
 
     @Override
     List<Imoji> getFeatured() {
-        return ImojiNetApiHandle.getFeaturedImojis(DEFAULT_OFFSET, DEFAULT_RESULTS);
+        return null;
     }
 
     @Override
@@ -49,7 +68,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     List<Imoji> search(String query, int offset, int numResults) {
-        return ImojiNetApiHandle.searchImojis(query, offset, numResults);
+        return null;
     }
 
     @Override
@@ -59,7 +78,7 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     List<ImojiCategory> getImojiCategories() {
-        return ImojiNetApiHandle.getImojiCategories();
+        return null;
     }
 
     @Override
@@ -67,7 +86,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getFeaturedImojis(offset, numResults, cb);
+                mINetworking.getFeaturedImojis(offset, numResults, cb);
             }
         });
 
@@ -100,7 +119,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.searchImojis(query, offset, numResults, cb);
+                mINetworking.searchImojis(query, offset, numResults, cb);
             }
         });
 
@@ -111,7 +130,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getImojiCategories(cb);
+                mINetworking.getImojiCategories(cb);
             }
         });
     }
@@ -121,7 +140,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getImojiCategories(classification, cb);
+                mINetworking.getImojiCategories(classification, cb);
             }
         });
     }
@@ -132,7 +151,7 @@ class ImojiApiImpl extends ImojiApi {
 
             @Override
             public void run() {
-                ImojiNetApiHandle.getUserImojis(cb);
+                mINetworking.getUserImojis(cb);
             }
         });
     }
@@ -146,6 +165,17 @@ class ImojiApiImpl extends ImojiApi {
     @Override
     public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
         return mPicasso.with(mContext).load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new OutlineTransformation(mContext, options));
+    }
+
+    @Override
+    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji, OutlineOptions options) {
+        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap().transform(new OutlineTransformation(mContext, options));
+
+    }
+
+    @Override
+    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji, OutlineOptions options) {
+        return Ion.with(mContext).load(imoji.getUrl()).withBitmap().transform(new OutlineTransformation(mContext, options));
     }
 
     @Override
@@ -164,7 +194,7 @@ class ImojiApiImpl extends ImojiApi {
     //TODO: take a callback so that when things fail we can notify the client
     @Override
     public void initiateUserOauth(final Callback<String, String> statusCallback) {
-        ImojiNetApiHandle.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
+        mINetworking.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
             @Override
             public void onSuccess(ExternalOauthPayloadResponse result) {
                 String externalToken = result.payload;
@@ -212,7 +242,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.getImojisById(imojiIds, cb);
+                mINetworking.getImojisById(imojiIds, cb);
             }
         });
     }
@@ -222,7 +252,7 @@ class ImojiApiImpl extends ImojiApi {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency(), new ExternalAuthDependency()}), cb) {
             @Override
             public void run() {
-                ImojiNetApiHandle.addImojiToUserCollection(imojiId, cb);
+                mINetworking.addImojiToUserCollection(imojiId, cb);
             }
         });
     }
@@ -260,9 +290,11 @@ class ImojiApiImpl extends ImojiApi {
 
         private volatile boolean mIsAcquiringExternalToken;
         private volatile boolean mIsAcquiringAuthToken;
+        private ImojiNetworkingInterface mINetworking;
 
-        public ExecutionManager(Context context) {
+        public ExecutionManager(Context context, ImojiNetworkingInterface networkingInterface) {
             mContext = context;
+            mINetworking = networkingInterface;
             mTimeoutMillis = 30 * 1000;
             init();
 //            mHandler = mHandlerThread.getHandler();
@@ -337,7 +369,7 @@ class ImojiApiImpl extends ImojiApi {
                         String id = params[0];
                         String secret = params[1];
                         String refresh = params[2];
-                        GetAuthTokenResponse response = ImojiNetApiHandle.getAuthToken(id, secret, refresh);
+                        GetAuthTokenResponse response = mINetworking.getAuthToken(id, secret, refresh);
 
                         if (response != null) {
                             long expire = System.currentTimeMillis() + response.expires_in * 1000;
@@ -402,7 +434,7 @@ class ImojiApiImpl extends ImojiApi {
             if (!mIsAcquiringExternalToken) {
                 mIsAcquiringExternalToken = true;
 
-                ImojiNetApiHandle.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
+                mINetworking.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
                     @Override
                     public void onSuccess(ExternalOauthPayloadResponse result) {
                         String externalToken = result.payload;
