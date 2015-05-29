@@ -7,11 +7,9 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
-import com.imojiapp.imoji.sdk.networking.responses.ErrorResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -22,14 +20,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Created by sajjadtabib on 4/6/15.
@@ -188,47 +180,12 @@ class IonNetApiHandle extends ImojiNetworkingInterface {
                 .setCallback(new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
-    class CallbackWrapper<T extends BasicResponse<V>, V> implements Callback<T>, FutureCallback<T> {
+    private static class CallbackWrapper<T extends BasicResponse<V>, V> implements FutureCallback<T> {
 
-        private com.imojiapp.imoji.sdk.Callback<V, String> mCallback;
+        private Callback<V, String> mCallback;
 
-        public CallbackWrapper(com.imojiapp.imoji.sdk.Callback callback) {
+        public CallbackWrapper(Callback callback) {
             mCallback = callback;
-        }
-
-        @Override
-        public void success(T result, Response response) {
-            if (result.isSuccess()) {
-                mCallback.onSuccess(result.getPayload());
-            } else {
-                mCallback.onFailure(result.status);
-            }
-        }
-
-        @Override
-        public void failure(RetrofitError error) {
-            error.printStackTrace();
-            if (error.getBody() != null) {
-                try {
-                    String json = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
-                    Type type = new TypeToken<ErrorResponse>() {
-                    }.getType();
-                    ErrorResponse response = Utils.gson().fromJson(json, type);
-                    mCallback.onFailure(response.getPayload());
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
-                    mCallback.onFailure(Status.NETWORK_ERROR);
-                } catch (ClassCastException e) {
-                    e.printStackTrace();
-                    mCallback.onFailure(Status.NETWORK_ERROR);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mCallback.onFailure(Status.NETWORK_ERROR);
-                }
-
-            } else {
-                mCallback.onFailure(Status.NETWORK_ERROR);
-            }
         }
 
         //Ion Implementation

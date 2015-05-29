@@ -33,21 +33,19 @@ class ImojiApiImpl extends ImojiApi {
     ImojiApiImpl(Context context) {
         mContext = context;
         SharedPreferenceManager.init(context);
-        //XXX: Uncomment below for production
-//        try {
-//            Class.forName("com.squareup.picasso.Picasso");
-//            Class.forName("retrofit.RequestInterceptor");
-//            mPicasso = new Picasso.Builder(context).build();
-//            mINetworking = new ImojiNetApiHandle(context);
-//        } catch( ClassNotFoundException e ) {
-//            try {
-//                Class.forName("com.koushikdutta.ion.Ion");
-//                mINetworking = new IonNetApiHandle(context);
-//            } catch (ClassNotFoundException e1) {
-//                throw new IllegalStateException("Picasso/Retrofit or koush/ion dependency missing");
-//            }
-//        }
-        mINetworking = new IonNetApiHandle(context);
+        try {
+            Class.forName("com.squareup.picasso.Picasso");
+            Class.forName("retrofit.RequestInterceptor");
+            mPicasso = new Picasso.Builder(context).build();
+            mINetworking = new ImojiNetApiHandle(context);
+        } catch( ClassNotFoundException e ) {
+            try {
+                Class.forName("com.koushikdutta.ion.Ion");
+                mINetworking = new IonNetApiHandle(context);
+            } catch (ClassNotFoundException e1) {
+                throw new IllegalStateException("Picasso/Retrofit or koush/ion dependency missing");
+            }
+        }
         mExecutionManager = new ExecutionManager(context, mINetworking);
     }
 
@@ -158,24 +156,24 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new OutlineTransformation(mContext, options));
+        return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new PicassoOutlineTransformation(mContext, options));
 
     }
 
     @Override
     public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new OutlineTransformation(mContext, options));
+        return mPicasso.with(mContext).load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new PicassoOutlineTransformation(mContext, options));
     }
 
     @Override
     public Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji, OutlineOptions options) {
-        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap().transform(new OutlineTransformation(mContext, options));
+        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap().transform(new IonOutlineTransformation(mContext, options));
 
     }
 
     @Override
     public Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji, OutlineOptions options) {
-        return Ion.with(mContext).load(imoji.getUrl()).withBitmap().transform(new OutlineTransformation(mContext, options));
+        return Ion.with(mContext).load(imoji.getUrl()).withBitmap().transform(new IonOutlineTransformation(mContext, options));
     }
 
     @Override
