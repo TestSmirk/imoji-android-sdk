@@ -9,7 +9,7 @@ import com.squareup.picasso.Transformation;
 /**
  * Created by sajjadtabib on 4/6/15.
  */
-class PicassoOutlineTransformation implements Transformation, Transform{
+class PicassoOutlineTransformation implements Transformation{
 
     private OutlineOptions mOptions;
     private Context mContext;
