@@ -1,11 +1,13 @@
 package com.imojiapp.imoji.sdk;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -178,14 +180,19 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public void createImoji() {
+        Intent intent;
         if (!Utils.isImojiAppInstalled(mContext)) {
-            Intent intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
-            mContext.startActivity(intent);
+            intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
         } else {
-            Intent intent = new Intent(ExternalIntents.Actions.INTENT_CREATE_IMOJI_ACTION);
+            intent = new Intent(ExternalIntents.Actions.INTENT_CREATE_IMOJI_ACTION);
             intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        
+        try {
             mContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -220,7 +227,12 @@ class ImojiApiImpl extends ImojiApi {
                     status = Status.LAUNCH_PLAYSTORE;
                     Intent playStoreIntent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
                     playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(playStoreIntent);
+                    try {
+                        mContext.startActivity(playStoreIntent);
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                        status = Status.PLAYSTORE_NOT_FOUND;
+                    }
                 }
 
                 statusCallback.onFailure(status);
@@ -460,7 +472,13 @@ class ImojiApiImpl extends ImojiApi {
                             status = com.imojiapp.imoji.sdk.Status.LAUNCH_PLAYSTORE;
                             Intent playStoreIntent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
                             playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mContext.startActivity(playStoreIntent);
+
+
+                            try {
+                                mContext.startActivity(playStoreIntent);
+                            } catch (ActivityNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         mIsAcquiringExternalToken = false;
