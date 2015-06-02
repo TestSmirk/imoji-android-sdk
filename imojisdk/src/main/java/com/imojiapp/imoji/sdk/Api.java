@@ -5,9 +5,9 @@ import com.imojiapp.imoji.sdk.Config;
 /**
  * Created by sajjadtabib on 5/28/15.
  */
-public class Api{
+class Api{
 
-    public interface Endpoints {
+    interface Endpoints {
         String IMOJI_FEATURED_FETCH = Config.BASE_URL + "/imoji/featured/fetch";
         String IMOJI_SEARCH = Config.BASE_URL + "/imoji/search";
         String IMOJI_FETCHMULTIPLE = Config.BASE_URL + "/imoji/fetchMultiple";
@@ -18,7 +18,7 @@ public class Api{
         String OAUTH_EXTERNAL_GETIDPAYLOAD = Config.BASE_URL + "/oauth/external/getIdPayload";
     }
 
-    public interface Params {
+    interface Params {
         String OFFSET = "offset";
         String NUMRESULTS = "numResults";
         String QUERY = "query";
