@@ -22,6 +22,7 @@ import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.ImojiCategory;
 import com.imojiapp.imoji.sdk.OutlineOptions;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,6 +49,9 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        Picasso myPicasso = new Picasso.Builder(this).build();
+        ImojiApi.with(this).setPicassoInstance(myPicasso);
 
         mImojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
