@@ -20,6 +20,7 @@ public abstract class ImojiApi {
     protected static volatile ImojiApi sInstance;
     protected int mDefaultNumResults;
     protected Context mContext;
+    protected Picasso mPicasso;
 
 
     /**
@@ -177,6 +178,10 @@ public abstract class ImojiApi {
      */
     public abstract void addImojiToUserCollection(String imojiId, Callback<String, String> cb);
 
+    /**
+     * Sets the picasso instance for the SDK to work with
+     */
+    public abstract void setPicassoInstance(Picasso picasso);
 
     /**
      * Initialize the API instance
@@ -234,17 +239,43 @@ public abstract class ImojiApi {
      */
     public static class Builder {
         private ImojiApi mApi;
+        private Context mContext;
 
         public Builder(Context context) {
             mApi = new ImojiApiImpl(context);
+            mContext = context;
         }
 
+        /**
+         * Sets the default number of search/featured restuls to return
+         * @param numResults
+         * @return
+         */
         public Builder defaultResultCount(int numResults) {
             mApi.mDefaultNumResults = numResults;
             return this;
         }
 
+        /**
+         * Initializes the SDK to work with this Picasso instance
+         * @param picasso
+         * @return
+         */
+        public Builder setPicassoInstance(Picasso picasso) {
+            mApi.mPicasso = picasso;
+            return this;
+        }
+
         public ImojiApi build() {
+            try {
+                Class.forName("com.squareup.picasso.Picasso");
+                Class.forName("retrofit.RequestInterceptor");
+                if ( mApi.mPicasso == null) {
+                     mApi.mPicasso = new Picasso.Builder(mContext).build();
+                }
+
+            } catch( ClassNotFoundException e ) {
+            }
             return mApi;
         }
     }

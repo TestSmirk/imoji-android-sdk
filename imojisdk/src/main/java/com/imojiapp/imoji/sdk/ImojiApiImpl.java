@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -30,7 +29,6 @@ class ImojiApiImpl extends ImojiApi {
 
     private ExecutionManager mExecutionManager;
     private ImojiNetworkingInterface mINetworking;
-    protected Picasso mPicasso;
 
     ImojiApiImpl(Context context) {
         mContext = context;
@@ -38,7 +36,6 @@ class ImojiApiImpl extends ImojiApi {
         try {
             Class.forName("com.squareup.picasso.Picasso");
             Class.forName("retrofit.RequestInterceptor");
-            mPicasso = new Picasso.Builder(context).build();
             mINetworking = new ImojiNetApiHandle(context);
         } catch( ClassNotFoundException e ) {
             try {
@@ -265,6 +262,11 @@ class ImojiApiImpl extends ImojiApi {
                 mINetworking.addImojiToUserCollection(imojiId, cb);
             }
         });
+    }
+
+    @Override
+    public void setPicassoInstance(Picasso picasso) {
+        mPicasso = picasso;
     }
 
     void executePendingCommands() {
