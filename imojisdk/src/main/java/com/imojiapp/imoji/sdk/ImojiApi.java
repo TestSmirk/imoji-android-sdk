@@ -184,6 +184,12 @@ public abstract class ImojiApi {
     public abstract void setPicassoInstance(Picasso picasso);
 
     /**
+     * Retrieves the current picasso instance
+     * @return
+     */
+    public abstract Picasso getPicassoInstance();
+
+    /**
      * Initialize the API instance
      * @param context context used for api operations
      * @param clientId your client id

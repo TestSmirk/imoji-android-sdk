@@ -269,6 +269,11 @@ class ImojiApiImpl extends ImojiApi {
         mPicasso = picasso;
     }
 
+    @Override
+    public Picasso getPicassoInstance() {
+        return mPicasso;
+    }
+
     void executePendingCommands() {
         if (mExecutionManager != null) {
             mExecutionManager.executePendingCommands();
