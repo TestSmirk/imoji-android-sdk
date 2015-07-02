@@ -155,13 +155,13 @@ class ImojiApiImpl extends ImojiApi {
 
     @Override
     public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new PicassoOutlineTransformation(mContext, options));
+        return mPicasso.load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new PicassoOutlineTransformation(mContext, options));
 
     }
 
     @Override
     public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
-        return mPicasso.with(mContext).load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new PicassoOutlineTransformation(mContext, options));
+        return mPicasso.load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new PicassoOutlineTransformation(mContext, options));
     }
 
     @Override
