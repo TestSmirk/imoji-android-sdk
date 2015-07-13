@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
@@ -37,7 +38,7 @@ class ImojiApiImpl extends ImojiApi {
             Class.forName("com.squareup.picasso.Picasso");
             Class.forName("retrofit.RequestInterceptor");
             mINetworking = new ImojiNetApiHandle(context);
-        } catch( ClassNotFoundException e ) {
+        } catch (ClassNotFoundException e) {
             try {
                 Class.forName("com.koushikdutta.ion.Ion");
                 mINetworking = new IonNetApiHandle(context);
@@ -123,7 +124,7 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-     public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
+    public void getImojiCategories(final Callback<List<ImojiCategory>, String> cb) {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
             @Override
             public void run() {
@@ -185,7 +186,7 @@ class ImojiApiImpl extends ImojiApi {
             intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        
+
         try {
             mContext.startActivity(intent);
         } catch (ActivityNotFoundException e) {
@@ -282,6 +283,7 @@ class ImojiApiImpl extends ImojiApi {
 
     private static class ExecutionHandlerThread extends HandlerThread {
         private final Handler mHandler;
+
         public ExecutionHandlerThread() {
             super("ExecutionHandlerThread");
             start();
@@ -302,7 +304,7 @@ class ImojiApiImpl extends ImojiApi {
         protected Queue<Command> mPendingCommands;
         private Context mContext;
         private final long mTimeoutMillis;
-//        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
+        //        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
         private final Handler mHandler = new Handler(); //UI Thread Handler
 
         private volatile boolean mIsAcquiringExternalToken;
@@ -353,13 +355,13 @@ class ImojiApiImpl extends ImojiApi {
                 public void run() {
                     boolean removed = false;
                     synchronized (ExecutionManager.class) {
-                       removed = mPendingCommands.remove(command);
+                        removed = mPendingCommands.remove(command);
                     }
-                        if (removed) {
-                            if (command.mErrCallback != null) {
-                                command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
-                            }
+                    if (removed) {
+                        if (command.mErrCallback != null) {
+                            command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
                         }
+                    }
 
                 }
             }, command, command.mExpiration);
@@ -379,8 +381,10 @@ class ImojiApiImpl extends ImojiApi {
             }
             if (!mIsAcquiringAuthToken) {
                 mIsAcquiringAuthToken = true;
+
+
                 //we need to get a new token
-                new AsyncTask<String, Void, String>() { //Use a thread instead?
+                AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() { //Use a thread instead?
                     @Override
                     protected String doInBackground(String... params) {
                         String id = params[0];
@@ -423,7 +427,13 @@ class ImojiApiImpl extends ImojiApi {
 
 
                     }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clientId, clientSecret, refreshToken);
+                };
+                if (Build.VERSION.SDK_INT >= 11) {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clientId, clientSecret, refreshToken);
+                } else {
+                    task.execute(clientId, clientSecret, refreshToken);
+                }
+
             }
         }
 
@@ -545,10 +555,9 @@ class ImojiApiImpl extends ImojiApi {
         Callback<?, String> mErrCallback;
 
 
-
         Command(List<ExecutionDependency> dependencies, Callback<?, String> errCallback) {
             mExecutionDependencies = dependencies;
-            mExpiration = SystemClock.uptimeMillis()  + 30 * 1000; //30 second, then expire and run
+            mExpiration = SystemClock.uptimeMillis() + 30 * 1000; //30 second, then expire and run
             mErrCallback = errCallback;
         }
 
