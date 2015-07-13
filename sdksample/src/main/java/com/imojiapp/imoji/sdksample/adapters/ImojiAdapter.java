@@ -44,7 +44,9 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-//        ImojiApi.with(getContext()).loadThumb(item, null).transform(new Transformation() {
+        ImojiApi.with(getContext()).loadThumb(item, null).into(holder.mImojiIv);
+
+//        ImojiApi.with(getContext()).loadThumbWithIon(item, null).transform(new Transform() {
 //            @Override
 //            public Bitmap transform(Bitmap source) {
 //                Bitmap b = Bitmap.createBitmap(source.getWidth() + 50, source.getHeight() + 50, Bitmap.Config.ARGB_8888);
@@ -60,25 +62,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
 //            public String key() {
 //                return "stacked";
 //            }
-//        }).into(holder.mImojiIv);
-
-        ImojiApi.with(getContext()).loadThumbWithIon(item, null).transform(new Transform() {
-            @Override
-            public Bitmap transform(Bitmap source) {
-                Bitmap b = Bitmap.createBitmap(source.getWidth() + 50, source.getHeight() + 50, Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(b);
-                for (int i = 0; i < 25; i++) {
-                    c.drawBitmap(source, i, i, null);
-                }
-                source.recycle();
-                return b;
-            }
-
-            @Override
-            public String key() {
-                return "stacked";
-            }
-        }).intoImageView(holder.mImojiIv);
+//        }).intoImageView(holder.mImojiIv);
 
 
         return convertView;
