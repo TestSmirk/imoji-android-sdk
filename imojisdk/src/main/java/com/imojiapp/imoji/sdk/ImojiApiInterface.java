@@ -24,14 +24,6 @@ interface ImojiApiInterface {
      * Note: you can pass a fieldmap to retrofit using @FieldMap Map<String, String> params
      */
 
-//    interface Api {
-//        String GET_FEATURED = "/imoji/featured/fetch";
-//        String SEARCH = "/imoji/search";
-//        String FETCH_MULTIPLE = "/imoji/fetchMultiple";
-//        String
-//
-//    }
-
     @GET("/imoji/featured/fetch")
     void getFeaturedImojis(
             @Query("access_token") String accessToken,
@@ -55,9 +47,10 @@ interface ImojiApiInterface {
 
     @FormUrlEncoded
     @POST("/imoji/fetchMultiple")
-    void fetchImojis(@Field("access_token") String accessToken,
-                     @Field("ids") String imojiIds,
-                     Callback<FetchImojisResponse> cb);
+    void fetchImojis(
+            @Field("access_token") String accessToken,
+            @Field("ids") String imojiIds,
+            Callback<FetchImojisResponse> cb);
 
     @GET("/imoji/search")
     ImojiSearchResponse searchImojis(
@@ -78,24 +71,33 @@ interface ImojiApiInterface {
             @Query("access_token") String accessToken);
 
     @GET("/user/imoji/fetch")
-    GetUserImojiResponse getUserImojis(@Query("access_token") String accessToken);
+    GetUserImojiResponse getUserImojis(
+            @Query("access_token") String accessToken);
 
     @GET("/user/imoji/fetch")
-    void getUserImojis(@Query("access_token") String accessToken, Callback<GetUserImojiResponse> cb);
+    void getUserImojis(
+            @Query("access_token") String accessToken,
+            Callback<GetUserImojiResponse> cb);
 
     @FormUrlEncoded
     @POST("/user/imoji/collection/add")
-    void addImojiToUserCollection(@Field("access_token") String accessToken, @Field("imojiId") String imojiId, Callback<AddImojiToCollectionResponse> cb);
+    void addImojiToUserCollection(
+            @Field("access_token") String accessToken,
+            @Field("imojiId") String imojiId,
+            Callback<AddImojiToCollectionResponse> cb);
 
     @FormUrlEncoded
     @POST("/oauth/token")
-    GetAuthTokenResponse getAuthToken(@Header("Authorization") String authorizationHeader,
-                                      @Field("grant_type") String grantType, @Field("refresh_token") String refreshToken);
+    GetAuthTokenResponse getAuthToken(
+            @Header("Authorization") String authorizationHeader,
+            @Field("grant_type") String grantType,
+            @Field("refresh_token") String refreshToken);
 
     @FormUrlEncoded
     @POST("/oauth/external/getIdPayload")
-    void requestExternalOauth(@Field("access_token") String accessToken,
-                              @Field("clientId") String clientId, Callback<ExternalOauthPayloadResponse> cb);
-
+    void requestExternalOauth(
+            @Field("access_token") String accessToken,
+            @Field("clientId") String clientId,
+            Callback<ExternalOauthPayloadResponse> cb);
 
 }

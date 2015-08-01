@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.JsonParseException;
+import com.google.gson.annotations.Until;
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
@@ -32,7 +33,6 @@ import retrofit.mime.TypedByteArray;
  * Created by sajjadtabib on 4/6/15.
  */
 class ImojiNetApiHandle extends ImojiNetworkingInterface {
-    private static final String LOG_TAG = ImojiNetApiHandle.class.getSimpleName();
     private static ImojiApiInterface sApiService;
     private Context mContext;
 
@@ -213,9 +213,6 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
         @Override
         public void success(T result, Response response) {
 
-            Log.d(LOG_TAG, "response: " + result);
-
-
             if (result.isSuccess()) {
                 mCallback.onSuccess(result.getPayload());
             } else {
@@ -226,30 +223,30 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
         @Override
         public void failure(RetrofitError error) {
             error.printStackTrace();
-            if (error.getBody() != null) {
-                try {
+            try {
+                if (error.getBody() != null) {
                     String json = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
                     Type type = new TypeToken<ErrorResponse>() {
                     }.getType();
                     ErrorResponse response = Utils.gson().fromJson(json, type);
+
                     mCallback.onFailure(response.getPayload());
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
-                    mCallback.onFailure(Status.NETWORK_ERROR);
-                } catch (ClassCastException e) {
-                    e.printStackTrace();
-                    mCallback.onFailure(Status.NETWORK_ERROR);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
                     mCallback.onFailure(Status.NETWORK_ERROR);
                 }
-
-            } else {
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+                mCallback.onFailure(Status.NETWORK_ERROR);
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+                mCallback.onFailure(Status.NETWORK_ERROR);
+            } catch (Exception e) {
+                e.printStackTrace();
                 mCallback.onFailure(Status.NETWORK_ERROR);
             }
+
         }
 
     }
-
 
 }
