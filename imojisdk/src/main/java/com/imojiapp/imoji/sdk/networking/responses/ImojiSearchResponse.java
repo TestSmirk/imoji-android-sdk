@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class ImojiSearchResponse extends BasicResponse<List<Imoji>>{
     public ArrayList<Imoji> results;
-    public ArrayList<Imoji> data;
 
     @Override
     public List<Imoji> getPayload() {

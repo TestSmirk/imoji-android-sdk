@@ -1,6 +1,5 @@
 package com.imojiapp.imoji.sdksample;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.ImojiCategory;
-import com.imojiapp.imoji.sdk.OutlineOptions;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -57,11 +55,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Imoji imoji = (Imoji) parent.getItemAtPosition(position);
-                OutlineOptions options = new OutlineOptions();
-                options.color = Color.parseColor("#F88920");
-                ImojiApi.with(MainActivity.this).loadFull(imoji, options).into(mFullImoji);
-
-
+                ImojiApi.with(MainActivity.this).loadFull(imoji).into(mFullImoji);
             }
         });
 
@@ -74,7 +68,6 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                     @Override
                     public void onSuccess(String result) {
                         Log.d(LOG_TAG, "Add Imoji Success with result: " + result);
-
                     }
 
                     @Override
@@ -92,6 +85,9 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
         ImojiApi.with(this).getFeatured(new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
+                Log.d(LOG_TAG, "imoji: " + result.get(0).toString());
+
+
                 ImojiAdapter adapter = new ImojiAdapter(MainActivity.this, R.layout.imoji_item_layout, result);
                 mImojiGrid.setAdapter(adapter);
             }
@@ -166,7 +162,7 @@ private static final String LOG_TAG = MainActivity.class.getSimpleName();
                 }
             });
         }else if (item.getItemId() == R.id.action_get_categories) {
-            ImojiApi.with(this).getImojiCategories(ImojiCategory.Classification.TRENDING, new Callback<List<ImojiCategory>, String>() {
+            ImojiApi.with(this).getImojiCategories(ImojiCategory.Classification.GENERIC, new Callback<List<ImojiCategory>, String>() {
                 @Override
                 public void onSuccess(List<ImojiCategory> result) {
                     for (ImojiCategory c : result) {

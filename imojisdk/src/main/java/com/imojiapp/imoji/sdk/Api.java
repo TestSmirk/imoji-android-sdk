@@ -1,7 +1,5 @@
 package com.imojiapp.imoji.sdk;
 
-import com.imojiapp.imoji.sdk.Config;
-
 /**
  * Created by sajjadtabib on 5/28/15.
  */

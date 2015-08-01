@@ -1,5 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -7,17 +9,14 @@ import java.util.ArrayList;
  */
 public class Imoji {
 
-    private String parentId;
-    private String imojiId;
+    private String id;
     private ArrayList<String> tags;
-    private String thumbImageUrl;
-    private String url;
-    private String webpThumbImageUrl;
-    private String webpFullImageUrl;
+    private Object urls;
+    private Image images;
 
 
     public String getImojiId() {
-        return (parentId != null) ? parentId : imojiId;
+        return id;
     }
 
     public ArrayList<String> getTags() {
@@ -25,22 +24,56 @@ public class Imoji {
     }
 
     String getThumbImageUrl() {
-        return thumbImageUrl;
+        return images.png.image150.url;
     }
 
     String getUrl() {
-        return url;
+        return images.png.image1200.url;
     }
 
     String getWebpThumbImageUrl() {
-        return webpThumbImageUrl;
+        return images.webp.image150.url;
     }
 
     String getWebpFullImageUrl() {
-        return webpFullImageUrl;
+        return images.webp.image1200.url;
     }
 
+    static class Image {
 
-    Imoji() {
+        ImageType png;
+        ImageType webp;
+
+        static class ImageType {
+
+            @SerializedName("150")
+            Info image150;
+
+            @SerializedName("320")
+            Info image320;
+
+            @SerializedName("512")
+            Info image512;
+
+            @SerializedName("960")
+            Info image960;
+
+            @SerializedName("1200")
+            Info image1200;
+
+            static class Info {
+
+                String url;
+                int width;
+                int height;
+                long fileSize;
+
+            }
+
+        }
     }
+
 }
+
+
+

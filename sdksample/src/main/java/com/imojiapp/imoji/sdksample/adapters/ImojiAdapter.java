@@ -44,7 +44,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        ImojiApi.with(getContext()).loadThumb(item, null).into(holder.mImojiIv);
+        ImojiApi.with(getContext()).loadThumb(item).into(holder.mImojiIv);
 
 //        ImojiApi.with(getContext()).loadThumbWithIon(item, null).transform(new Transform() {
 //            @Override

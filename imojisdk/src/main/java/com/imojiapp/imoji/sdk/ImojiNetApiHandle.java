@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
@@ -39,30 +40,25 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
         this.mContext = mContext;
     }
 
-    private static ImojiApiInterface get() {
+    private static ImojiApiInterface get(final Context context) {
         if (sApiService == null) {
 
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
-                    request.addHeader("x-client-version", "2.0.0"); //TODO: Fix
+
+                    request.addHeader("imoji-sdk-version", "2.0.0");
                     request.addHeader("x-client-model", "android");
                     request.addHeader("x-client-os-version", Build.VERSION.RELEASE);
                 }
             };
 
-
             RestAdapter.Builder builder = new RestAdapter.Builder()
                     .setEndpoint(Config.BASE_URL)
                     .setRequestInterceptor(requestInterceptor);
 
-//            Log.w(LOG_TAG, "PROXY ENABLED");
-//            SocketAddress addr = new InetSocketAddress("10.0.1.6", 8888);
-//            Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
-//            builder.setClient(new OkClient(new OkHttpClient().setProxy(proxy)));
             sApiService = builder.build().create(ImojiApiInterface.class);
         }
-
 
         return sApiService;
     }
@@ -76,7 +72,7 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
             count = String.valueOf(numResults);
         }
 
-        ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
+        ImojiNetApiHandle.get(mContext).getFeaturedImojis(apiToken, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
 
@@ -87,37 +83,37 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
         if (numResults > 0) {
             count = String.valueOf(numResults);
         }
-        ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
+        ImojiNetApiHandle.get(mContext).searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
     @Override
     void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().getImojiCategories(apiToken, ImojiCategory.Classification.NONE, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+        ImojiNetApiHandle.get(mContext).getImojiCategories(apiToken, ImojiCategory.Classification.NONE, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
     @Override
     void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().getImojiCategories(apiToken, classification, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
+        ImojiNetApiHandle.get(mContext).getImojiCategories(apiToken, classification, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
     @Override
     void getUserImojis(com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
+        ImojiNetApiHandle.get(mContext).getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
     @Override
     void getImojisById(List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().fetchImojis(apiToken, TextUtils.join(",", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
+        ImojiNetApiHandle.get(mContext).fetchImojis(apiToken, TextUtils.join(",", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
     }
 
     @Override
     void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb){
+        ImojiNetApiHandle.get(mContext).addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb) {
             @Override
             public void success(AddImojiToCollectionResponse result, Response response) {
                 super.success(result, response);
@@ -134,12 +130,12 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
 
     @Override
     GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken) {
-        String grantType = "client_credentials";
+        String grantType = Constants.CLIENT_CREDENTIALS;
         if (refreshToken != null) {
-            grantType = "refresh_token";
+            grantType = Constants.REFRESH_TOKEN;
         }
         try {
-            return ImojiNetApiHandle.get().getAuthToken("Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE), grantType, refreshToken);
+            return ImojiNetApiHandle.get(mContext).getAuthToken("Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE), grantType, refreshToken);
         } catch (RetrofitError error) {
             error.printStackTrace();
         }
@@ -149,7 +145,7 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
     @Override
     void requestExternalOauth(String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-        ImojiNetApiHandle.get().requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
+        ImojiNetApiHandle.get(mContext).requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
     /* Synchronous Methods */
@@ -160,7 +156,7 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
             count = String.valueOf(numResults);
         }
         try {
-            ImojiSearchResponse response = ImojiNetApiHandle.get().getFeaturedImojis(apiToken, offset, count);
+            ImojiSearchResponse response = ImojiNetApiHandle.get(mContext).getFeaturedImojis(apiToken, offset, count);
             if (response != null && response.isSuccess()) {
                 return response.results;
             }
@@ -179,7 +175,7 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
         }
 
         try {
-            ImojiSearchResponse response = ImojiNetApiHandle.get().searchImojis(apiToken, query, offset, count);
+            ImojiSearchResponse response = ImojiNetApiHandle.get(mContext).searchImojis(apiToken, query, offset, count);
             if (response != null && response.isSuccess()) {
                 return response.results;
             }
@@ -194,7 +190,7 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
     List<ImojiCategory> getImojiCategories() {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
         try {
-            GetCategoryResponse response = ImojiNetApiHandle.get().getImojiCategories(apiToken);
+            GetCategoryResponse response = ImojiNetApiHandle.get(mContext).getImojiCategories(apiToken);
             if (response != null && response.isSuccess()) {
                 return response.categories;
             }
@@ -216,6 +212,10 @@ class ImojiNetApiHandle extends ImojiNetworkingInterface {
 
         @Override
         public void success(T result, Response response) {
+
+            Log.d(LOG_TAG, "response: " + result);
+
+
             if (result.isSuccess()) {
                 mCallback.onSuccess(result.getPayload());
             } else {

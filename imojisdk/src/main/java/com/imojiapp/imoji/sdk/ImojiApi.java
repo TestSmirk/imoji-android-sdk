@@ -13,7 +13,6 @@ import java.util.List;
  */
 public abstract class ImojiApi {
 
-
     static final int DEFAULT_OFFSET = 0;
     static final int DEFAULT_RESULTS = 60;
 
@@ -22,37 +21,6 @@ public abstract class ImojiApi {
     protected Context mContext;
     protected Picasso mPicasso;
 
-
-    /**
-     * @param offset     The offset into the results
-     * @param numResults The maximum number of results to return
-     * @return A list of featured imojis or null if there was an error
-     */
-    abstract List<Imoji> getFeatured(int offset, int numResults);
-
-    /**
-     * @return A list of featured imojis that uses the default offset 0
-     * and default numResults of 60, or null to indicate there was
-     * an error
-     */
-    abstract List<Imoji> getFeatured();
-
-    /**
-     * @param query the search string to query imojis
-     * @return A list of featured imojis or null if there was an error
-     */
-    abstract List<Imoji> search(String query);
-
-    /**
-     * A synchronous call the searches for imojis based on a query string
-     *
-     * @param query      the search string to query imojis
-     * @param offset     the offset in the search results
-     * @param numResults the maximum number of results to return in the call
-     * @return A list of imojis that match the query string or null if there was
-     * an error
-     */
-    abstract List<Imoji> search(String query, int offset, int numResults);
 
     /**
      * Asynchronous call that fetches featured imojis
@@ -87,13 +55,6 @@ public abstract class ImojiApi {
      */
     public abstract void search(String query, int offset, int numResults, Callback<List<Imoji>, String> cb);
 
-    /**
-     * Synchronously retreives a list of imoji categories that can then be used
-     * to search for popular imojis
-     *
-     * @return A list of popular categories
-     */
-    abstract List<ImojiCategory> getImojiCategories();
 
     /**
      * Asynchronously retrieves a list of server generated imoji categories
@@ -104,14 +65,14 @@ public abstract class ImojiApi {
     public abstract void getImojiCategories(Callback<List<ImojiCategory>, String> cb);
 
 
-    public abstract void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb);
-
-
-
     /**
-     * @return a list of the user's collection imojis
+     * Asynchronously retrieves a list of server generated imoji categories
+     *
+     * @param cb a callback, called on the main thread, to notify when categories are fetched or whether
+     *           it failed
+     * @param classification A com.imojiapp.imoji.sdk.ImojiCategory.Classification
      */
-    abstract List<Imoji> getUserImojis();
+    public abstract void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb);
 
     /**
      * This method requires that your client has been granted
@@ -127,10 +88,9 @@ public abstract class ImojiApi {
      * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
      * @param imoji   an imoji object
-     * @param options outline options used to render an imoji
      * @return a Picasso RequestCreator object used to load bitmaps
      */
-    public abstract RequestCreator loadThumb(Imoji imoji, OutlineOptions options);
+    public abstract RequestCreator loadThumb(Imoji imoji);
 
     /**
      * Helper class to load full imojis given an Imoji object.
@@ -138,15 +98,14 @@ public abstract class ImojiApi {
      * take a look at Square's Picasso Library http://square.github.io/picasso/
      *
      * @param imoji   an imoji object
-     * @param options outline options used to render an imoji
      * @return a Picasso RequestCreator object used to load bitmaps
      */
-    public abstract RequestCreator loadFull(Imoji imoji, OutlineOptions options);
+    public abstract RequestCreator loadFull(Imoji imoji);
 
 
-    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji, OutlineOptions options);
+    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji);
 
-    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji, OutlineOptions options);
+    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji);
 
     /**
      * Takes user to imojiapp so that they can create an imoji.
@@ -232,7 +191,9 @@ public abstract class ImojiApi {
         if (sInstance == null) {
 
             synchronized (ImojiApi.class) {
-                sInstance = new Builder(context).build();
+                if (sInstance == null) {
+                    sInstance = new Builder(context).build();
+                }
             }
         }
 

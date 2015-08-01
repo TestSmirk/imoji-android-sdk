@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.SystemClock;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
@@ -47,36 +46,6 @@ class ImojiApiImpl extends ImojiApi {
             }
         }
         mExecutionManager = new ExecutionManager(context, mINetworking);
-    }
-
-    @Override
-    List<Imoji> getFeatured(int offset, int numResults) {
-        return null;
-    }
-
-    @Override
-    List<Imoji> getFeatured() {
-        return null;
-    }
-
-    @Override
-    List<Imoji> search(String query) {
-        return search(query, DEFAULT_OFFSET, DEFAULT_RESULTS);
-    }
-
-    @Override
-    List<Imoji> search(String query, int offset, int numResults) {
-        return null;
-    }
-
-    @Override
-    List<Imoji> getUserImojis() {
-        return null;
-    }
-
-    @Override
-    List<ImojiCategory> getImojiCategories() {
-        return null;
     }
 
     @Override
@@ -155,25 +124,25 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public RequestCreator loadThumb(Imoji imoji, OutlineOptions options) {
-        return mPicasso.load(imoji.getThumbImageUrl()).stableKey(imoji.getImojiId() + "thumb").transform(new PicassoOutlineTransformation(mContext, options));
+    public RequestCreator loadThumb(Imoji imoji) {
+        return mPicasso.load(imoji.getThumbImageUrl());
 
     }
 
     @Override
-    public RequestCreator loadFull(Imoji imoji, OutlineOptions options) {
-        return mPicasso.load(imoji.getUrl()).stableKey(imoji.getImojiId() + "full").transform(new PicassoOutlineTransformation(mContext, options));
+    public RequestCreator loadFull(Imoji imoji) {
+        return mPicasso.load(imoji.getUrl());
     }
 
     @Override
-    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji, OutlineOptions options) {
-        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap().transform(new IonOutlineTransformation(mContext, options));
+    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji) {
+        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap();
 
     }
 
     @Override
-    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji, OutlineOptions options) {
-        return Ion.with(mContext).load(imoji.getUrl()).withBitmap().transform(new IonOutlineTransformation(mContext, options));
+    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji) {
+        return Ion.with(mContext).load(imoji.getUrl()).withBitmap();
     }
 
     @Override
@@ -194,7 +163,6 @@ class ImojiApiImpl extends ImojiApi {
         }
     }
 
-    //TODO: take a callback so that when things fail we can notify the client
     @Override
     public void initiateUserOauth(final Callback<String, String> statusCallback) {
         mINetworking.requestExternalOauth(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), new Callback<ExternalOauthPayloadResponse, String>() {
@@ -281,30 +249,14 @@ class ImojiApiImpl extends ImojiApi {
         }
     }
 
-    private static class ExecutionHandlerThread extends HandlerThread {
-        private final Handler mHandler;
-
-        public ExecutionHandlerThread() {
-            super("ExecutionHandlerThread");
-            start();
-            mHandler = new Handler(getLooper());
-
-        }
-
-        Handler getHandler() {
-            return mHandler;
-        }
-    }
-
-
     private static class ExecutionManager {
+
         private volatile String mOauthToken;
         private volatile String mRefreshToken;
         private volatile long mExpirationTime;
         protected Queue<Command> mPendingCommands;
         private Context mContext;
         private final long mTimeoutMillis;
-        //        private final ExecutionHandlerThread mHandlerThread = new ExecutionHandlerThread();
         private final Handler mHandler = new Handler(); //UI Thread Handler
 
         private volatile boolean mIsAcquiringExternalToken;
@@ -316,7 +268,6 @@ class ImojiApiImpl extends ImojiApi {
             mINetworking = networkingInterface;
             mTimeoutMillis = 30 * 1000;
             init();
-//            mHandler = mHandlerThread.getHandler();
         }
 
         private void init() {
@@ -324,6 +275,7 @@ class ImojiApiImpl extends ImojiApi {
 
             //check to see if the token exists or expired
             mOauthToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+
             if (mOauthToken != null) {
                 mExpirationTime = SharedPreferenceManager.getLong(PrefKeys.EXPIRATION_PROPERTY, -1);
                 mRefreshToken = SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null);
@@ -357,6 +309,7 @@ class ImojiApiImpl extends ImojiApi {
                     synchronized (ExecutionManager.class) {
                         removed = mPendingCommands.remove(command);
                     }
+
                     if (removed) {
                         if (command.mErrCallback != null) {
                             command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
@@ -376,15 +329,17 @@ class ImojiApiImpl extends ImojiApi {
         }
 
         private synchronized void acquireOauthToken(final String clientId, final String clientSecret, final String refreshToken) {
+
             if (clientId == null || clientSecret == null) { //hacky way right now
                 return;
             }
+
             if (!mIsAcquiringAuthToken) {
                 mIsAcquiringAuthToken = true;
 
-
                 //we need to get a new token
                 AsyncTask<String, Void, String> task = new AsyncTask<String, Void, String>() { //Use a thread instead?
+
                     @Override
                     protected String doInBackground(String... params) {
                         String id = params[0];
@@ -428,6 +383,7 @@ class ImojiApiImpl extends ImojiApi {
 
                     }
                 };
+
                 if (Build.VERSION.SDK_INT >= 11) {
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clientId, clientSecret, refreshToken);
                 } else {
@@ -438,6 +394,7 @@ class ImojiApiImpl extends ImojiApi {
         }
 
         void executePendingCommands() {
+
             //execute all pending commands
             synchronized (ExecutionManager.class) {
                 Command c;
@@ -513,7 +470,20 @@ class ImojiApiImpl extends ImojiApi {
 
         }
 
+        String getOauthToken() {
+            return mOauthToken;
+        }
+
+        String getRefreshToken() {
+            return mRefreshToken;
+        }
+
+        long getExpirationTime() {
+            return mExpirationTime;
+        }
+
     }
+
 
     private interface ExecutionDependency {
         boolean isDependencySatisfied(ExecutionManager executionManager);
@@ -526,7 +496,7 @@ class ImojiApiImpl extends ImojiApi {
 
         @Override
         public boolean isDependencySatisfied(ExecutionManager executionManager) {
-            return executionManager.mOauthToken != null && executionManager.mExpirationTime >= (System.currentTimeMillis() - 30 * 1000);
+            return executionManager.getOauthToken() != null && executionManager.getExpirationTime() >= (System.currentTimeMillis() - 30 * 1000);
         }
 
         @Override
@@ -581,6 +551,5 @@ class ImojiApiImpl extends ImojiApi {
             }
         }
     }
-
 
 }

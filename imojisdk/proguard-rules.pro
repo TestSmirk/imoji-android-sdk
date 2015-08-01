@@ -41,6 +41,7 @@
 -keep class com.imojiapp.imoji.sdk.ImojiApi$* { *; }
 -keep class com.imojiapp.imoji.sdk.Callback { *; }
 -keep class com.imojiapp.imoji.sdk.Imoji { *; }
+-keep class com.imojiapp.imoji.sdk.Imoji$* { *; }
 -keep class com.imojiapp.imoji.sdk.ImojiCategory { *; }
 -keep class com.imojiapp.imoji.sdk.ImojiCategory$* { *; }
 -keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
