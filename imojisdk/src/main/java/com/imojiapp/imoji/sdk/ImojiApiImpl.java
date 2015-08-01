@@ -292,42 +292,6 @@ class ImojiApiImpl extends ImojiApi {
             acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), null);
         }
 
-        private void execute(final Command command) {
-
-            //check that all dependencies have been satisfied
-            if (command.isDependencySatisfied(this)) {
-                command.run();             //we are good, so just execute the command and return
-                return;
-            }
-
-            //schedule timeout and failure handling
-            mHandler.removeCallbacksAndMessages(command);
-            mHandler.postAtTime(new Runnable() {
-                @Override
-                public void run() {
-                    boolean removed = false;
-                    synchronized (ExecutionManager.class) {
-                        removed = mPendingCommands.remove(command);
-                    }
-
-                    if (removed) {
-                        if (command.mErrCallback != null) {
-                            command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
-                        }
-                    }
-
-                }
-            }, command, command.mExpiration);
-
-            //add the command to the list of pending commands
-            synchronized (ExecutionManager.class) {
-                //otherwise, add the command to the queue
-                mPendingCommands.add(command);
-                command.satisfyDependencies(this);
-            }
-
-        }
-
         private synchronized void acquireOauthToken(final String clientId, final String clientSecret, final String refreshToken) {
 
             if (clientId == null || clientSecret == null) { //hacky way right now
@@ -393,27 +357,6 @@ class ImojiApiImpl extends ImojiApi {
             }
         }
 
-        void executePendingCommands() {
-
-            //execute all pending commands
-            synchronized (ExecutionManager.class) {
-                Command c;
-                List<Command> executionList = new ArrayList<>();
-                while ((c = mPendingCommands.poll()) != null) {
-                    executionList.add(c);
-                }
-
-                if (!executionList.isEmpty()) { //prevent recursion by reading all from the queue, and then executing them again
-                    for (Command cmd : executionList) {
-                        //remove all the queued messages to remove the commands
-                        mHandler.removeCallbacksAndMessages(cmd);
-                        ExecutionManager.this.execute(cmd); //execute the command, which may then require another dependency to be resolved
-                    }
-
-                }
-            }
-        }
-
         private synchronized void startExternalOauth() {
             if (!mIsAcquiringExternalToken) {
                 mIsAcquiringExternalToken = true;
@@ -470,6 +413,75 @@ class ImojiApiImpl extends ImojiApi {
 
         }
 
+        /**
+         * Executes a command if all dependencies are met. If a dependency isn't satisfied,
+         * the Command is first placed on a queue, then an attempt is made to satisfy the
+         * dependency. A timeout is also scheduled in case the dependency cannot be satisfied
+         * in time.
+         * @param command The command to execute
+         */
+        private void execute(final Command command) {
+
+            //check that all dependencies have been satisfied
+            if (command.isDependencySatisfied(this)) {
+                command.run();             //we are good, so just execute the command and return
+                return;
+            }
+
+            //schedule timeout and failure handling
+            mHandler.removeCallbacksAndMessages(command);
+            mHandler.postAtTime(new Runnable() {
+                @Override
+                public void run() {
+                    boolean removed = false;
+                    synchronized (ExecutionManager.class) {
+                        removed = mPendingCommands.remove(command);
+                    }
+
+                    if (removed) {
+                        if (command.mErrCallback != null) {
+                            command.mErrCallback.onFailure(Status.TIMEOUT_FAILURE);
+                        }
+                    }
+
+                }
+            }, command, command.mExpiration);
+
+            //add the command to the list of pending commands
+            synchronized (ExecutionManager.class) {
+                //otherwise, add the command to the queue
+                mPendingCommands.add(command);
+                command.satisfyDependencies(this);
+            }
+
+        }
+
+        /**
+         * Executes all commands in the pending queue. This occurs after a dependency has been
+         * resolved
+         */
+        void executePendingCommands() {
+
+            //execute all pending commands
+            synchronized (ExecutionManager.class) {
+                Command c;
+                List<Command> executionList = new ArrayList<>();
+                while ((c = mPendingCommands.poll()) != null) {
+                    executionList.add(c);
+                }
+
+                if (!executionList.isEmpty()) { //prevent recursion by reading all from the queue, and then executing them again
+                    for (Command cmd : executionList) {
+                        //remove all the queued messages to remove the commands
+                        mHandler.removeCallbacksAndMessages(cmd);
+                        ExecutionManager.this.execute(cmd); //execute the command, which may then require another dependency to be resolved
+                    }
+
+                }
+            }
+        }
+
+
         String getOauthToken() {
             return mOauthToken;
         }
@@ -490,7 +502,6 @@ class ImojiApiImpl extends ImojiApi {
 
         void satisfyDependencies(ExecutionManager executionManager);
     }
-
 
     private class OauthDependency implements ExecutionDependency {
 

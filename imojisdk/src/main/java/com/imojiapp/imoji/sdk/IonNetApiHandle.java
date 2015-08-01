@@ -28,7 +28,6 @@ import java.util.concurrent.ExecutionException;
  */
 class IonNetApiHandle extends ImojiNetworkingInterface {
 
-    private static final String LOG_TAG = ImojiNetApiHandle.class.getSimpleName();
     private Context mContext;
 
     public IonNetApiHandle(Context context) {
@@ -36,11 +35,10 @@ class IonNetApiHandle extends ImojiNetworkingInterface {
     }
 
     private Builders.Any.B setStandardHeaders(Builders.Any.B requestBuilder) {
-        return requestBuilder.addHeader("x-client-version", "2.0.0")
+        return requestBuilder.addHeader("imoji-sdk-version", "2.0.0")
                 .addHeader("x-client-model", "android")
                 .addHeader("x-client-os-version", Build.VERSION.RELEASE);
     }
-
 
     void getFeaturedImojis(int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
@@ -58,7 +56,6 @@ class IonNetApiHandle extends ImojiNetworkingInterface {
                 })
                 .setCallback(new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
-
 
     void searchImojis(String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
         String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
@@ -153,7 +150,6 @@ class IonNetApiHandle extends ImojiNetworkingInterface {
             grantType = "refresh_token";
         }
         try {
-            Log.d(LOG_TAG, "calling ion");
             return setStandardHeaders(Ion.with(mContext).load("POST", Api.Endpoints.OAUTH_TOKEN))
                     .addHeader("Authorization", "Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE))
                     .setBodyParameter(Api.Params.GRANT_TYPE, grantType)
