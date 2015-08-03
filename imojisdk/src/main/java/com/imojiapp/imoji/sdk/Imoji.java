@@ -3,16 +3,30 @@ package com.imojiapp.imoji.sdk;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sajjadtabib on 4/6/15.
  */
 public class Imoji {
 
+
     private String id;
     private ArrayList<String> tags;
     private Object urls;
     private Image images;
+
+
+    public Imoji() {
+    }
+
+    Imoji(String id, Image images, ArrayList<String> tags) {
+
+        this.id = id;
+        this.images = images;
+        this.tags = tags;
+    }
+
 
 
     public String getImojiId() {

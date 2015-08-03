@@ -1,5 +1,9 @@
 package com.imojiapp.imoji.sdk;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Created by sajjadtabib on 4/7/15.
  */
@@ -9,24 +13,40 @@ public class ImojiCategory {
         String NONE = "none";
         String TRENDING = "trending";
         String GENERIC = "generic";
-    } 
+    }
 
-    private String id;
+    private Imoji mImoji;
+
+    private String imojiId;
 
     private String title;
 
-    private Imoji imoji; //why is imoji an object and not a string???
+    private String searchText;
 
-    public String getId() {
-        return id;
-    }
+    private Imoji.Image images;
 
     public String getTitle() {
         return title;
     }
 
+    public String getSearchText(){ return searchText; }
+
+    /**
+     * @deprecated use {@link #getSearchText()}
+     * @return the search text
+     */
+    @Deprecated
+    public String getId() {
+        return searchText;
+    }
+
     public Imoji getImoji() {
-        return imoji;
+
+        if (mImoji == null) {
+            mImoji = new Imoji(imojiId, images, new ArrayList<>(Arrays.asList(new String[]{searchText})));
+        }
+
+        return mImoji;
     }
 
 }
