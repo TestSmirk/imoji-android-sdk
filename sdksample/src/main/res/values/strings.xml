@@ -6,4 +6,7 @@
     <string name="create_imoji">Create Imoji</string>
     <string name="title_activity_search_imoji">SearchImojiActivity</string>
     <string name="title_activity_trending_imoji">TrendingImojiActivity</string>
+    <string name="title_activity_imoji_category">ImojiCategoryActivity</string>
+    <string name="title_activity_user_imojis">UserImojisActivity</string>
+    <string name="search_query">Search Query</string>
 </resources>
