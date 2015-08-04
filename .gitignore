@@ -8,3 +8,4 @@
 /app/build
 /sdksample/build
 /imojisdk/build
+*.iml
