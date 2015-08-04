@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
@@ -120,7 +118,6 @@ public class UserImojisActivity extends Activity {
 
     /**
      * Create a broadcast receiver that extends com.imojiapp.imoji.sdk.ExternalGrantReceiver
-     *
      */
     public static class ExternalGrantReceiver extends com.imojiapp.imoji.sdk.ExternalGrantReceiver {
         private final String LOG_TAG = ExternalGrantReceiver.class.getSimpleName();

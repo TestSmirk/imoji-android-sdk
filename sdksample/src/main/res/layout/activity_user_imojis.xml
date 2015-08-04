@@ -24,34 +24,35 @@
         android:text="User Access Granted?"/>
 
     <TextView
-        android:layout_below="@id/bt_get_user_access"
         android:id="@+id/tv_granted"
         android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/bt_get_user_access"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/tv_granted_label"
         android:textSize="22dp"/>
 
     <LinearLayout
-        android:layout_marginTop="32dp"
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv_granted_label"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
         android:visibility="gone">
 
         <Button
-            android:text="@string/get_user_imojis"
             android:id="@+id/bt_get_user_imojis"
             android:layout_width="match_parent"
-            android:layout_height="56dp"/>
+            android:layout_height="56dp"
+            android:text="@string/get_user_imojis"/>
 
         <GridView
             android:id="@+id/gv_imoji_grid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></GridView>
+            android:layout_height="match_parent"
+            android:numColumns="4"></GridView>
     </LinearLayout>
 
 </RelativeLayout>
