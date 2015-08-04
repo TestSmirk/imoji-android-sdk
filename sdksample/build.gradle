@@ -36,7 +36,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.google.guava:guava:18.0'
     compile project(':imojisdk')
