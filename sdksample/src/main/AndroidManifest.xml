@@ -21,7 +21,7 @@
         </activity>
 
         <receiver
-            android:name=".ExternalGrantReceiver"
+            android:name=".UserImojisActivity$ExternalGrantReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.imojiapp.imoji.oauth.external.GRANT"/>
