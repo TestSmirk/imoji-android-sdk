@@ -58,7 +58,7 @@ uploadArchives {
         def deployPath = file(getProperty('aar.deployPath'))
         repository(url: "file://${deployPath.absolutePath}")
         pom.project {
-            groupId 'com.imojiapp.imoji'
+            groupId 'com.imojiapp'
             artifactId 'imoji-sdk'
             version android.defaultConfig.versionName
         }
