@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -17,6 +18,7 @@ import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
+import com.imojiapp.imoji.sdksample.utils.Utils;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ import butterknife.InjectView;
 public class SearchImojiActivity extends Activity {
 
     private static final String LOG_TAG = SearchImojiActivity.class.getSimpleName();
+    public static final String QUERY_BUNDLE_ARG_KEY = "QUERY_BUNDLE_ARG_KEY";
 
     @InjectView(R.id.et_search)
     EditText mSearchEt;
@@ -54,6 +57,21 @@ public class SearchImojiActivity extends Activity {
                 return false;
             }
         });
+
+        mImojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Imoji imoji = (Imoji) parent.getItemAtPosition(position);
+                Utils.launchImojiPopupWindow(SearchImojiActivity.this, imoji);
+            }
+        });
+
+        //let's check to see if we have a query in the intent
+        if (getIntent().hasExtra(QUERY_BUNDLE_ARG_KEY)) {
+            String query = getIntent().getStringExtra(QUERY_BUNDLE_ARG_KEY);
+            mSearchEt.setText(query);
+            doSearch(query);
+        }
     }
 
     private void doSearch(String query) {

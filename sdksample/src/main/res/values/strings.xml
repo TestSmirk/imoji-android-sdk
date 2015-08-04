@@ -9,4 +9,12 @@
     <string name="title_activity_imoji_category">ImojiCategoryActivity</string>
     <string name="title_activity_user_imojis">UserImojisActivity</string>
     <string name="search_query">Search Query</string>
+    <string name="load_trending_imojis">Load Trending Imojis</string>
+    <string name="tags">Tags</string>
+    <string name="imoji_id">Imoji Id</string>
+    <string name="load_all_categories">Load All Categories</string>
+    <string name="load_emticon_categories">Load Emoticon Categories</string>
+    <string name="load_trending_categories">Load Trending Categories</string>
+    <string name="title">Title</string>
+    <string name="search_text">Search Text</string>
 </resources>
