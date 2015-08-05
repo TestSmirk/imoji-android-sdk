@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
@@ -26,11 +25,11 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by sajjadtabib on 4/6/15.
  */
-class IonNetApiHandle extends ImojiNetworkingInterface {
+class IonNetApiImpl extends ImojiNetworkingInterface {
 
     private Context mContext;
 
-    public IonNetApiHandle(Context context) {
+    public IonNetApiImpl(Context context) {
         mContext = context;
     }
 

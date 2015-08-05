@@ -1,19 +1,9 @@
 package com.imojiapp.imoji.sdk;
 
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
-import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
-import com.imojiapp.imoji.sdk.networking.responses.ErrorResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
-import com.koushikdutta.async.future.FutureCallback;
 
-import java.lang.reflect.Type;
 import java.util.List;
-
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Created by sajjadtabib on 5/28/15.

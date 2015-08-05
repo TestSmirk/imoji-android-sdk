@@ -2,10 +2,6 @@ package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
 
-import com.koushikdutta.ion.builder.Builders;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-
 import java.util.List;
 
 /**
@@ -19,8 +15,6 @@ public abstract class ImojiApi {
     protected static volatile ImojiApi sInstance;
     protected int mDefaultNumResults;
     protected Context mContext;
-    protected Picasso mPicasso;
-
 
     /**
      * Asynchronous call that fetches featured imojis
@@ -68,8 +62,8 @@ public abstract class ImojiApi {
     /**
      * Asynchronously retrieves a list of server generated imoji categories
      *
-     * @param cb a callback, called on the main thread, to notify when categories are fetched or whether
-     *           it failed
+     * @param cb             a callback, called on the main thread, to notify when categories are fetched or whether
+     *                       it failed
      * @param classification A com.imojiapp.imoji.sdk.ImojiCategory.Classification
      */
     public abstract void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb);
@@ -77,35 +71,10 @@ public abstract class ImojiApi {
     /**
      * This method requires that your client has been granted
      * user level access via initiateUserOauth
+     *
      * @return a list of the user's collection imojis
      */
     public abstract void getUserImojis(Callback<List<Imoji>, String> cb);
-
-
-    /**
-     * Helper class to load imoji thumbs given an Imoji object.
-     * For more information on how to use the RequestCreator,
-     * take a look at Square's Picasso Library http://square.github.io/picasso/
-     *
-     * @param imoji   an imoji object
-     * @return a Picasso RequestCreator object used to load bitmaps
-     */
-    public abstract RequestCreator loadThumb(Imoji imoji);
-
-    /**
-     * Helper class to load full imojis given an Imoji object.
-     * For more information on how to use the RequestCreator,
-     * take a look at Square's Picasso Library http://square.github.io/picasso/
-     *
-     * @param imoji   an imoji object
-     * @return a Picasso RequestCreator object used to load bitmaps
-     */
-    public abstract RequestCreator loadFull(Imoji imoji);
-
-
-    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji);
-
-    public abstract Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji);
 
     /**
      * Takes user to imojiapp so that they can create an imoji.
@@ -117,13 +86,14 @@ public abstract class ImojiApi {
     /**
      * Initiates flow to give your client access to a user's personal imojis.
      * You must register a broadcast receiver that extends
+     *
+     * @param statusCallback callback with information regarding the result of the call
      * @see com.imojiapp.imoji.sdk.ExternalGrantReceiver with an intent-filter action set to
      * com.imojiapp.imoji.oauth.external.GRANT and an intent-filter category of
      * com.imojiapp.imoji.category.EXTERNAL_CATEGORY
      * If access is granted, the broadcast receiver will have the mGranted field set to true.
      * Note that if the device does not have 'imoji' installed, the user will get redirected
      * to the play store so they can download imojiapp
-     * @param statusCallback callback with information regarding the result of the call
      */
     public abstract void initiateUserOauth(Callback<String, String> statusCallback);
 
@@ -133,25 +103,15 @@ public abstract class ImojiApi {
     public abstract void getImojisById(List<String> imojiIds, Callback<List<Imoji>, String> cb);
 
     /**
-     *
+     * Adds an imoji to the user's collection
      */
     public abstract void addImojiToUserCollection(String imojiId, Callback<String, String> cb);
 
     /**
-     * Sets the picasso instance for the SDK to work with
-     */
-    public abstract void setPicassoInstance(Picasso picasso);
-
-    /**
-     * Retrieves the current picasso instance
-     * @return
-     */
-    public abstract Picasso getPicassoInstance();
-
-    /**
      * Initialize the API instance
-     * @param context context used for api operations
-     * @param clientId your client id
+     *
+     * @param context      context used for api operations
+     * @param clientId     your client id
      * @param clientSecret your api client secret
      */
     public static void init(Context context, final String clientId, final String clientSecret) {
@@ -160,10 +120,11 @@ public abstract class ImojiApi {
 
     /**
      * Initialize the API
-     * @param context context used for api operations
-     * @param clientId your client id
+     *
+     * @param context      context used for api operations
+     * @param clientId     your client id
      * @param clientSecret your api client secret
-     * @param instance a previously initialized api instance
+     * @param instance     a previously initialized api instance
      */
     public static void init(Context context, final String clientId, final String clientSecret, ImojiApi instance) {
         SharedPreferenceManager.init(context);
@@ -183,7 +144,6 @@ public abstract class ImojiApi {
     }
 
     /**
-     *
      * @param context
      * @return Instance of ImojiApi to perform API operations. NOTE: You must have called #init before calling this method
      */
@@ -205,45 +165,28 @@ public abstract class ImojiApi {
      * This class providers some configuration options
      */
     public static class Builder {
-        private ImojiApi mApi;
         private Context mContext;
+        private int mDefaultNumResults = DEFAULT_RESULTS;
 
         public Builder(Context context) {
-            mApi = new ImojiApiImpl(context);
             mContext = context;
         }
 
         /**
          * Sets the default number of search/featured restuls to return
+         *
          * @param numResults
          * @return
          */
         public Builder defaultResultCount(int numResults) {
-            mApi.mDefaultNumResults = numResults;
-            return this;
-        }
-
-        /**
-         * Initializes the SDK to work with this Picasso instance
-         * @param picasso
-         * @return
-         */
-        public Builder setPicassoInstance(Picasso picasso) {
-            mApi.mPicasso = picasso;
+            mDefaultNumResults = numResults;
             return this;
         }
 
         public ImojiApi build() {
-            try {
-                Class.forName("com.squareup.picasso.Picasso");
-                Class.forName("retrofit.RequestInterceptor");
-                if ( mApi.mPicasso == null) {
-                     mApi.mPicasso = new Picasso.Builder(mContext).build();
-                }
-
-            } catch( ClassNotFoundException e ) {
-            }
-            return mApi;
+            ImojiApi api = new ImojiApiImpl(mContext);
+            api.mDefaultNumResults = mDefaultNumResults;
+            return api;
         }
     }
 

@@ -40,6 +40,7 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.google.guava:guava:18.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile project(':imojisdk')
 //    compile 'com.imojiapp.imoji:imoji-sdk:0.1.0@aar'
 

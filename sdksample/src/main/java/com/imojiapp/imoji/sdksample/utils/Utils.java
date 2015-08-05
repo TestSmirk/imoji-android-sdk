@@ -17,6 +17,7 @@ import com.google.common.base.Joiner;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdksample.R;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 
@@ -37,7 +38,7 @@ public class Utils {
         TextView idTv = ButterKnife.findById(v, R.id.tv_imoji_id);
         ImageButton closeBtn = ButterKnife.findById(v, R.id.ib_close);
 
-        ImojiApi.with(activity).loadFull(imoji).into(imojiIv);
+        Picasso.with(activity).load(imoji.getThumbUrl()).into(imojiIv);
         tagsTv.setText(Joiner.on(", ").join(imoji.getTags()));
         idTv.setText(imoji.getImojiId());
 

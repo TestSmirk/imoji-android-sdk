@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -140,7 +141,7 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
             }
 
             ImojiCategory category = getItem(position);
-            ImojiApi.with(getContext()).loadThumb(category.getImoji()).into(holder.mImojiIv);
+            Picasso.with(getContext()).load(category.getImoji().getThumbUrl()).into(holder.mImojiIv);
             holder.mTitleTv.setText(category.getTitle());
             holder.mSearchTextTv.setText(category.getSearchText());
 

@@ -10,10 +10,6 @@ import android.os.SystemClock;
 
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.builder.Builders;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,15 +30,14 @@ class ImojiApiImpl extends ImojiApi {
         mContext = context;
         SharedPreferenceManager.init(context);
         try {
-            Class.forName("com.squareup.picasso.Picasso");
             Class.forName("retrofit.RequestInterceptor");
-            mINetworking = new ImojiNetApiHandle(context);
+            mINetworking = new RetrofitNetApiImpl(context);
         } catch (ClassNotFoundException e) {
             try {
                 Class.forName("com.koushikdutta.ion.Ion");
-                mINetworking = new IonNetApiHandle(context);
+                mINetworking = new IonNetApiImpl(context);
             } catch (ClassNotFoundException e1) {
-                throw new IllegalStateException("Picasso/Retrofit or koush/ion dependency missing");
+                throw new IllegalStateException("Retrofit or koush/ion dependency missing");
             }
         }
         mExecutionManager = new ExecutionManager(context, mINetworking);
@@ -123,27 +118,6 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
-    @Override
-    public RequestCreator loadThumb(Imoji imoji) {
-        return mPicasso.load(imoji.getThumbImageUrl());
-
-    }
-
-    @Override
-    public RequestCreator loadFull(Imoji imoji) {
-        return mPicasso.load(imoji.getUrl());
-    }
-
-    @Override
-    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadThumbWithIon(Imoji imoji) {
-        return Ion.with(mContext).load(imoji.getThumbImageUrl()).withBitmap();
-
-    }
-
-    @Override
-    public Builders.Any.BF<? extends Builders.Any.BF<?>> loadFullWithIon(Imoji imoji) {
-        return Ion.with(mContext).load(imoji.getUrl()).withBitmap();
-    }
 
     @Override
     public void createImoji() {
@@ -231,16 +205,6 @@ class ImojiApiImpl extends ImojiApi {
                 mINetworking.addImojiToUserCollection(imojiId, cb);
             }
         });
-    }
-
-    @Override
-    public void setPicassoInstance(Picasso picasso) {
-        mPicasso = picasso;
-    }
-
-    @Override
-    public Picasso getPicassoInstance() {
-        return mPicasso;
     }
 
     void executePendingCommands() {
@@ -418,6 +382,7 @@ class ImojiApiImpl extends ImojiApi {
          * the Command is first placed on a queue, then an attempt is made to satisfy the
          * dependency. A timeout is also scheduled in case the dependency cannot be satisfied
          * in time.
+         *
          * @param command The command to execute
          */
         private void execute(final Command command) {
