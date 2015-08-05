@@ -68,19 +68,19 @@ public class Imoji implements Parcelable{
         return new ArrayList<>(tags);
     }
 
-    String getThumbImageUrl() {
+    public String getThumbUrl() {
         return images.png.image150.url;
     }
 
-    String getUrl() {
+    public String getUrl() {
         return images.png.image1200.url;
     }
 
-    String getWebpThumbImageUrl() {
+    public String getWebpThumbUrl() {
         return images.webp.image150.url;
     }
 
-    String getWebpFullImageUrl() {
+    public String getWebpUrl() {
         return images.webp.image1200.url;
     }
 
