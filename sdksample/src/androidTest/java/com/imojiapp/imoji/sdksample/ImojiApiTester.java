@@ -247,7 +247,6 @@ public class ImojiApiTester extends AndroidTestCase {
             @Override
             public void onSuccess(List<Imoji> result) {
                 Imoji i = result.get(0);
-                ImojiApi.with(getContext()).loadThumb(i, null).into(target);
             }
 
             @Override
@@ -295,7 +294,6 @@ public class ImojiApiTester extends AndroidTestCase {
             public void onSuccess(List<Imoji> result) {
                 Log.d("test", "on success thread id: " + Thread.currentThread().getId());
                 Imoji i = result.get(0);
-                ImojiApi.with(getContext()).loadFull(i, null).into(target);
             }
 
             @Override

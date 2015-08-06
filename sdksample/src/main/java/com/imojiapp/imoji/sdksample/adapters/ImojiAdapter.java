@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdksample.R;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 

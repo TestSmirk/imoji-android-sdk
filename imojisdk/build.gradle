@@ -50,7 +50,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.koushikdutta.ion:ion:2.1.4' //optional dependency
+    compile 'com.koushikdutta.ion:ion:2.1.4'
 }
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
