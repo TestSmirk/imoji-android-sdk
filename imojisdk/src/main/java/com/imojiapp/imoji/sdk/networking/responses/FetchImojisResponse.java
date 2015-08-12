@@ -10,10 +10,10 @@ import java.util.List;
  * Created by sajjadtabib on 11/26/14.
  */
 public class FetchImojisResponse extends BasicResponse<List<Imoji>> {
-    public LinkedHashMap<String, Imoji> results;
+    public ArrayList<Imoji> results;
 
     @Override
     public List<Imoji> getPayload() {
-        return new ArrayList<>(results.values());
+        return results;
     }
 }
