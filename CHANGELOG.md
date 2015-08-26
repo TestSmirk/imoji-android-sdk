@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+## 0.5.2
+* Add 2nd Imoji Package as one able to grant external access
+
 ## 0.5.1
 * Update fetchImojisById response structure 
 
