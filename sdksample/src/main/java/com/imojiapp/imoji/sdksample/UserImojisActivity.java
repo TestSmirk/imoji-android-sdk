@@ -41,6 +41,9 @@ public class UserImojisActivity extends Activity {
     @InjectView(R.id.ll_container)
     View mContainer;
 
+    @InjectView(R.id.bt_create_imoji)
+    Button mCreateImoji;
+
     boolean mIsGettingAccess;
     boolean mAccessGranted;
 
@@ -61,6 +64,13 @@ public class UserImojisActivity extends Activity {
             @Override
             public void onClick(View v) {
                 getUserImojis();
+            }
+        });
+
+        mCreateImoji.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImojiApi.with(UserImojisActivity.this).createImoji();
             }
         });
 

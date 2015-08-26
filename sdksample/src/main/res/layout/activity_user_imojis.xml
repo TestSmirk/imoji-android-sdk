@@ -48,6 +48,12 @@
             android:layout_height="56dp"
             android:text="@string/get_user_imojis"/>
 
+        <Button
+            android:id="@+id/bt_create_imoji"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/create_imoji_for_user"/>
+
         <GridView
             android:id="@+id/gv_imoji_grid"
             android:layout_width="match_parent"
