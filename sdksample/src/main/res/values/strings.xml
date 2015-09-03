@@ -19,4 +19,5 @@
     <string name="search_text">Search Text</string>
     <string name="get_user_imojis">Get User Imojis</string>
     <string name="create_imoji_for_user">Create Imoji for User</string>
+    <string name="title_activity_search_as_you_type_imoji">SearchAsYouTypeImojiActivity</string>
 </resources>
