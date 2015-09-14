@@ -53,6 +53,17 @@
         </activity>
 
         <activity
+            android:name=".SentanceSearchActivity"
+            android:label="Sentence Search Activity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.imojiapp.imoji.sdksample.MainActivity"/>
+            <meta-data android:name="imoji-sample-name"
+                       android:value="Search imojis based on a sentence"/>
+        </activity>
+
+        <activity
             android:name=".TrendingImojiActivity"
             android:label="@string/title_activity_trending_imoji"
             android:parentActivityName=".MainActivity">
