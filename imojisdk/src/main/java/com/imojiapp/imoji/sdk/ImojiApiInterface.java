@@ -18,6 +18,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 /**
  * Created by sajjadtabib on 4/6/15.
@@ -50,7 +51,7 @@ interface ImojiApiInterface {
 
     @GET("/imoji/search")
     void searchImojis(
-            @FieldMap Map<String, String> params,
+            @QueryMap Map<String, String> params,
             Callback<ImojiSearchResponse> cb);
 
     @FormUrlEncoded
