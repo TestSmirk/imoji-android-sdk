@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="super_touch_previous_rotate" type="id"></item>
+    <item name="super_touch_previous_x" type="id"></item>
+    <item name="super_touch_previous_y" type="id"></item>
+    <item name="super_touch_previous_scale_x" type="id"></item>
+    <item name="super_touch_previous_scale_y" type="id"></item>
+</resources>

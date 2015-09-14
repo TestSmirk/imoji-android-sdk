@@ -10,7 +10,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/imojisdk" />
-            <option value="$PROJECT_DIR$/sdksample" />
+            <option value="$PROJECT_DIR$/samples" />
+            <option value="$PROJECT_DIR$/samples/keywordsearch" />
+            <option value="$PROJECT_DIR$/samples/photo" />
+            <option value="$PROJECT_DIR$/samples/reactions" />
+            <option value="$PROJECT_DIR$/samples/sdksample" />
+            <option value="$PROJECT_DIR$/samples/search" />
+            <option value="$PROJECT_DIR$/samples/sentenceparsing" />
+            <option value="$PROJECT_DIR$/samples/trending" />
           </set>
         </option>
       </GradleProjectSettings>
