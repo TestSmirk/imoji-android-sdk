@@ -20,6 +20,7 @@ import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -82,6 +83,13 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
             count = String.valueOf(numResults);
         }
         RetrofitNetApiImpl.get(mContext).searchImojis(apiToken, query, offset, count, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
+    }
+
+    @Override
+    void searchImojis(Map<String, String> params, Callback<List<Imoji>, String> callback) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        params.put(Api.Params.ACCESS_TOKEN, apiToken);
+        RetrofitNetApiImpl.get(mContext).searchImojis(params, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
     @Override

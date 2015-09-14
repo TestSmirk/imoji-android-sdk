@@ -8,8 +8,11 @@ import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
+import java.util.Map;
+
 import retrofit.Callback;
 import retrofit.http.Field;
+import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -43,6 +46,11 @@ interface ImojiApiInterface {
             @Query("query") String query,
             @Query("offset") int offset,
             @Query("numResults") String numResults,
+            Callback<ImojiSearchResponse> cb);
+
+    @GET("/imoji/search")
+    void searchImojis(
+            @FieldMap Map<String, String> params,
             Callback<ImojiSearchResponse> cb);
 
     @FormUrlEncoded

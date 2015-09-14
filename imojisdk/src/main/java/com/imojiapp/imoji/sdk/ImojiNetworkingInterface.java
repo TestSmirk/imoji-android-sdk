@@ -4,6 +4,7 @@ import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sajjadtabib on 5/28/15.
@@ -12,6 +13,8 @@ abstract class ImojiNetworkingInterface {
     abstract void getFeaturedImojis(int offset, int numResults, Callback<List<Imoji>, String> callback);
 
     abstract void searchImojis(String query, int offset, int numResults, Callback<List<Imoji>, String> callback);
+
+    abstract void searchImojis(Map<String, String> params, Callback<List<Imoji>, String> callback);
 
     abstract void getImojiCategories(Callback<List<ImojiCategory>, String> cb);
 

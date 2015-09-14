@@ -20,6 +20,7 @@ import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -73,6 +74,22 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
                 })
                 .setCallback(new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
 
+    }
+
+    @Override
+    void searchImojis(Map<String, String> params, Callback<List<Imoji>, String> callback) {
+        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+
+        Builders.Any.B builder = setStandardHeaders(Ion.with(mContext)
+                .load("GET", Api.Endpoints.IMOJI_SEARCH))
+                .addQuery(Api.Params.ACCESS_TOKEN, apiToken);
+
+        for (String key : params.keySet()) {
+            builder = builder.addQuery(key, params.get(key));
+        }
+
+        builder.as(new TypeToken<ImojiSearchResponse>() {})
+                .setCallback(new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
     void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {

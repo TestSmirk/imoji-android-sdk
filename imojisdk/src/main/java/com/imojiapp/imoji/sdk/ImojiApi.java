@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdk;
 import android.content.Context;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sajjadtabib on 4/6/15.
@@ -51,6 +52,13 @@ public abstract class ImojiApi {
 
 
     /**
+     * @param params A map of params {@link com.imojiapp.imoji.sdk.Api.SearchParams}
+     * @param cb a callback, called on the main thread, to notify the status of searching imojis
+     */
+    public abstract void search(Map<String, String> params, Callback<List<Imoji>, String> cb);
+
+
+    /**
      * Asynchronously retrieves a list of server generated imoji categories
      *
      * @param cb a callback, called on the main thread, to notify when categories are fetched or whether
@@ -66,7 +74,7 @@ public abstract class ImojiApi {
      *                       it failed
      * @param classification A com.imojiapp.imoji.sdk.ImojiCategory.Classification
      */
-    public abstract void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb);
+    public abstract void getImojiCategories(String classification, final Callback<List<ImojiCategory>, String> cb);
 
     /**
      * This method requires that your client has been granted

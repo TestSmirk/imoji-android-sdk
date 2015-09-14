@@ -14,6 +14,7 @@ import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -85,6 +86,16 @@ class ImojiApiImpl extends ImojiApi {
             }
         });
 
+    }
+
+    @Override
+    public void search(final Map<String, String> params, final Callback<List<Imoji>, String> cb) {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
+            @Override
+            public void run() {
+                mINetworking.searchImojis(params, cb);
+            }
+        });
     }
 
     @Override

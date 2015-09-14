@@ -3,7 +3,7 @@ package com.imojiapp.imoji.sdk;
 /**
  * Created by sajjadtabib on 5/28/15.
  */
-class Api{
+public class Api{
 
     interface Endpoints {
         String IMOJI_FEATURED_FETCH = Config.BASE_URL + "/imoji/featured/fetch";
@@ -20,6 +20,7 @@ class Api{
         String OFFSET = "offset";
         String NUMRESULTS = "numResults";
         String QUERY = "query";
+        String SENTENCE = "sentence";
         String ACCESS_TOKEN = "access_token";
         String IDS = "ids";
         String CLASSIFICATION = "classification";
@@ -27,5 +28,12 @@ class Api{
         String GRANT_TYPE = "grant_type";
         String REFRESH_TOKEN = "refresh_token";
         String CLIENTID = "clientId";
+    }
+
+    public interface SearchParams {
+        String OFFSET = Params.OFFSET;
+        String NUM_RESULTS = Params.NUMRESULTS;
+        String QUERY = Params.QUERY;
+        String SENTENCE = Params.SENTENCE;
     }
 }
