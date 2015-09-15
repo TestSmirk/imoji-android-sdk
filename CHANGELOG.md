@@ -1,5 +1,9 @@
 # Imoji SDK Change Log
 
+## 0.5.3
+* Added a new search method to the API so that you can pass a map of params
+* You can now perform a sentance search with the search api
+
 ## 0.5.2
 * Add 2nd Imoji Package as one able to grant external access
 
