@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:windowSoftInputMode="adjustNothing"
             android:name=".PhotoEditorActivity"
             android:label="@string/app_name" >
             <intent-filter>

@@ -5,6 +5,7 @@
 
 
     <FrameLayout
+        android:layout_above="@id/rg_bottom_bar"
         android:id="@+id/tab_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

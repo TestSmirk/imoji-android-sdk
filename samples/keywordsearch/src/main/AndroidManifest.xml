@@ -6,7 +6,7 @@
                  android:icon="@mipmap/ic_launcher"
                  android:theme="@style/AppTheme">
 
-        <activity android:name=".FullAppActivity">
+        <activity android:name=".FullAppActivity" android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>

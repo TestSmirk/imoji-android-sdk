@@ -8,7 +8,7 @@
     <string name="title_activity_trending_imoji">TrendingImojiActivity</string>
     <string name="title_activity_imoji_category">ImojiCategoryActivity</string>
     <string name="title_activity_user_imojis">UserImojisActivity</string>
-    <string name="search_query">Search Query</string>
+    <string name="search_query">Search Stickers</string>
     <string name="load_trending_imojis">Load Trending Imojis</string>
     <string name="tags">Tags</string>
     <string name="imoji_id">Imoji Id</string>

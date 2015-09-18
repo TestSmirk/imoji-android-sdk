@@ -31,7 +31,7 @@ public class PhotoEditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImojiSearchFragment f = ImojiSearchFragment.newInstance();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().addToBackStack(null).add(R.id.container, f).commitAllowingStateLoss();
             }
         });
     }

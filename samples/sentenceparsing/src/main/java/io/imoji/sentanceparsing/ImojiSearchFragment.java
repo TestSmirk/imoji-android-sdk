@@ -17,11 +17,14 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.imojiapp.imoji.sdk.Api;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.imoji.searchsample.R;
 
@@ -118,15 +121,17 @@ public class ImojiSearchFragment extends Fragment {
     }
 
     private void doSearch(String query) {
-        ImojiApi.with(getActivity()).search(query, new Callback<List<Imoji>, String>() {
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Api.SearchParams.QUERY, query);
+        params.put(Api.SearchParams.SENTENCE, String.valueOf(true));
+
+        ImojiApi.with(getActivity()).search(params, new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {
-                if (isResumed()) {
-                    ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, result);
-                    mImojiGrid.setAdapter(adapter);
-                    mProgress.setVisibility(View.GONE);
-
-                }
+                ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, result);
+                mImojiGrid.setAdapter(adapter);
+                mProgress.setVisibility(View.GONE);
             }
 
             @Override
@@ -135,6 +140,7 @@ public class ImojiSearchFragment extends Fragment {
                 Log.d(LOG_TAG, "failed with error: " + error);
             }
         });
+
     }
 
 }

@@ -23,7 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile ('com.imojiapp:imoji-sdk:+@aar'){
+    compile ('com.imojiapp:imoji-sdk:0.5.3@aar'){
         transitive=true
         exclude group: 'com.koushikdutta.ion'
     }
