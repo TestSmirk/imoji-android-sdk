@@ -8,6 +8,7 @@
     <EditText
         android:id="@+id/et_search"
         android:layout_width="match_parent"
+        android:paddingLeft="16dp"
         android:hint="@string/search_query"
         android:layout_height="56dp"
         android:imeOptions="actionDone"

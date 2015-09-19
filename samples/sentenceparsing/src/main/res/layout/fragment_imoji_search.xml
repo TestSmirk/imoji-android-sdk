@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:hint="@string/enter_a_sentence"
         android:layout_height="56dp"
+        android:paddingLeft="16dp"
         android:imeOptions="actionDone"
         android:inputType="text"/>
 

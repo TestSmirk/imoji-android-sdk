@@ -10,6 +10,7 @@
         android:hint="@string/search_query"
         android:layout_height="56dp"
         android:imeOptions="actionDone"
+        android:paddingLeft="16dp"
         android:inputType="text"/>
 
     <GridView

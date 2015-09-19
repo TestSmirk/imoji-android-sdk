@@ -5,7 +5,7 @@
 
 
     <FrameLayout
-        android:layout_above="@id/rg_bottom_bar"
+        android:layout_above="@+id/rg_bottom_bar"
         android:id="@+id/tab_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
             android:drawableTop="@drawable/nav_trending_selector"
             android:gravity="center"
             android:paddingTop="10dp"/>

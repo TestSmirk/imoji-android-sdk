@@ -59,7 +59,7 @@ public class ImojiCategoryFragment extends Fragment {
                 if (isResumed()) {
                     ImojiCategory category = (ImojiCategory) parent.getItemAtPosition(position);
                     ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getSearchText());
-                    getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container, f).commit();
+                    getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.tab_container, f).commit();
                 }
             }
         });
