@@ -123,8 +123,9 @@ public class ImojiSearchFragment extends Fragment {
     private void doSearch(String query) {
 
         Map<String, String> params = new HashMap<>();
-        params.put(Api.SearchParams.QUERY, query);
-        params.put(Api.SearchParams.SENTENCE, String.valueOf(true));
+        params.put(Api.SearchParams.SENTENCE, query);
+        params.put(Api.SearchParams.OFFSET, String.valueOf(0));
+        params.put(Api.SearchParams.NUM_RESULTS, String.valueOf(60));
 
         ImojiApi.with(getActivity()).search(params, new Callback<List<Imoji>, String>() {
             @Override
