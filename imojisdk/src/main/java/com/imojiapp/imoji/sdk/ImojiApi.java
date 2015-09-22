@@ -101,7 +101,7 @@ public abstract class ImojiApi {
      * @param tags List of public tags for tagging this imoji, i.e 'cool', 'lol', 'hot'
      * @param cb A callback called on the main thread, providing information about the imoji within an CreateImojiResponse
      */
-    public abstract void createImoji(Bitmap bitmap, List<String> tags, Callback<CreateImojiResponse, String> cb);
+    public abstract void createImoji(Bitmap bitmap, List<String> tags, Callback<Imoji, String> cb);
 
 
     /**

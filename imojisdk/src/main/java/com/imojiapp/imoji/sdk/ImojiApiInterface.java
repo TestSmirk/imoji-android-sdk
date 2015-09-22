@@ -63,6 +63,12 @@ interface ImojiApiInterface {
             @Field("ids") String imojiIds,
             Callback<FetchImojisResponse> cb);
 
+    @FormUrlEncoded
+    @POST("/imoji/fetchMultiple")
+    FetchImojisResponse fetchImojis(
+            @Field("access_token") String accessToken,
+            @Field("ids") String imojiIds);
+
     @GET("/imoji/search")
     ImojiSearchResponse searchImojis(
             @Query("access_token") String accessToken,

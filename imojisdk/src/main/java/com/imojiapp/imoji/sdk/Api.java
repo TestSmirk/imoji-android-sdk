@@ -30,6 +30,8 @@ public class Api{
         String REFRESH_TOKEN = "refresh_token";
         String CLIENTID = "clientId";
         String TAGS = "tags";
+        String HAS_FULL_IMAGE = "hasFullImage";
+        String HAS_THUMB_IMAGE = "hasThumbnailImage";
     }
 
     public interface SearchParams {

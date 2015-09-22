@@ -119,6 +119,16 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
     }
 
     @Override
+    FetchImojisResponse getImojisById(List<String> ids) {
+        try {
+            return RetrofitNetApiImpl.get(mContext).fetchImojis(getApiToken(), TextUtils.join(",", ids));
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
         String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb) {

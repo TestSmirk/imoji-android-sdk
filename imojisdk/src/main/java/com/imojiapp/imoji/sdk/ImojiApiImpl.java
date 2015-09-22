@@ -132,21 +132,27 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
-    public void createImoji(Bitmap bitmap, final List<String> tags, final Callback<CreateImojiResponse, String> cb) {
+    public void createImoji(final Bitmap bitmap, final List<String> tags, final Callback<Imoji, String> cb) {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
 
             @Override
             public void run() {
+                ImojiUploadTask task = new ImojiUploadTask(mINetworking, bitmap, tags, new ImojiUploadTask.OnImojiUploadCompleteListener() {
+                    @Override
+                    public void onImojiUploadComplete(Imoji imoji) {
+                        if (imoji != null) {
+                            cb.onSuccess(imoji);
+                        } else {
+                            cb.onFailure(Status.IMOJI_CREATE_FAILED);
+                        }
+                    }
+                });
 
-                //1. create the imoji model
-                CreateImojiResponse response = mINetworking.createImoji(tags);
-
-                //2. upload the imoji
-
-                //3. ack the imoji
-
-                //4. notify user
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    task.execute();
+                }
             }
         });
     }

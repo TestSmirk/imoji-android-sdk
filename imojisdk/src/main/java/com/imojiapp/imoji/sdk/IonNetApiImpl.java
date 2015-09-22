@@ -15,6 +15,7 @@ import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -138,6 +139,25 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
 
     }
 
+    @Override
+    FetchImojisResponse getImojisById(List<String> ids) {
+        String apiToken = getApiToken();
+        try {
+            return setStandardHeaders(Ion.with(mContext)
+                    .load("POST", Api.Endpoints.IMOJI_FETCHMULTIPLE))
+                    .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
+                    .setBodyParameter(Api.Params.IDS, TextUtils.join(",", ids))
+                    .as(new TypeToken<FetchImojisResponse>() {
+                    }).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
         String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
@@ -203,9 +223,29 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
         try {
             return setStandardHeaders(Ion.with(mContext)
                     .load("POST", Api.Endpoints.IMOJI_CREATE))
-                    .setBodyParameter(Api.Params.TAGS, tags != null  ? TextUtils.join(",", tags) : null)
                     .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
+                    .setBodyParameter(Api.Params.TAGS, tags != null  ? TextUtils.join(",", tags) : null)
                     .as(new TypeToken<CreateImojiResponse>() {
+                    })
+                    .get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb) {
+        try {
+            return setStandardHeaders(Ion.with(mContext)
+                    .load("POST", Api.Endpoints.IMOJI_CREATE))
+                    .setBodyParameter(Api.Params.ACCESS_TOKEN, getApiToken())
+                    .setBodyParameter(Api.Params.HAS_FULL_IMAGE, String.valueOf(hasFull ? 1 : 0))
+                    .setBodyParameter(Api.Params.HAS_THUMB_IMAGE, String.valueOf(hasThumb ? 1 : 0))
+                    .as(new TypeToken<ImojiAckResponse>() {
                     })
                     .get();
         } catch (InterruptedException e) {

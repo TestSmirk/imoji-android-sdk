@@ -2,6 +2,7 @@ package com.imojiapp.imoji.sdk;
 
 import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
+import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 
@@ -25,6 +26,8 @@ abstract class ImojiNetworkingInterface {
     abstract void getUserImojis(Callback<List<Imoji>, String> cb);
 
     abstract void getImojisById(List<String> ids, Callback<List<Imoji>, String> cb);
+
+    abstract FetchImojisResponse getImojisById(List<String> ids);
 
     abstract void addImojiToUserCollection(String imojiId, Callback<String, String> cb);
 
