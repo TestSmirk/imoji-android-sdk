@@ -69,19 +69,36 @@ public class Imoji implements Parcelable{
     }
 
     public String getThumbUrl() {
-        return images.png.image150.url;
+        try {
+            return images.png.image150.url;
+        } catch (NullPointerException e) {
+
+        }
+        return null;
     }
 
     public String getUrl() {
-        return images.png.image1200.url;
+        try {
+            return images.png.image1200.url;
+        } catch (NullPointerException e) {
+        }
+        return null;
     }
 
     public String getWebpThumbUrl() {
-        return images.webp.image150.url;
+        try {
+            return images.webp.image150.url;
+        } catch (NullPointerException e) {
+        }
+        return null;
     }
 
     public String getWebpUrl() {
-        return images.webp.image1200.url;
+        try {
+            return images.webp.image1200.url;
+        } catch (NullPointerException e) {
+        }
+        return null;
     }
 
     static class Image implements Parcelable{
