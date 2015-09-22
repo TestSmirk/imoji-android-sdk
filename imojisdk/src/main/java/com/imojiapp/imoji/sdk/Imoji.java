@@ -2,6 +2,7 @@ package com.imojiapp.imoji.sdk;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -68,6 +69,10 @@ public class Imoji implements Parcelable{
         return new ArrayList<>(tags);
     }
 
+    /**
+     * @return the thumb url or null if the thumb is not ready or does not exist
+     */
+    @Nullable
     public String getThumbUrl() {
         try {
             return images.png.image150.url;
@@ -77,6 +82,7 @@ public class Imoji implements Parcelable{
         return null;
     }
 
+    @Nullable
     public String getUrl() {
         try {
             return images.png.image1200.url;
@@ -85,6 +91,7 @@ public class Imoji implements Parcelable{
         return null;
     }
 
+    @Nullable
     public String getWebpThumbUrl() {
         try {
             return images.webp.image150.url;
@@ -93,6 +100,7 @@ public class Imoji implements Parcelable{
         return null;
     }
 
+    @Nullable
     public String getWebpUrl() {
         try {
             return images.webp.image1200.url;
