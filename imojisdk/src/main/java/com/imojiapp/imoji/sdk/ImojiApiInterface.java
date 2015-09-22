@@ -1,11 +1,13 @@
 package com.imojiapp.imoji.sdk;
 
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.util.Map;
@@ -108,5 +110,20 @@ interface ImojiApiInterface {
             @Field("access_token") String accessToken,
             @Field("clientId") String clientId,
             Callback<ExternalOauthPayloadResponse> cb);
+
+
+    @FormUrlEncoded
+    @POST("/imoji/create")
+    CreateImojiResponse createImoji(@Field("access_token") String access_token,
+                                    @Field("tags") String tags);
+
+
+    @FormUrlEncoded
+    @POST("/imoji/ackImageUpload")
+    ImojiAckResponse ackImojiImage(@Field("access_token") String access_token,
+                                   @Field("imojiId") String imojiId,
+                                   @Field("hasFullImage") int hasFullImage,
+                                   @Field("hasThumbnailImage") int hasThumb);
+
 
 }

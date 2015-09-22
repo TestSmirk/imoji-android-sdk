@@ -1,7 +1,9 @@
 package com.imojiapp.imoji.sdk;
 
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +31,9 @@ abstract class ImojiNetworkingInterface {
     abstract GetAuthTokenResponse getAuthToken(String clientId, String clientSecret, String refreshToken);
 
     abstract void requestExternalOauth(String clientId, Callback<ExternalOauthPayloadResponse, String> cb);
+
+    abstract CreateImojiResponse createImoji(List<String> tags);
+
+    abstract ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb);
 
 }

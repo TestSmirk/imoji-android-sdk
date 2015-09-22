@@ -14,6 +14,7 @@ public class Api{
         String USER_IMOJI_COLLECTION_ADD = Config.BASE_URL + "/user/imoji/collection/add";
         String OAUTH_TOKEN = Config.BASE_URL + "/oauth/token";
         String OAUTH_EXTERNAL_GETIDPAYLOAD = Config.BASE_URL + "/oauth/external/getIdPayload";
+        String IMOJI_CREATE = Config.BASE_URL + "/imoji/create";
     }
 
     interface Params {
@@ -28,6 +29,7 @@ public class Api{
         String GRANT_TYPE = "grant_type";
         String REFRESH_TOKEN = "refresh_token";
         String CLIENTID = "clientId";
+        String TAGS = "tags";
     }
 
     public interface SearchParams {

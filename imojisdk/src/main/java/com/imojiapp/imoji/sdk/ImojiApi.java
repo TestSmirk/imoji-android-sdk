@@ -1,6 +1,9 @@
 package com.imojiapp.imoji.sdk;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -89,7 +92,17 @@ public abstract class ImojiApi {
      * If imojiapp does not exist, then the user is taken to the
      * Google Play store to download imojiapp.
      */
+    @Deprecated
     public abstract void createImoji();
+
+    /**
+     * Creates an "imoji" model object on the backend
+     * @param bitmap A Bitmap object to upload as an imoji, this object should not have an outline.
+     * @param tags List of public tags for tagging this imoji, i.e 'cool', 'lol', 'hot'
+     * @param cb A callback called on the main thread, providing information about the imoji within an CreateImojiResponse
+     */
+    public abstract void createImoji(Bitmap bitmap, List<String> tags, Callback<CreateImojiResponse, String> cb);
+
 
     /**
      * Initiates flow to give your client access to a user's personal imojis.

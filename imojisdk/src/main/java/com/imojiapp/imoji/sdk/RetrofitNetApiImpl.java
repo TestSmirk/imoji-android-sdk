@@ -10,12 +10,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ErrorResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 
 import java.lang.reflect.Type;
@@ -65,7 +67,7 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
 
     @Override
     void getFeaturedImojis(int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -77,7 +79,7 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
 
     @Override
     void searchImojis(String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -87,38 +89,38 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
 
     @Override
     void searchImojis(Map<String, String> params, Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         params.put(Api.Params.ACCESS_TOKEN, apiToken);
         RetrofitNetApiImpl.get(mContext).searchImojis(params, new CallbackWrapper<ImojiSearchResponse, List<Imoji>>(callback));
     }
 
     @Override
     void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).getImojiCategories(apiToken, ImojiCategory.Classification.NONE, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
     @Override
     void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).getImojiCategories(apiToken, classification, new CallbackWrapper<GetCategoryResponse, List<ImojiCategory>>(cb));
     }
 
     @Override
     void getUserImojis(com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).getUserImojis(apiToken, new CallbackWrapper<GetUserImojiResponse, List<Imoji>>(cb));
     }
 
     @Override
     void getImojisById(List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).fetchImojis(apiToken, TextUtils.join(",", ids), new CallbackWrapper<FetchImojisResponse, List<Imoji>>(cb));
     }
 
     @Override
     void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).addImojiToUserCollection(apiToken, imojiId, new CallbackWrapper<AddImojiToCollectionResponse, String>(cb) {
             @Override
             public void success(AddImojiToCollectionResponse result, Response response) {
@@ -150,13 +152,36 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
 
     @Override
     void requestExternalOauth(String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         RetrofitNetApiImpl.get(mContext).requestExternalOauth(apiToken, clientId, new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
+    @Override
+    CreateImojiResponse createImoji(List<String> tags) {
+        String apiToken = getApiToken();
+        try {
+            return RetrofitNetApiImpl.get(mContext).createImoji(apiToken, (tags != null ? TextUtils.join(",", tags) : null));
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb) {
+        try {
+            return RetrofitNetApiImpl.get(mContext).ackImojiImage(getApiToken(), imojiId, hasFull ? 1 : 0, hasThumb ? 1 : 0);
+        } catch (RetrofitError error) {
+            error.printStackTrace();
+        }
+
+        return null;
+    }
+
+
     /* Synchronous Methods */
     List<Imoji> getFeaturedImojis(int offset, int numResults) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -174,7 +199,7 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
     }
 
     List<Imoji> searchImojis(String query, int offset, int numResults) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -194,7 +219,7 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
     }
 
     List<ImojiCategory> getImojiCategories() {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         try {
             GetCategoryResponse response = RetrofitNetApiImpl.get(mContext).getImojiCategories(apiToken);
             if (response != null && response.isSuccess()) {
@@ -206,6 +231,10 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
         }
 
         return null;
+    }
+
+    private String getApiToken() {
+        return SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
     }
 
     private static class CallbackWrapper<T extends BasicResponse<V>, V> implements retrofit.Callback<T> {

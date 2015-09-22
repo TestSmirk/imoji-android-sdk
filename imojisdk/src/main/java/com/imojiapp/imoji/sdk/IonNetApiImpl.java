@@ -9,6 +9,7 @@ import android.util.Base64;
 import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
@@ -41,7 +42,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void getFeaturedImojis(int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -58,7 +59,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void searchImojis(String query, int offset, int numResults, final com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         String count = null;
         if (numResults > 0) {
             count = String.valueOf(numResults);
@@ -78,7 +79,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
 
     @Override
     void searchImojis(Map<String, String> params, Callback<List<Imoji>, String> callback) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
 
         Builders.Any.B builder = setStandardHeaders(Ion.with(mContext)
                 .load("GET", Api.Endpoints.IMOJI_SEARCH))
@@ -93,7 +94,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void getImojiCategories(final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
 
         setStandardHeaders(Ion.with(mContext)
                 .load("GET", Api.Endpoints.IMOJI_CATEGORIES_FETCH))
@@ -105,7 +106,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void getImojiCategories(String classification, final com.imojiapp.imoji.sdk.Callback<List<ImojiCategory>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
                 .load("GET", Api.Endpoints.IMOJI_CATEGORIES_FETCH))
                 .addQuery(Api.Params.ACCESS_TOKEN, apiToken)
@@ -116,7 +117,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void getUserImojis(com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
                 .load("GET", Api.Endpoints.USER_IMOJI_FETCH))
                 .addQuery(Api.Params.ACCESS_TOKEN, apiToken)
@@ -126,7 +127,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void getImojisById(List<String> ids, com.imojiapp.imoji.sdk.Callback<List<Imoji>, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
                 .load("POST", Api.Endpoints.IMOJI_FETCHMULTIPLE))
                 .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
@@ -138,7 +139,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void addImojiToUserCollection(String imojiId, com.imojiapp.imoji.sdk.Callback<String, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
                 .load("POST", Api.Endpoints.USER_IMOJI_COLLECTION_ADD))
                 .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
@@ -182,7 +183,7 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
     }
 
     void requestExternalOauth(String clientId, com.imojiapp.imoji.sdk.Callback<ExternalOauthPayloadResponse, String> cb) {
-        String apiToken = SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+        String apiToken = getApiToken();
         setStandardHeaders(Ion.with(mContext)
                 .load("POST", Api.Endpoints.OAUTH_EXTERNAL_GETIDPAYLOAD))
                 .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
@@ -190,6 +191,30 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
                 .as(new TypeToken<ExternalOauthPayloadResponse>() {
                 })
                 .setCallback(new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
+    }
+
+    private String getApiToken() {
+        return SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+    }
+
+    @Override
+    CreateImojiResponse createImoji(List<String> tags) {
+        String apiToken = getApiToken();
+        try {
+            return setStandardHeaders(Ion.with(mContext)
+                    .load("POST", Api.Endpoints.IMOJI_CREATE))
+                    .setBodyParameter(Api.Params.TAGS, tags != null  ? TextUtils.join(",", tags) : null)
+                    .setBodyParameter(Api.Params.ACCESS_TOKEN, apiToken)
+                    .as(new TypeToken<CreateImojiResponse>() {
+                    })
+                    .get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private static class CallbackWrapper<T extends BasicResponse<V>, V> implements FutureCallback<T> {

@@ -3,11 +3,13 @@ package com.imojiapp.imoji.sdk;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 
+import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 
@@ -129,6 +131,27 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
+    @Override
+    public void createImoji(Bitmap bitmap, final List<String> tags, final Callback<CreateImojiResponse, String> cb) {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
+
+            @Override
+            public void run() {
+
+                //1. create the imoji model
+                CreateImojiResponse response = mINetworking.createImoji(tags);
+
+                //2. upload the imoji
+
+                //3. ack the imoji
+
+                //4. notify user
+
+            }
+        });
+    }
+
+
 
     @Override
     public void createImoji() {
@@ -147,6 +170,8 @@ class ImojiApiImpl extends ImojiApi {
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public void initiateUserOauth(final Callback<String, String> statusCallback) {
