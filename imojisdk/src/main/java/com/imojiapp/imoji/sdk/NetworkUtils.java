@@ -14,11 +14,12 @@ import java.util.Map;
 /**
  * Created by sajjadtabib on 9/22/15.
  */
-public class NetworkUtils {
+class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    static boolean upload(URL url, byte[] data, Map<String, String> requestProperties) {
+    //implement retry logic
+    static boolean putObject(URL url, byte[] data, Map<String, String> requestProperties) {
 
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
