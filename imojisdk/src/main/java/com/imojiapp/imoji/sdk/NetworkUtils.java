@@ -18,7 +18,7 @@ class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    //implement retry logic
+    //implement retry logic?
     static boolean putObject(URL url, byte[] data, Map<String, String> requestProperties) {
 
         try {
@@ -37,7 +37,9 @@ class NetworkUtils {
 
             int responseCode = connection.getResponseCode();
 
-            Log.d(LOG_TAG, "Response code " + responseCode);
+            if (responseCode != 200) {
+                return false;
+            }
 
             return true; //only if response code was success
 
