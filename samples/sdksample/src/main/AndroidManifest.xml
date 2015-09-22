@@ -95,6 +95,18 @@
             <meta-data android:name="imoji-sample-name"
                        android:value="Get User Imojis"/>
         </activity>
+
+        <activity
+            android:name=".CreateImojiActivity"
+            android:label="@string/title_activity_user_imojis"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.imojiapp.imoji.sdksample.MainActivity"/>
+            <meta-data android:name="imoji-sample-name"
+                       android:value="Create Imoji"/>
+        </activity>
+
     </application>
 
 </manifest>
