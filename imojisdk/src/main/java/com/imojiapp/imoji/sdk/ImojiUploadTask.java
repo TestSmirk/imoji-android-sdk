@@ -38,26 +38,19 @@ class ImojiUploadTask extends AsyncTask<Void, Void, Imoji>{
     @Override
     protected  Imoji doInBackground(Void... params) {
 
-        //create imoji failed
-        Log.d(LOG_TAG, "start create imoji");
         //1. Create imoji
         CreateImojiResponse createResponse = mApiHandle.createImoji(mTags);
         if (createResponse == null || !createResponse.isSuccess()) {
             return null;
         }
-        Log.d(LOG_TAG, "create success");
 
         //2. Prepare imoji for upload
         byte[] fullImageData = prepareImageDataForUpload(mBitmap, createResponse.fullImageResizeWidth, createResponse.fullImageResizeHeight);
         byte[] thumbImageData = prepareImageDataForUpload(mBitmap, createResponse.resizeWidth, createResponse.resizeHeight);
 
-        Log.d(LOG_TAG, "prepare success");
-
         //3. Upload
         boolean fullUploadStatus = upload(createResponse.fullImageUrl, fullImageData);
         boolean thumbUploadStatus = upload(createResponse.thumbImageUrl, thumbImageData);
-
-        Log.d(LOG_TAG, "full upload status: " + fullUploadStatus + " thumbUploadStatus: " + thumbUploadStatus);
 
         //4. ack the upload
         ImojiAckResponse ackResponse = mApiHandle.ackImoji(createResponse.imojiId, fullUploadStatus, thumbUploadStatus);
@@ -65,11 +58,9 @@ class ImojiUploadTask extends AsyncTask<Void, Void, Imoji>{
             return null;
         }
 
-        Log.d(LOG_TAG, "app success");
         //5. Fetch the newly created imoji
         FetchImojisResponse response = mApiHandle.getImojisById(Arrays.asList(new String[]{createResponse.imojiId}));
         if (response != null && response.isSuccess() && response.getPayload().size() > 0) {
-            Log.d(LOG_TAG, "fetch success");
             return response.getPayload().get(0);
         }
 
