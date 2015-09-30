@@ -89,7 +89,7 @@ public class ImojiSearchFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String query = v.getText().toString();
                     mProgress.setVisibility(View.VISIBLE);
-                    mImm.hideSoftInputFromWindow(mSearchEt.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    mImm.hideSoftInputFromWindow(mSearchEt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     doSearch(query);
 
                     return true;
