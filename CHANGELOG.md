@@ -1,5 +1,11 @@
 # Imoji SDK Change Log
 
+## 0.6.1
+New api call to report abusive imojis
+
+## 0.6.0
+New endpoint to create an imoji from a bitmap
+
 ## 0.5.3
 * Added a new search method to the API so that you can pass a map of params
 * You can now perform a sentance search with the search api
