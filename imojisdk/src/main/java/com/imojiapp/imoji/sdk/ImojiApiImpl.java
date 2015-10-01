@@ -249,6 +249,16 @@ class ImojiApiImpl extends ImojiApi {
         });
     }
 
+    @Override
+    public void reportAbusiveImoji(final String imojiId, final Callback<String, String> cb) {
+        mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
+            @Override
+            public void run() {
+                mINetworking.reportAbusiveImoji(imojiId, cb);
+            }
+        });
+    }
+
     void executePendingCommands() {
         if (mExecutionManager != null) {
             mExecutionManager.executePendingCommands();

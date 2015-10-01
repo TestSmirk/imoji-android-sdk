@@ -129,6 +129,12 @@ public abstract class ImojiApi {
     public abstract void addImojiToUserCollection(String imojiId, Callback<String, String> cb);
 
     /**
+     * Report abusive imojis
+     */
+    public abstract void reportAbusiveImoji(String imojiId, Callback<String, String> cb);
+
+
+    /**
      * Initialize the API instance
      *
      * @param context      context used for api operations

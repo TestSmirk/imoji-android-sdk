@@ -19,6 +19,7 @@ import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ReportAbusiveResponse;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -186,6 +187,11 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
         }
 
         return null;
+    }
+
+    @Override
+    void reportAbusiveImoji(String imojiId, Callback<String, String> cb) {
+        RetrofitNetApiImpl.get(mContext).reportAbusiveImoji(getApiToken(), imojiId, new CallbackWrapper<ReportAbusiveResponse, String>(cb));
     }
 
 

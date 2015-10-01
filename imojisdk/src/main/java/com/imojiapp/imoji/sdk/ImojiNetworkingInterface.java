@@ -5,6 +5,7 @@ import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ReportAbusiveResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -38,5 +39,7 @@ abstract class ImojiNetworkingInterface {
     abstract CreateImojiResponse createImoji(List<String> tags);
 
     abstract ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb);
+
+    abstract void reportAbusiveImoji(String imojiId, Callback<String, String> cb);
 
 }

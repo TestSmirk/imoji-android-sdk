@@ -17,6 +17,7 @@ import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ReportAbusiveResponse;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
@@ -255,6 +256,17 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
         }
 
         return null;
+    }
+
+    @Override
+    void reportAbusiveImoji(String imojiId, Callback<String, String> cb) {
+        setStandardHeaders(Ion.with(mContext)
+                .load("POST", Api.Endpoints.REPORT_ABUSIVE_IMOJI))
+                .setBodyParameter(Api.Params.ACCESS_TOKEN, getApiToken())
+                .setBodyParameter(Api.Params.IMOJIID, imojiId)
+                .as(new TypeToken<ReportAbusiveResponse>() {
+                })
+                .setCallback(new CallbackWrapper<ReportAbusiveResponse, String>(cb));
     }
 
     private static class CallbackWrapper<T extends BasicResponse<V>, V> implements FutureCallback<T> {

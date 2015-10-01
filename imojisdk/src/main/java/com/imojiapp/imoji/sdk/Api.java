@@ -15,6 +15,7 @@ public class Api{
         String OAUTH_TOKEN = Config.BASE_URL + "/oauth/token";
         String OAUTH_EXTERNAL_GETIDPAYLOAD = Config.BASE_URL + "/oauth/external/getIdPayload";
         String IMOJI_CREATE = Config.BASE_URL + "/imoji/create";
+        String REPORT_ABUSIVE_IMOJI = Config.BASE_URL + "/imoji/reportAbusive";
     }
 
     interface Params {

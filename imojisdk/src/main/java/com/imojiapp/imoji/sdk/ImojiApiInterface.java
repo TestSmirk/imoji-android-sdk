@@ -9,6 +9,7 @@ import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
+import com.imojiapp.imoji.sdk.networking.responses.ReportAbusiveResponse;
 
 import java.util.Map;
 
@@ -131,5 +132,10 @@ interface ImojiApiInterface {
                                    @Field("hasFullImage") int hasFullImage,
                                    @Field("hasThumbnailImage") int hasThumb);
 
+
+    @FormUrlEncoded
+    @POST("/imoji/reportAbusive")
+    void reportAbusiveImoji(@Field("access_token") String access_token,
+                            @Field("imojiId") String imojiId, Callback<ReportAbusiveResponse> cb);
 
 }
