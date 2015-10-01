@@ -2,9 +2,8 @@
 
 
 ## Android Studio Setup
-1. Put the sdk aar file into ```libs``` folder
 
-2. In your ```builds.gradle``` file, add the following dependencies:
+1. In your ```builds.gradle``` file, add the following dependencies:
 
         
         compile ('com.imojiapp:imoji-sdk:+@aar') {
