@@ -103,7 +103,10 @@ public class HttpUtils {
 
         StringBuilder sb = new StringBuilder();
         for (String key : bodyParams.keySet()) {
-            sb.append(URLEncoder.encode(key, "UTF-8")).append("=").append(URLEncoder.encode(bodyParams.get(key), "UTF-8")).append("&");
+            String value = bodyParams.get(key);
+            if (value != null) {
+                sb.append(URLEncoder.encode(key, "UTF-8")).append("=").append(URLEncoder.encode(bodyParams.get(key), "UTF-8")).append("&");
+            }
         }
 
         if (sb.length() > 0) { //remove last '&'
