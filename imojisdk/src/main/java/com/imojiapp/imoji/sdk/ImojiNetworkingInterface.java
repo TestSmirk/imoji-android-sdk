@@ -14,6 +14,11 @@ import java.util.Map;
  * Created by sajjadtabib on 5/28/15.
  */
 abstract class ImojiNetworkingInterface {
+
+    String getApiToken() {
+        return SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
+    }
+
     abstract void getFeaturedImojis(int offset, int numResults, Callback<List<Imoji>, String> callback);
 
     abstract void searchImojis(String query, int offset, int numResults, Callback<List<Imoji>, String> callback);

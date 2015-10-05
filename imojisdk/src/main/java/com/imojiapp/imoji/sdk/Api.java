@@ -1,5 +1,7 @@
 package com.imojiapp.imoji.sdk;
 
+import android.os.Build;
+
 /**
  * Created by sajjadtabib on 5/28/15.
  */
@@ -15,7 +17,15 @@ public class Api{
         String OAUTH_TOKEN = Config.BASE_URL + "/oauth/token";
         String OAUTH_EXTERNAL_GETIDPAYLOAD = Config.BASE_URL + "/oauth/external/getIdPayload";
         String IMOJI_CREATE = Config.BASE_URL + "/imoji/create";
+        String IMOJI_ACK = Config.BASE_URL + "/imoji/ackImageUpload";
         String REPORT_ABUSIVE_IMOJI = Config.BASE_URL + "/imoji/reportAbusive";
+    }
+
+    interface Headers {
+        String AUTHORIZATION = "Authorization";
+        String SDK_VERSION = "imoji-sdk-version";
+        String CLIENT_MODEL = "x-client-model";
+        String CLIENT_OS_VERSION = "x-client-os-version";
     }
 
     interface Params {

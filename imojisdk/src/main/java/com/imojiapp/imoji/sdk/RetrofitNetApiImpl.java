@@ -249,10 +249,6 @@ class RetrofitNetApiImpl extends ImojiNetworkingInterface {
         return null;
     }
 
-    private String getApiToken() {
-        return SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-    }
-
     private static class CallbackWrapper<T extends BasicResponse<V>, V> implements retrofit.Callback<T> {
 
         private Callback<V, String> mCallback;

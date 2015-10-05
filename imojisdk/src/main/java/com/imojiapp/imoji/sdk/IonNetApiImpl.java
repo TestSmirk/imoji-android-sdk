@@ -214,10 +214,6 @@ class IonNetApiImpl extends ImojiNetworkingInterface {
                 .setCallback(new CallbackWrapper<ExternalOauthPayloadResponse, ExternalOauthPayloadResponse>(cb));
     }
 
-    private String getApiToken() {
-        return SharedPreferenceManager.getString(PrefKeys.TOKEN_PROPERTY, null);
-    }
-
     @Override
     CreateImojiResponse createImoji(List<String> tags) {
         String apiToken = getApiToken();

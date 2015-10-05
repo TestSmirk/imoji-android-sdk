@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 
-import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ExternalOauthPayloadResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 
@@ -32,17 +31,18 @@ class ImojiApiImpl extends ImojiApi {
     ImojiApiImpl(Context context) {
         mContext = context;
         SharedPreferenceManager.init(context);
-        try {
-            Class.forName("retrofit.RequestInterceptor");
-            mINetworking = new RetrofitNetApiImpl(context);
-        } catch (ClassNotFoundException e) {
-            try {
-                Class.forName("com.koushikdutta.ion.Ion");
-                mINetworking = new IonNetApiImpl(context);
-            } catch (ClassNotFoundException e1) {
-                throw new IllegalStateException("Retrofit or koush/ion dependency missing");
-            }
-        }
+        mINetworking = new ImojiNetworkingClientImpl();
+//        try {
+//            Class.forName("retrofit.RequestInterceptor");
+//            mINetworking = new RetrofitNetApiImpl(context);
+//        } catch (ClassNotFoundException e) {
+//            try {
+//                Class.forName("com.koushikdutta.ion.Ion");
+//                mINetworking = new IonNetApiImpl(context);
+//            } catch (ClassNotFoundException e1) {
+//                throw new IllegalStateException("Retrofit or koush/ion dependency missing");
+//            }
+//        }
         mExecutionManager = new ExecutionManager(context, mINetworking);
     }
 

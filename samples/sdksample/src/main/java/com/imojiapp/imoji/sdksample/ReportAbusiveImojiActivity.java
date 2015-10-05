@@ -3,6 +3,7 @@ package com.imojiapp.imoji.sdksample;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +21,7 @@ import butterknife.InjectView;
 
 public class ReportAbusiveImojiActivity extends AppCompatActivity {
 
-
+    private static final String LOG_TAG = ReportAbusiveImojiActivity.class.getSimpleName();
     private static final String ABUSIVE_IMOJI_ID = "ac6e038f-3392-46a6-a1fb-573cd2fea1cb";
 
     @InjectView(R.id.iv_imoji)
@@ -44,7 +45,7 @@ public class ReportAbusiveImojiActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String result) {
-
+                Log.d(LOG_TAG, "failed: " + result);
             }
         });
 
