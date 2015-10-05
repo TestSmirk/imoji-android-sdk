@@ -67,7 +67,6 @@ public class SimpleHttpClient {
         @Override
         public void run() {
             mExecutorService.shutdown();
-            Log.d(LOG_TAG, "shutting down executor service: ");
         }
     };
 
@@ -117,7 +116,6 @@ public class SimpleHttpClient {
                 connection.disconnect();
 
                 response = sb.toString();
-                Log.d(LOG_TAG, "" + response);
                 if (mSimpleHttpClientCallback != null) {
                     mSimpleHttpClientCallback.onSuccess(response);
                 }
