@@ -32,17 +32,6 @@ class ImojiApiImpl extends ImojiApi {
         mContext = context;
         SharedPreferenceManager.init(context);
         mINetworking = new ImojiNetworkingClientImpl();
-//        try {
-//            Class.forName("retrofit.RequestInterceptor");
-//            mINetworking = new RetrofitNetApiImpl(context);
-//        } catch (ClassNotFoundException e) {
-//            try {
-//                Class.forName("com.koushikdutta.ion.Ion");
-//                mINetworking = new IonNetApiImpl(context);
-//            } catch (ClassNotFoundException e1) {
-//                throw new IllegalStateException("Retrofit or koush/ion dependency missing");
-//            }
-//        }
         mExecutionManager = new ExecutionManager(context, mINetworking);
     }
 
@@ -132,6 +121,24 @@ class ImojiApiImpl extends ImojiApi {
     }
 
     @Override
+    public void createImoji() {
+        Intent intent;
+        if (!Utils.isImojiAppInstalled(mContext)) {
+            intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
+        } else {
+            intent = new Intent(ExternalIntents.Actions.INTENT_CREATE_IMOJI_ACTION);
+            intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        try {
+            mContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void createImoji(final Bitmap bitmap, final List<String> tags, final Callback<Imoji, String> cb) {
         mExecutionManager.execute(new Command(Arrays.asList(new ExecutionDependency[]{new OauthDependency()}), cb) {
 
@@ -156,28 +163,6 @@ class ImojiApiImpl extends ImojiApi {
             }
         });
     }
-
-
-
-    @Override
-    public void createImoji() {
-        Intent intent;
-        if (!Utils.isImojiAppInstalled(mContext)) {
-            intent = Utils.getPlayStoreIntent(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, mContext.getPackageName()));
-        } else {
-            intent = new Intent(ExternalIntents.Actions.INTENT_CREATE_IMOJI_ACTION);
-            intent.putExtra(ExternalIntents.BundleKeys.LANDING_PAGE_BUNDLE_ARG_KEY, ExternalIntents.BundleValues.CAMERA_PAGE);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-
-        try {
-            mContext.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     @Override
     public void initiateUserOauth(final Callback<String, String> statusCallback) {
@@ -265,16 +250,21 @@ class ImojiApiImpl extends ImojiApi {
         }
     }
 
+    private interface ExecutionDependency {
+        boolean isDependencySatisfied(ExecutionManager executionManager);
+
+        void satisfyDependencies(ExecutionManager executionManager);
+    }
+
     private static class ExecutionManager {
 
+        private final long mTimeoutMillis;
+        private final Handler mHandler = new Handler(); //UI Thread Handler
+        protected Queue<Command> mPendingCommands;
         private volatile String mOauthToken;
         private volatile String mRefreshToken;
         private volatile long mExpirationTime;
-        protected Queue<Command> mPendingCommands;
         private Context mContext;
-        private final long mTimeoutMillis;
-        private final Handler mHandler = new Handler(); //UI Thread Handler
-
         private volatile boolean mIsAcquiringExternalToken;
         private volatile boolean mIsAcquiringAuthToken;
         private ImojiNetworkingInterface mINetworking;
@@ -513,44 +503,11 @@ class ImojiApiImpl extends ImojiApi {
 
     }
 
-
-    private interface ExecutionDependency {
-        boolean isDependencySatisfied(ExecutionManager executionManager);
-
-        void satisfyDependencies(ExecutionManager executionManager);
-    }
-
-    private class OauthDependency implements ExecutionDependency {
-
-        @Override
-        public boolean isDependencySatisfied(ExecutionManager executionManager) {
-            return executionManager.getOauthToken() != null && executionManager.getExpirationTime() >= (System.currentTimeMillis() - 30 * 1000);
-        }
-
-        @Override
-        public void satisfyDependencies(ExecutionManager executionManager) {
-            executionManager.acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null));
-        }
-    }
-
-    private class ExternalAuthDependency implements ExecutionDependency {
-
-        @Override
-        public boolean isDependencySatisfied(ExecutionManager executionManager) {
-            return SharedPreferenceManager.getBoolean(PrefKeys.EXTERNAL_GRANT_STATUS, false);
-        }
-
-        @Override
-        public void satisfyDependencies(ExecutionManager executionManager) {
-            executionManager.startExternalOauth();
-        }
-    }
-
     private static abstract class Command implements Runnable, ExecutionDependency {
-        private int mRetries = 0;
         long mExpiration;
         List<ExecutionDependency> mExecutionDependencies;
         Callback<?, String> mErrCallback;
+        private int mRetries = 0;
 
 
         Command(List<ExecutionDependency> dependencies, Callback<?, String> errCallback) {
@@ -577,6 +534,32 @@ class ImojiApiImpl extends ImojiApi {
                     break; //satisfy dependencies one at a time
                 }
             }
+        }
+    }
+
+    private class OauthDependency implements ExecutionDependency {
+
+        @Override
+        public boolean isDependencySatisfied(ExecutionManager executionManager) {
+            return executionManager.getOauthToken() != null && executionManager.getExpirationTime() >= (System.currentTimeMillis() - 30 * 1000);
+        }
+
+        @Override
+        public void satisfyDependencies(ExecutionManager executionManager) {
+            executionManager.acquireOauthToken(SharedPreferenceManager.getString(PrefKeys.CLIENT_ID_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.CLIENT_SECRET_PROPERTY, null), SharedPreferenceManager.getString(PrefKeys.REFRESH_PROPERTY, null));
+        }
+    }
+
+    private class ExternalAuthDependency implements ExecutionDependency {
+
+        @Override
+        public boolean isDependencySatisfied(ExecutionManager executionManager) {
+            return SharedPreferenceManager.getBoolean(PrefKeys.EXTERNAL_GRANT_STATUS, false);
+        }
+
+        @Override
+        public void satisfyDependencies(ExecutionManager executionManager) {
+            executionManager.startExternalOauth();
         }
     }
 
