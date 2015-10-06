@@ -8,17 +8,7 @@
         
         compile ('com.imojiapp:imoji-sdk:+@aar') {
             transitive=true
-            exclude group: 'com.koushikdutta.ion'
         }
-        
-        OR if you would like to exclude retrofit and include ion
-        
-        compile ('com.imojiapp:imoji-sdk:+@aar') {
-            transitive=true
-            exclude group: 'com.squareup', module: 'retrofit'
-        }
-        
-        
 
 ### Simple Integration
 - Initialize the Api in your Application's onCreate() method.
