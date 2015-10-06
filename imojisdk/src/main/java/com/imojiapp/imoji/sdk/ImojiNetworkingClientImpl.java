@@ -8,7 +8,6 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 import com.imojiapp.imoji.sdk.networking.responses.AddImojiToCollectionResponse;
 import com.imojiapp.imoji.sdk.networking.responses.BasicResponse;
 import com.imojiapp.imoji.sdk.networking.responses.CreateImojiResponse;
@@ -105,14 +104,13 @@ public class ImojiNetworkingClientImpl extends ImojiNetworkingInterface {
         params.put(Api.Params.ACCESS_TOKEN, getApiToken());
         params.put(Api.Params.IDS, TextUtils.join(",", ids));
 
-        String jsonResponse = mHttpClient.get(Api.Endpoints.IMOJI_FETCHMULTIPLE, params, getDefaultHeaders());
+        String jsonResponse = mHttpClient.post(Api.Endpoints.IMOJI_FETCHMULTIPLE, params, getDefaultHeaders());
         if (jsonResponse == null) {
             return null;
         }
 
         try {
-            return sGson.fromJson(jsonResponse, new TypeToken<FetchImojisResponse>() {
-            }.getType());
+            return sGson.fromJson(jsonResponse, FetchImojisResponse.class);
         } catch (JsonParseException e) {
             e.printStackTrace();
         }

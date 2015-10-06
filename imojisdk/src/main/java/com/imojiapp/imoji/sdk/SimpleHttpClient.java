@@ -106,6 +106,16 @@ class SimpleHttpClient {
             String response = null;
 
             try {
+
+                int statusCode = connection.getResponseCode();
+                if (statusCode < 200 || statusCode >= 300) {
+                    if (mSimpleHttpClientCallback != null) {
+                        mSimpleHttpClientCallback.onFailure(NETWORK_ERROR);
+                    }
+
+                    return null;
+                }
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuilder sb = new StringBuilder();
                 String line;
