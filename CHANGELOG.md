@@ -1,5 +1,9 @@
 # Imoji SDK Change Log
 
+## 0.7.0
+Removed external networking library dependencies
+Implemented a networking stack based on Android's HttpUrlConnection
+
 ## 0.6.1
 New api call to report abusive imojis
 
