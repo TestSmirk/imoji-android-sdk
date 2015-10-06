@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by sajjadtabib on 10/2/15.
  */
-public class SimpleHttpClient {
+class SimpleHttpClient {
 
     private static final String LOG_TAG = SimpleHttpClient.class.getSimpleName();
     public static final String NETWORK_ERROR = "NETWORK_ERROR";
@@ -93,7 +93,7 @@ public class SimpleHttpClient {
             mSimpleHttpClientCallback = simpleHttpClientCallback;
         }
 
-        public abstract String execute();
+        abstract String execute();
 
         protected String readResponse(HttpURLConnection connection) {
             if (connection == null) {
@@ -104,6 +104,7 @@ public class SimpleHttpClient {
             }
 
             String response = null;
+
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuilder sb = new StringBuilder();
@@ -113,7 +114,6 @@ public class SimpleHttpClient {
                 }
 
                 reader.close();
-                connection.disconnect();
 
                 response = sb.toString();
                 if (mSimpleHttpClientCallback != null) {
@@ -125,6 +125,8 @@ public class SimpleHttpClient {
                 if (mSimpleHttpClientCallback != null) {
                     mSimpleHttpClientCallback.onFailure(NETWORK_ERROR);
                 }
+            }finally {
+                connection.disconnect();
             }
 
             return response;
@@ -149,7 +151,7 @@ public class SimpleHttpClient {
         }
 
         @Override
-        public String execute() {
+        String execute() {
             HttpURLConnection connection = HttpUtils.get(mEndpoint, mParams, mHeaders);
             return readResponse(connection);
         }
@@ -171,7 +173,7 @@ public class SimpleHttpClient {
         }
 
         @Override
-        public String execute() {
+        String execute() {
             HttpURLConnection connection = HttpUtils.post(mEndpoint, mParams, mHeaders);
             return readResponse(connection);
         }

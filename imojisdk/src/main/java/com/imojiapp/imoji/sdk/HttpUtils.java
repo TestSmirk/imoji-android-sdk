@@ -1,28 +1,19 @@
 package com.imojiapp.imoji.sdk;
 
-import android.net.Uri;
-import android.util.Log;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by sajjadtabib on 10/2/15.
  */
 public class HttpUtils {
-
 
 
     static HttpURLConnection get(String endpoint, Map<String, String> params, Map<String, String> headers) {
