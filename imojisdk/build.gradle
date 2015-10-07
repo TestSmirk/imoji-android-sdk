@@ -4,15 +4,15 @@ apply plugin: 'signing'
 
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 22
     buildToolsVersion "23.0.1"
     defaultPublishConfig "prodRelease"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 17
-        versionName "0.7.1"
+        targetSdkVersion 22
+        versionCode 18
+        versionName "0.7.2"
     }
     buildTypes {
 
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:22.+'
     compile 'com.google.code.gson:gson:2.4'
 }
 
