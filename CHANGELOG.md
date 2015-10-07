@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##0.7.2
+Set target sdk back to 22
+
 ##0.7.1
 Fix issue with broken create flow
 
