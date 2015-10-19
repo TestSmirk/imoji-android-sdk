@@ -1,1 +1,1 @@
-include ':imojisdk', 'samples:sdksample', 'samples:keywordsearch', 'samples:sentenceparsing', 'samples:search', 'samples:reactions', 'samples:trending', 'samples:photo'
+include ':imojisdk', ':triggers', 'samples:sdksample', 'samples:keywordsearch', 'samples:sentenceparsing', 'samples:search', 'samples:reactions', 'samples:trending', 'samples:photo'

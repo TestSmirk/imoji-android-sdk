@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/samples/search" />
             <option value="$PROJECT_DIR$/samples/sentenceparsing" />
             <option value="$PROJECT_DIR$/samples/trending" />
+            <option value="$PROJECT_DIR$/triggers" />
           </set>
         </option>
       </GradleProjectSettings>
