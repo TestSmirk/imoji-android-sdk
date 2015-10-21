@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/imojisdk" />
+            <option value="$PROJECT_DIR$/messaging" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/keywordsearch" />
             <option value="$PROJECT_DIR$/samples/photo" />

@@ -9,5 +9,6 @@
         android:id="@+id/iv_imoji"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginRight="30dp"
         android:layout_gravity="right"/>
 </LinearLayout>

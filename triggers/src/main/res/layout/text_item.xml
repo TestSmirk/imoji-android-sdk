@@ -7,6 +7,6 @@
           android:layout_height="48dp"
           android:background="#FFFFFF"
           android:gravity="center_vertical|left"
-          android:paddingLeft="16dp"
-          android:paddingRight="16dp"
+          android:paddingLeft="30dp"
+          android:paddingRight="30dp"
           android:textSize="20sp"/>
