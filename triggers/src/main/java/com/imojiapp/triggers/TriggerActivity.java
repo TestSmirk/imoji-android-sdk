@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,15 +96,19 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
 
+                    if (before != count && s.charAt(s.length() - 1) >= '0') {
+                        //if the last character was not alpha numerical, then don't do a search
+                        mHandler.removeCallbacks(mSearchRunnable);
+                        mHandler.postDelayed(mSearchRunnable, 100);
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    mHandler.removeCallbacks(mSearchRunnable);
-                    mHandler.postDelayed(mSearchRunnable, 100);
-                }
+
             }
         });
 
