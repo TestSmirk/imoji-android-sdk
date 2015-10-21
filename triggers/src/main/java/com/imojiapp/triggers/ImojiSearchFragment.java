@@ -79,7 +79,8 @@ public class ImojiSearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mImojiGrid.setLayoutManager(linearLayoutManager);
-
+        mImojiRecyclerAdapter = new ImojiRecyclerAdapter(getActivity());
+        mImojiGrid.setAdapter(mImojiRecyclerAdapter);
         mImojiGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -93,13 +94,17 @@ public class ImojiSearchFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null && mQuery != null) {
-            doSearch(mQuery);
+            doSearch(mQuery, false);
         }
     }
 
-    public void doSearch(String query) {
+    public void doSearch(String query, boolean sentence) {
         Map<String, String> params = new HashMap<>();
-        params.put(Api.SearchParams.SENTENCE, query);
+        if (sentence) {
+            params.put(Api.SearchParams.SENTENCE, query);
+        } else {
+            params.put(Api.SearchParams.QUERY, query);
+        }
         params.put(Api.SearchParams.OFFSET, String.valueOf(0));
         params.put(Api.SearchParams.NUM_RESULTS, String.valueOf(60));
 
@@ -108,8 +113,7 @@ public class ImojiSearchFragment extends Fragment {
             public void onSuccess(List<Imoji> result) {
                 if (isResumed()) {
                     if (result.size() > 0) {
-                        mImojiRecyclerAdapter = new ImojiRecyclerAdapter(getActivity(), result);
-                        mImojiGrid.setAdapter(mImojiRecyclerAdapter);
+                        mImojiRecyclerAdapter.setList(result);
                     }
                     mProgress.setVisibility(View.GONE);
                 }

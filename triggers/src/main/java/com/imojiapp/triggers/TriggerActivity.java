@@ -102,7 +102,7 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
             public void afterTextChanged(Editable s) {
                 if (s.length() > 0) {
                     mHandler.removeCallbacks(mSearchRunnable);
-                    mHandler.postDelayed(mSearchRunnable, 1000);
+                    mHandler.postDelayed(mSearchRunnable, 100);
                 }
             }
         });
@@ -140,7 +140,7 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
                 ImojiSearchFragment f = (ImojiSearchFragment) a.getSupportFragmentManager().findFragmentByTag(ImojiSearchFragment.FRAGMENT_TAG);
                 String text = a.mInputBar.getText().toString();
                 if (f != null) {
-                    f.doSearch(text);
+                    f.doSearch(text, true);
                 } else {
                     f = ImojiSearchFragment.newInstance(text);
                     a.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container, f, ImojiSearchFragment.FRAGMENT_TAG).commitAllowingStateLoss();

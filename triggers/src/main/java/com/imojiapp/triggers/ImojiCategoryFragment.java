@@ -52,8 +52,6 @@ public class ImojiCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        loadImojiCategories(mClassification);
-
         mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -67,15 +65,23 @@ public class ImojiCategoryFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mCategoryGrid.setLayoutManager(manager);
+        mCategoryAdapter = new ImojiCategoryRecyclerAdapter(getActivity());
+        mCategoryGrid.setAdapter(mCategoryAdapter);
+        loadImojiCategories(mClassification);
+    }
+
     private void loadImojiCategories(String classification) {
         ImojiApi.with(getActivity()).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
             @Override
             public void onSuccess(List<ImojiCategory> result) {
                 if (isResumed()) {
-                    mCategoryAdapter = new ImojiCategoryRecyclerAdapter(getActivity(), result);
-                    LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                    mCategoryGrid.setLayoutManager(manager);
-                    mCategoryGrid.setAdapter(mCategoryAdapter);
+                    mCategoryAdapter.setImojiCategories(result);
                 }
 
             }

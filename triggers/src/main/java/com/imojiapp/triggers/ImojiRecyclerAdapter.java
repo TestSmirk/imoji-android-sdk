@@ -2,6 +2,8 @@ package com.imojiapp.triggers;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +49,15 @@ public class ImojiRecyclerAdapter extends RecyclerView.Adapter<ImojiRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Imoji imoji = mItems.get(position);
+        String tags = TextUtils.join(" ", imoji.getTags());
+        Log.d("tags", tags);
         Picasso.with(mContext).load(imoji.getThumbUrl()).into(holder.mImojiIv);
 
+    }
+
+    public void setList(List<Imoji> imojis) {
+        mItems = imojis;
+        notifyDataSetChanged();
     }
 
     public Imoji getItemAt(int position) {

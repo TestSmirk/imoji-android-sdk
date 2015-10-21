@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/imoji-android-sdk.iml" filepath="$PROJECT_DIR$/imoji-android-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/imojisdk/imojisdk.iml" filepath="$PROJECT_DIR$/imojisdk/imojisdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/keywordsearch/keywordsearch.iml" filepath="$PROJECT_DIR$/samples/keywordsearch/keywordsearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messaging/messaging.iml" filepath="$PROJECT_DIR$/messaging/messaging.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/photo/photo.iml" filepath="$PROJECT_DIR$/samples/photo/photo.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/reactions/reactions.iml" filepath="$PROJECT_DIR$/samples/reactions/reactions.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/samples.iml" filepath="$PROJECT_DIR$/samples/samples.iml" />
