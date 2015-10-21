@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +66,9 @@ public class KeyboardFragment extends DialogFragment {
 //        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
 //        p.flags|= WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
         d.getWindow().addFlags(p.flags);
+        d.getWindow().setGravity(Gravity.BOTTOM);
 //        d.getWindow().addFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        d.getWindow().addFlags(WindowManager.LayoutParams.);
+//        d.getWindow().addFlags(WindowManager.LayoutParams.);
         d.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_ATTACHED_IN_DECOR);
         return d;
     }
