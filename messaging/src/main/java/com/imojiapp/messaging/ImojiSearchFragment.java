@@ -1,6 +1,7 @@
 package com.imojiapp.messaging;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -107,7 +108,6 @@ public class ImojiSearchFragment extends Fragment {
             }
         }));
 
-        mSearchEt.setVisibility(mShowInputBar ? View.VISIBLE : View.GONE);
         mSearchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -128,9 +128,7 @@ public class ImojiSearchFragment extends Fragment {
             }
         });
 
-        if (mShowInputBar) {
-            mProgress.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -139,6 +137,18 @@ public class ImojiSearchFragment extends Fragment {
         mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null && mQuery != null) {
             doSearch(mQuery, false);
+        }
+
+        if (mShowInputBar) {
+            mSearchEt.setTypeface(Typeface.DEFAULT_BOLD);
+            mSearchEt.getText().clear();
+            mProgress.setVisibility(View.GONE);
+            mSearchEt.requestFocus();
+            mImm.showSoftInput(mSearchEt, 0);
+        } else {
+            mSearchEt.setTypeface(Typeface.DEFAULT_BOLD);
+            mSearchEt.setText(mQuery.toUpperCase());
+
         }
     }
 

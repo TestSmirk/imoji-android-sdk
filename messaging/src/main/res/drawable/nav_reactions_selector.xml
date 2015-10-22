@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Selected-->
-    <item android:drawable="@drawable/nav_reactions_on" android:state_checked="true"></item>
+    <item android:drawable="@drawable/keyboard_reactions_active" android:state_checked="true"></item>
     <!-- Default-->
-    <item android:drawable="@drawable/nav_reactions_off"></item>
+    <item android:drawable="@drawable/keyboard_reactions"></item>
 </selector>

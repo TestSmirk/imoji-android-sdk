@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".MessagingActivity">
 
 
@@ -15,6 +16,7 @@
         android:layout_height="320dp"></FrameLayout>
 
     <ListView
+        android:animateLayoutChanges="true"
         android:layout_above="@id/keyboard_container"
         android:stackFromBottom="true"
         android:divider="@null"

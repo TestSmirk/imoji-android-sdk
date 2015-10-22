@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/nav_search_on" android:state_checked="true"></item>
-    <item android:drawable="@drawable/nav_search_off"></item>
+    <item android:drawable="@drawable/keyboard_search_active" android:state_checked="true"></item>
+    <item android:drawable="@drawable/keyboard_search"></item>
 </selector>

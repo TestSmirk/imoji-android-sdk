@@ -2,25 +2,30 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark"
+                android:background="#f6f6f6"
                 tools:context="com.imojiapp.imoji.sdksample.SearchImojiActivity">
 
     <EditText
-        android:hint="Search for an Imoji"
+        android:hint="Search Stickers"
+        android:textColorHint="#b2b4b7"
         android:id="@+id/et_search"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:background="@null"
+        android:textColor="?android:textColorSecondary"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:imeOptions="actionSearch"
         android:inputType="textWebEditText"
         android:paddingLeft="16dp"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_imoji_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/et_search"
-        android:numColumns="3"></android.support.v7.widget.RecyclerView>
+        ></android.support.v7.widget.RecyclerView>
 
     <ProgressBar
         android:id="@+id/pb_progress"

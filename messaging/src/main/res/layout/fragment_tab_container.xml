@@ -16,10 +16,20 @@
     <RadioGroup
         android:id="@+id/rg_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:background="?colorPrimary"
+        android:background="#f6f6f6"
         android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/rb_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/nav_search_selector"
+            android:paddingTop="10dp"/>
 
         <RadioButton
             android:id="@+id/rb_reactions"
@@ -41,14 +51,6 @@
             android:gravity="center"
             android:paddingTop="10dp"/>
 
-        <RadioButton
-            android:id="@+id/rb_search"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/nav_search_selector"
-            android:paddingTop="10dp"/>
 
     </RadioGroup>
 

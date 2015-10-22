@@ -8,13 +8,13 @@
 
     <com.imojiapp.messaging.SquareImageView
         android:id="@+id/iv_imoji"
-        android:padding="8dp"
+        android:padding="4dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        android:layout_width="wrap_content"
+        android:layout_above="@+id/tv_title"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:background="@drawable/chip_bg"
         android:layout_alignParentBottom="true"
         android:id="@+id/tv_title"
         android:layout_width="92dp"
@@ -24,7 +24,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:ellipsize="end"
-        android:textColor="#126BFC"
-        android:textSize="12sp"/>
+        android:textColor="#808285"
+        android:textSize="14sp"/>
 
 </RelativeLayout>

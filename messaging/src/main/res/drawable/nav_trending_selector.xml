@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Selected-->
-    <item  android:state_checked="true" android:drawable="@drawable/nav_trending_on">
+    <item  android:state_checked="true" android:drawable="@drawable/keyboard_trending_active">
     </item>
     <!-- Default-->
-    <item android:drawable="@drawable/nav_trending_off">
+    <item android:drawable="@drawable/keyboard_trending">
     </item>
 </selector>

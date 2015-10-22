@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.ImojiApi;
@@ -24,6 +25,7 @@ public class ImojiCategoryFragment extends Fragment {
 
     ImojiCategoryRecyclerAdapter mCategoryAdapter;
     private String mClassification;
+    private TextView mTitle;
 
     public static ImojiCategoryFragment newInstance(String classification) {
         ImojiCategoryFragment f = new ImojiCategoryFragment();
@@ -51,17 +53,22 @@ public class ImojiCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        mTitle = (TextView) view.findViewById(R.id.tv_title);
+        if (mClassification == ImojiCategory.Classification.TRENDING) {
+            mTitle.setText("TRENDING");
+        }else if (mClassification == ImojiCategory.Classification.GENERIC) {
+            mTitle.setText("REACTIONS");
+        }
         mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
-                    ImojiCategory imojiCategory = mCategoryAdapter.getItemAt(position);
-                    ImojiSearchFragment fragment = ImojiSearchFragment.newInstance(imojiCategory.getSearchText(), false);
-                    getChildFragmentManager().beginTransaction().add(R.id.category_imojis_container, fragment).addToBackStack(null).commitAllowingStateLoss();
+                ImojiCategory imojiCategory = mCategoryAdapter.getItemAt(position);
+                ImojiSearchFragment fragment = ImojiSearchFragment.newInstance(imojiCategory.getSearchText(), false);
+                getChildFragmentManager().beginTransaction().add(R.id.category_imojis_container, fragment).addToBackStack(null).commitAllowingStateLoss();
 
             }
         }));
-
     }
 
     @Override
