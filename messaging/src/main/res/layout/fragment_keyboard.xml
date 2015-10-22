@@ -37,6 +37,8 @@
                 android:layout_height="56dp"
                 android:layout_toLeftOf="@id/bt_send"
                 android:background="@null"
+                android:imeOptions="actionSend|actionDone|actionNext"
+                android:inputType="textShortMessage"
                 android:gravity="center_vertical"
                 android:hint="Enter Message"
                 android:paddingLeft="16dp"

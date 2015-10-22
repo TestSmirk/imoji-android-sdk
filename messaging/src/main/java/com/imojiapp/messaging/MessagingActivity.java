@@ -16,18 +16,22 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.imojiapp.imoji.sdk.Imoji;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessagingActivity extends AppCompatActivity implements MessageInterface{
 
     private final Handler mHandler = new Handler();
     private FrameLayout mKeyboardContainer;
+    private MessageAdapter mAdapter;
+    private ListView mMessageLv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,9 @@ public class MessagingActivity extends AppCompatActivity implements MessageInter
         setContentView(R.layout.activity_messaging);
         mKeyboardContainer = (FrameLayout) findViewById(R.id.keyboard_container);
         mKeyboardContainer.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        mMessageLv = (ListView) findViewById(R.id.lv_messaging);
+        mAdapter = new MessageAdapter(this, -1, new ArrayList<Message>());
+        mMessageLv.setAdapter(mAdapter);
 
         getSupportFragmentManager().beginTransaction().add(R.id.keyboard_container, new KeyboardFragment()).commit();
     }
@@ -51,11 +58,24 @@ public class MessagingActivity extends AppCompatActivity implements MessageInter
 
     @Override
     public void addText(String message) {
+        if (mAdapter != null) {
+            TextMessage tm = new TextMessage();
+            tm.mMessage = message;
+            mAdapter.add(tm);
+            mMessageLv.smoothScrollToPosition(mAdapter.getCount() - 1);
+        }
 
     }
 
     @Override
-    public void addImoji(Imoji img) {
+    public void addImoji(Imoji imoji) {
+
+        if (mAdapter != null) {
+            ImojiMessage im = new ImojiMessage();
+            im.mImoji = imoji;
+            mAdapter.add(im);
+            mMessageLv.smoothScrollToPosition(mAdapter.getCount() - 1);
+        }
 
     }
 

@@ -76,7 +76,7 @@ public class TabContainerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mButtonGroup.check(R.id.rb_search);
+        mButtonGroup.check(R.id.rb_reactions);
     }
 
 }

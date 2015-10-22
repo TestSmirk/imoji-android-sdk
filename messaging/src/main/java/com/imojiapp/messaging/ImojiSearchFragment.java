@@ -114,7 +114,7 @@ public class ImojiSearchFragment extends Fragment {
                 if (isResumed()) {
 
 
-                    if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if ((actionId & EditorInfo.IME_ACTION_DONE) > 0 || (actionId & EditorInfo.IME_ACTION_SEARCH) > 0) {
                         String query = v.getText().toString();
                         mProgress.setVisibility(View.VISIBLE);
                         IBinder token = getActivity().getCurrentFocus().getWindowToken();
@@ -127,6 +127,10 @@ public class ImojiSearchFragment extends Fragment {
                 return false;
             }
         });
+
+        if (mShowInputBar) {
+            mProgress.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -7,9 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".MessagingActivity">
 
+
     <FrameLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/keyboard_container"
         android:layout_width="match_parent"
         android:layout_height="320dp"></FrameLayout>
+
+    <ListView
+        android:layout_above="@id/keyboard_container"
+        android:stackFromBottom="true"
+        android:divider="@null"
+        android:id="@+id/lv_messaging"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 </RelativeLayout>
