@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="#F6F6F6">
+
+    <View
+        android:id="@+id/divider"
+        android:background="#A5A5A5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentRight="true"
+            android:text="SEND"
+            android:background="?actionBarItemBackground"
+            android:tint="#A5A5A5"/>
+
+
+        <EditText
+            android:id="@+id/et_input_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingLeft="16dp"
+            android:layout_toLeftOf="@id/bt_send"
+            android:background="@null"
+            android:paddingRight="56dp"
+            android:gravity="center_vertical"
+            android:hint="Enter Message"/>
+
+        <ImageButton
+            android:id="@+id/ib_search"
+            android:background="?actionBarItemBackground"
+            android:tint="#3080E0"
+            android:layout_toLeftOf="@id/bt_send"
+            android:layout_width="56dp"
+            android:layout_height="56dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="#A5A5A5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+
+</RelativeLayout>

@@ -11,8 +11,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -22,34 +24,38 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MessagingActivity extends AppCompatActivity {
+public class MessagingActivity extends AppCompatActivity implements MessageInterface{
 
     private final Handler mHandler = new Handler();
+    private FrameLayout mKeyboardContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
+        mKeyboardContainer = (FrameLayout) findViewById(R.id.keyboard_container);
+        mKeyboardContainer.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.keyboard_container, new KeyboardFragment()).commit();
+    }
 
 
+    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            mKeyboardContainer.getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
 
+
+        }
+    };
+
+    @Override
+    public void addText(String message) {
 
     }
 
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                PopupWindow pw = new PopupWindow(LayoutInflater.from(MessagingActivity.this).inflate(R.layout.popupwindow, (ViewGroup) findViewById(R.id.rl_layout), false), 500, 500, false);
-//                PopupWindowCompat.setWindowLayoutType(pw, WindowManager.LayoutParams.TYPE_INPUT_METHOD_DIALOG);
-                pw.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
-            }
-        });
-
-        KeyboardFragment f = new KeyboardFragment();
-        f.show(getSupportFragmentManager(), KeyboardFragment.FRAGMENT_TAG);
-
+    public void addImoji(Imoji img) {
 
     }
 

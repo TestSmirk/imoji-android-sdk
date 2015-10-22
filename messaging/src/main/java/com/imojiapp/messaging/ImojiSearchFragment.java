@@ -2,10 +2,11 @@ package com.imojiapp.messaging;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,41 +14,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.imojiapp.imoji.sdk.Api;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ImojiSearchFragment extends Fragment {
 
+    public static final String FRAGMENT_TAG = ImojiSearchFragment.class.getSimpleName();
     private static final String LOG_TAG = ImojiSearchFragment.class.getSimpleName();
     public static final String QUERY_BUNDLE_ARG_KEY = "QUERY_BUNDLE_ARG_KEY";
+    public static final String SHOW_INPUT_BAR_BUNDLE_ARG_KEY = "SHOW_INPUT_BAR_BUNDLE_ARG_KEY";
 
-    EditText mSearchEt;
-
-    GridView mImojiGrid;
-
+    RecyclerView mImojiGrid;
+    ImojiRecyclerAdapter mImojiRecyclerAdapter;
     ProgressBar mProgress;
-    private InputMethodManager mImm;
-    private CancellableCallback mCallback;
+    EditText mSearchEt;
+    InputMethodManager mImm;
 
 
     public static ImojiSearchFragment newInstance(String query) {
+
+        return newInstance(query, true);
+    }
+
+    public static ImojiSearchFragment newInstance(String query, boolean showInputBar) {
         ImojiSearchFragment f = new ImojiSearchFragment();
 
         Bundle args = new Bundle();
         if (query != null) {
             args.putString(QUERY_BUNDLE_ARG_KEY, query);
         }
+        args.putBoolean(SHOW_INPUT_BAR_BUNDLE_ARG_KEY, showInputBar);
         f.setArguments(args);
 
 
@@ -60,6 +66,7 @@ public class ImojiSearchFragment extends Fragment {
 
 
     private String mQuery;
+    private boolean mShowInputBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,8 @@ public class ImojiSearchFragment extends Fragment {
             mQuery = getArguments().getString(QUERY_BUNDLE_ARG_KEY);
         }
 
+        mShowInputBar = getArguments().getBoolean(SHOW_INPUT_BAR_BUNDLE_ARG_KEY);
+
     }
 
     @Nullable
@@ -77,61 +86,45 @@ public class ImojiSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_imoji_search, container, false);
 
-        mSearchEt = (EditText) v.findViewById(R.id.et_search);
-        mImojiGrid = (GridView) v.findViewById(R.id.gv_imoji_grid);
+        mImojiGrid = (RecyclerView) v.findViewById(R.id.gv_imoji_grid);
         mProgress = (ProgressBar) v.findViewById(R.id.pb_progress);
+        mSearchEt = (EditText) v.findViewById(R.id.et_search);
 
         return v;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        mSearchEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+        mImojiGrid.setLayoutManager(layoutManager);
+        mImojiRecyclerAdapter = new ImojiRecyclerAdapter(getActivity());
+        mImojiGrid.setAdapter(mImojiRecyclerAdapter);
+        mImojiGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInputFromInputMethod(getActivity().getWindow().getDecorView().getWindowToken(), 0);
+            public void onItemClick(View view, int position) {
+                Imoji imoji = mImojiRecyclerAdapter.getItemAt(position);
+                ((MessageInterface) getActivity()).addImoji(imoji);
             }
-        });
+        }));
 
+        mSearchEt.setVisibility(mShowInputBar ? View.VISIBLE : View.GONE);
         mSearchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    String query = v.getText().toString();
-                    mProgress.setVisibility(View.VISIBLE);
-                    mImm.hideSoftInputFromWindow(mSearchEt.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-                    doSearch(query);
+                if (isResumed()) {
 
-                    return true;
+
+                    if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        String query = v.getText().toString();
+                        mProgress.setVisibility(View.VISIBLE);
+                        IBinder token = getActivity().getCurrentFocus().getWindowToken();
+                        mImm.hideSoftInputFromWindow(token, 0);
+                        doSearch(query, false);
+
+                        return true;
+                    }
                 }
                 return false;
-            }
-        });
-
-        mSearchEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                doSearch(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mImojiGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Imoji imoji = (Imoji) parent.getItemAtPosition(position);
-//                Utils.launchImojiPopupWindow(getActivity(), imoji);
             }
         });
     }
@@ -141,55 +134,37 @@ public class ImojiSearchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mImm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (savedInstanceState == null && mQuery != null) {
-            mSearchEt.setText(mQuery);
-            doSearch(mQuery);
+            doSearch(mQuery, false);
         }
     }
 
-    private void doSearch(String query) {
-        if (mCallback != null) {
-            mCallback.cancel();
+    public void doSearch(String query, boolean sentence) {
+        Map<String, String> params = new HashMap<>();
+        if (sentence) {
+            params.put(Api.SearchParams.SENTENCE, query);
+        } else {
+            params.put(Api.SearchParams.QUERY, query);
         }
-        mCallback = new CancellableCallback(this);
-        ImojiApi.with(getActivity()).search(query, mCallback);
-    }
+        params.put(Api.SearchParams.OFFSET, String.valueOf(0));
+        params.put(Api.SearchParams.NUM_RESULTS, String.valueOf(60));
 
-    private static class CancellableCallback implements Callback<List<Imoji>, String> {
-
-
-        private WeakReference<ImojiSearchFragment> mSearchFragmentWeakReference;
-        private boolean mIsCancelled;
-
-        public CancellableCallback(ImojiSearchFragment fragment) {
-            mSearchFragmentWeakReference = new WeakReference<ImojiSearchFragment>(fragment);
-        }
-
-        public void cancel() {
-            mIsCancelled = true;
-        }
-
-        @Override
-        public void onSuccess(List<Imoji> result) {
-            ImojiSearchFragment fragment = mSearchFragmentWeakReference.get();
-            if (!mIsCancelled && fragment != null && fragment.isResumed()) {
-
-
-                ImojiAdapter adapter = new ImojiAdapter(fragment.getActivity(), R.layout.imoji_item_layout, result == null ? new ArrayList<Imoji>() : result);
-                fragment.mImojiGrid.setAdapter(adapter);
-                fragment.mProgress.setVisibility(View.GONE);
+        ImojiApi.with(getActivity()).search(params, new Callback<List<Imoji>, String>() {
+            @Override
+            public void onSuccess(List<Imoji> result) {
+                if (isResumed()) {
+                    if (result.size() > 0) {
+                        mImojiRecyclerAdapter.setList(result);
+                    }
+                    mProgress.setVisibility(View.GONE);
+                }
             }
 
-        }
-
-        @Override
-        public void onFailure(String error) {
-            if (mSearchFragmentWeakReference.get() != null) {
-                ImojiSearchFragment fragment = mSearchFragmentWeakReference.get();
-                fragment.mProgress.setVisibility(View.GONE);
-
+            @Override
+            public void onFailure(String error) {
+                mProgress.setVisibility(View.GONE);
+                Log.d(LOG_TAG, "failed with error: " + error);
             }
-            Log.d(LOG_TAG, "failed with error: " + error);
-        }
+        });
     }
 
 }

@@ -3,6 +3,8 @@
 <com.imojiapp.messaging.SquareImageView
     android:id="@+id/iv_imoji"
     android:padding="15dp"
+    android:clickable="true"
+    android:background="?selectableItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

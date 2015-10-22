@@ -51,18 +51,17 @@ public class TabContainerFragment extends Fragment {
                     switch (checkedId) {
                         case R.id.rb_reactions:
                             f = ImojiCategoryFragment.newInstance(ImojiCategory.Classification.GENERIC);
-                            getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
+                            getChildFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                             break;
                         case R.id.rb_trending:
                             f = ImojiCategoryFragment.newInstance(ImojiCategory.Classification.TRENDING);
-                            getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
+                            getChildFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                             break;
                         case R.id.rb_search:
                             f = ImojiSearchFragment.newInstance();
-                            getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
+                            getChildFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                             break;
                     }
-
                 }
             }
         });

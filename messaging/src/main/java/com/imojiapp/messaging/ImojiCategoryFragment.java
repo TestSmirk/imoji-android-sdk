@@ -3,12 +3,13 @@ package com.imojiapp.messaging;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.ImojiApi;
@@ -19,9 +20,9 @@ import java.util.List;
 public class ImojiCategoryFragment extends Fragment {
     public static final String CLASSIFICATION_BUNDLE_ARG_KEY = "CLASSIFICATION_BUNDLE_ARG_KEY";
     private static final String LOG_TAG = ImojiCategoryFragment.class.getSimpleName();
-    GridView mCategoryGrid;
+    RecyclerView mCategoryGrid;
 
-    ImojiCategoryAdapter mCategoryAdapter;
+    ImojiCategoryRecyclerAdapter mCategoryAdapter;
     private String mClassification;
 
     public static ImojiCategoryFragment newInstance(String classification) {
@@ -43,38 +44,44 @@ public class ImojiCategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_imoji_category, container, false);
-        mCategoryGrid = (GridView) v.findViewById(R.id.gv_imoji_grid);
+        mCategoryGrid = (RecyclerView) v.findViewById(R.id.rv_imoji_grid);
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-
-        loadImojiCategories(mClassification);
-
-        mCategoryGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (isResumed()) {
-                    ImojiCategory category = (ImojiCategory) parent.getItemAtPosition(position);
-                    ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getSearchText());
-                    getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
-                }
+            public void onItemClick(View view, int position) {
+
+                    ImojiCategory imojiCategory = mCategoryAdapter.getItemAt(position);
+                    ImojiSearchFragment fragment = ImojiSearchFragment.newInstance(imojiCategory.getSearchText(), false);
+                    getChildFragmentManager().beginTransaction().add(R.id.category_imojis_container, fragment).addToBackStack(null).commitAllowingStateLoss();
+
             }
-        });
+        }));
+
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+        mCategoryGrid.setLayoutManager(manager);
+        mCategoryAdapter = new ImojiCategoryRecyclerAdapter(getActivity());
+        mCategoryGrid.setAdapter(mCategoryAdapter);
+        loadImojiCategories(mClassification);
+    }
 
     private void loadImojiCategories(String classification) {
         ImojiApi.with(getActivity()).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
             @Override
             public void onSuccess(List<ImojiCategory> result) {
                 if (isResumed()) {
-                    mCategoryAdapter = new ImojiCategoryAdapter(getActivity(), R.layout.category_item_layout, result);
-                    mCategoryGrid.setAdapter(mCategoryAdapter);
+                    mCategoryAdapter.setImojiCategories(result);
                 }
-
             }
 
             @Override
@@ -84,5 +91,4 @@ public class ImojiCategoryFragment extends Fragment {
             }
         });
     }
-
 }
