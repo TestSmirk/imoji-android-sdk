@@ -21,6 +21,7 @@
             android:layout_height="56dp"
             android:layout_alignParentRight="true"
             android:text="SEND"
+            android:textColor="#0a84ff"
             android:background="?actionBarItemBackground"
             android:tint="#A5A5A5"/>
 
