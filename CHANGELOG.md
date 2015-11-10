@@ -1,5 +1,9 @@
 # Imoji SDK Change Log
 
+##0.7.4
+* Simplify upload Imoji image process.
+* Set Imoji-SDK-Version to 0.1.0 (the current server version supported)
+
 ##0.7.3
 Remove allowBackup=true
 
