@@ -16,7 +16,6 @@ import com.imojiapp.imoji.sdk.networking.responses.FetchImojisResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetAuthTokenResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetCategoryResponse;
 import com.imojiapp.imoji.sdk.networking.responses.GetUserImojiResponse;
-import com.imojiapp.imoji.sdk.networking.responses.ImojiAckResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ImojiSearchResponse;
 import com.imojiapp.imoji.sdk.networking.responses.ReportAbusiveResponse;
 
@@ -180,28 +179,6 @@ public class ImojiNetworkingClientImpl extends ImojiNetworkingInterface {
 
         try {
             return sGson.fromJson(jsonResponse, CreateImojiResponse.class);
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Api.Params.ACCESS_TOKEN, getApiToken());
-        params.put(Api.Params.IMOJIID, imojiId);
-        params.put(Api.Params.HAS_FULL_IMAGE, hasFull ? "1" : "0");
-        params.put(Api.Params.HAS_THUMB_IMAGE, hasThumb ? "1" : "0");
-
-        String jsonResponse = mHttpClient.post(Api.Endpoints.IMOJI_ACK, params, getDefaultHeaders());
-        if (jsonResponse == null) {
-            return null;
-        }
-
-        try {
-            return sGson.fromJson(jsonResponse, ImojiAckResponse.class);
         } catch (JsonParseException e) {
             e.printStackTrace();
         }

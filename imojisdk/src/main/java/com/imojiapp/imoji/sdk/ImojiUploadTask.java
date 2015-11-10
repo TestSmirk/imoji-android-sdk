@@ -46,19 +46,14 @@ class ImojiUploadTask extends AsyncTask<Void, Void, Imoji>{
 
         //2. Prepare imoji for upload
         byte[] fullImageData = prepareImageDataForUpload(mBitmap, createResponse.fullImageResizeWidth, createResponse.fullImageResizeHeight);
-        byte[] thumbImageData = prepareImageDataForUpload(mBitmap, createResponse.resizeWidth, createResponse.resizeHeight);
 
         //3. Upload
         boolean fullUploadStatus = upload(createResponse.fullImageUrl, fullImageData);
-        boolean thumbUploadStatus = upload(createResponse.thumbImageUrl, thumbImageData);
-
-        //4. ack the upload
-        ImojiAckResponse ackResponse = mApiHandle.ackImoji(createResponse.imojiId, fullUploadStatus, thumbUploadStatus);
-        if (!ackResponse.isSuccess()) {
+        if (!fullUploadStatus) {
             return null;
         }
 
-        //5. Fetch the newly created imoji
+        //4. Fetch the newly created imoji
         FetchImojisResponse response = mApiHandle.getImojisById(Arrays.asList(new String[]{createResponse.imojiId}));
         if (response != null && response.isSuccess() && response.getPayload().size() > 0) {
             return response.getPayload().get(0);

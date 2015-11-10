@@ -43,8 +43,6 @@ abstract class ImojiNetworkingInterface {
 
     abstract CreateImojiResponse createImoji(List<String> tags);
 
-    abstract ImojiAckResponse ackImoji(String imojiId, boolean hasFull, boolean hasThumb);
-
     abstract void reportAbusiveImoji(String imojiId, Callback<String, String> cb);
 
 }
