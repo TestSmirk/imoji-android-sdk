@@ -199,7 +199,7 @@ public class ImojiNetworkingClientImpl extends ImojiNetworkingInterface {
 
     private Map<String, String> getDefaultHeaders() {
         Map<String, String> headers = new HashMap<>();
-        headers.put(Api.Headers.SDK_VERSION, "2.0.0");
+        headers.put(Api.Headers.SDK_VERSION, "0.1.0");
         headers.put(Api.Headers.CLIENT_OS_VERSION, Build.VERSION.RELEASE);
         headers.put(Api.Headers.CLIENT_MODEL, "android");
         return headers;
