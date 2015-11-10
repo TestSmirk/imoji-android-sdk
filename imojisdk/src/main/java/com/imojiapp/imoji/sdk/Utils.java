@@ -31,7 +31,7 @@ class Utils {
     static Intent getPlayStoreIntent(String referrer) {
         Intent playStoreIntent = new Intent();
         playStoreIntent.setAction(Intent.ACTION_VIEW);
-        playStoreIntent.setData(Uri.parse("market://details?id=" + Config.IMOJI_2_APP_PACKAGE + "&referrer=" + referrer));
+        playStoreIntent.setData(Uri.parse("market://details?id=" + Config.IMOJI_APP_PACKAGE + "&referrer=" + referrer));
         playStoreIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return playStoreIntent;
     }
@@ -58,7 +58,7 @@ class Utils {
         List<ResolveInfo> resolveInfoList = pm.queryBroadcastReceivers(intent, 0);
         if (resolveInfoList != null && !resolveInfoList.isEmpty()) {
             for (ResolveInfo info : resolveInfoList) {
-                if (info.activityInfo != null && (info.activityInfo.packageName.contains(Config.IMOJI_APP_PACKAGE) || info.activityInfo.packageName.contains(Config.IMOJI_2_APP_PACKAGE))) {
+                if (info.activityInfo != null && info.activityInfo.packageName.contains(Config.IMOJI_APP_PACKAGE)) {
                     return true;
                 }
             }

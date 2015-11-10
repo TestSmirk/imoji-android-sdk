@@ -5,6 +5,5 @@ package com.imojiapp.imoji.sdk;
  */
 public class Config {
     static final String BASE_URL = "https://api.imoji.io/v2";
-    static final String IMOJI_APP_PACKAGE = "com.imojiapp.imoji.prod";
-    static final String IMOJI_2_APP_PACKAGE = "com.imojiapp.imoji.fbmessenger.prod";
+    static final String IMOJI_APP_PACKAGE = "com.imojiapp.imoji.fbmessenger.prod";
 }
