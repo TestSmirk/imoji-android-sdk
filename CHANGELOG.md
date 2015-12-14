@@ -1,27 +1,31 @@
 # Imoji SDK Change Log
 
+##0.7.5
+* Exposes 320 and 512 size Imoji image urls. 
+* Deprecates getThumbUrl and getUrl in favor of a more explicit getImageUrl method.
+
 ##0.7.4
 * Simplify upload Imoji image process.
 * Set Imoji-SDK-Version to 0.1.0 (the current server version supported)
 
 ##0.7.3
-Remove allowBackup=true
+* Remove allowBackup=true
 
 ##0.7.2
-Set target sdk back to 22
+* Set target sdk back to 22
 
 ##0.7.1
-Fix issue with broken create flow
+* Fix issue with broken create flow
 
 ## 0.7.0
-Removed external networking library dependencies
-Implemented a networking stack based on Android's HttpUrlConnection
+* Removed external networking library dependencies
+* Implemented a networking stack based on Android's HttpUrlConnection
 
 ## 0.6.1
-New api call to report abusive imojis
+* New api call to report abusive imojis
 
 ## 0.6.0
-New endpoint to create an imoji from a bitmap
+* New endpoint to create an imoji from a bitmap
 
 ## 0.5.3
 * Added a new search method to the API so that you can pass a map of params

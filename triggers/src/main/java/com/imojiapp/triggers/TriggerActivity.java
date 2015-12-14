@@ -225,7 +225,7 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
         }
 
         private void bindImoji(ImojiMessage msg, ViewHolder vh) {
-            Picasso.with(TriggerActivity.this).load(msg.mImoji.getThumbUrl()).into(vh.mImojiIv);
+            Picasso.with(TriggerActivity.this).load(msg.mImoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(vh.mImojiIv);
         }
 
         private void bindText(TextMessage msg, ViewHolder vh) {

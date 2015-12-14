@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imojiapp.imoji.sdk.Callback;
+import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 import com.imojiapp.imoji.sdk.ImojiCategory;
 import com.squareup.picasso.Picasso;
@@ -141,7 +142,7 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
             }
 
             ImojiCategory category = getItem(position);
-            Picasso.with(getContext()).load(category.getImoji().getThumbUrl()).into(holder.mImojiIv);
+            Picasso.with(getContext()).load(category.getImoji().getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
             holder.mTitleTv.setText(category.getTitle());
             holder.mSearchTextTv.setText(category.getSearchText());
 

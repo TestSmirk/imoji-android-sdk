@@ -49,7 +49,7 @@ public class ImojiRecyclerAdapter extends RecyclerView.Adapter<ImojiRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Imoji imoji = mItems.get(position);
-        Picasso.with(mContext).load(imoji.getThumbUrl()).into(holder.mImojiIv);
+        Picasso.with(mContext).load(imoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
 
     }
 

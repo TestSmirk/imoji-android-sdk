@@ -40,7 +40,7 @@ public class ReportAbusiveImojiActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Imoji> result) {
                 Imoji imoji = result.get(0);
-                Picasso.with(ReportAbusiveImojiActivity.this).load(imoji.getThumbUrl()).into(mImojiIv);
+                Picasso.with(ReportAbusiveImojiActivity.this).load(imoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(mImojiIv);
             }
 
             @Override

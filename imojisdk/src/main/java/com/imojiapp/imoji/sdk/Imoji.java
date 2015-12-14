@@ -2,18 +2,56 @@ package com.imojiapp.imoji.sdk;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
+ * An Imoji object is a reference to a sticker within the ImojiSDK.
+ * Consumers should not create this object directly, rather,
+ * they should use ImojiApi to get them from the server.
  * Created by sajjadtabib on 4/6/15.
  */
-public class Imoji implements Parcelable{
+public class Imoji implements Parcelable {
 
+    public enum ImageSize {
+        /**
+         * When used, a compressed version of the Imoji is downloaded and rendered. This setting
+         * is useful when the consumer wishes to load and display multiple imojis as fast as
+         * possible. Sizes of the thumbnail Imoji's vary but do not exceed 150x150.
+         */
+        ImageSizeThumbnail,
+        /**
+         * When used, a high resolution image of the Imoji is downloaded and rendered.
+         * This setting is useful when the consumer wishes to export the Imoji to another
+         * application or to simply display a large version of it.
+         */
+        ImageSizeFullResolution,
+        /**
+         * Renders an Imoji image with a maximum dimension of 320x320. Ideal for high resolution
+         * large displays in which the thumbnail size lacks the desired quality.
+         */
+        ImageSize320,
+        /**
+         * Renders an Imoji image with a maximum dimension of 512x512.
+         */
+        ImageSize512
+    }
+
+    public enum ImageFormat {
+        /**
+         * WebP photo format. Using this results in smaller file sizes with
+         * minimal quality degradation. Requires JNI libraries for decoding.
+         */
+        Webp,
+        /**
+         * PNG photo format. Using this results is larger file sizes but can be decoded natively.
+         */
+        Png
+    }
 
     private String id;
     private ArrayList<String> tags;
@@ -70,50 +108,100 @@ public class Imoji implements Parcelable{
     }
 
     /**
-     * @return the thumb url or null if the thumb is not ready or does not exist
+     * This method has been replaced with getImage
      */
     @Nullable
+    @Deprecated
     public String getThumbUrl() {
-        try {
-            return images.png.image150.url;
-        } catch (NullPointerException e) {
-
-        }
-        return null;
+        return this.getImageUrl(ImageFormat.Png, ImageSize.ImageSizeThumbnail);
     }
 
+    /**
+     * This method has been replaced with getImage
+     */
     @Nullable
+    @Deprecated
     public String getUrl() {
-        try {
-            return images.png.image1200.url;
-        } catch (NullPointerException e) {
-        }
-        return null;
+        return this.getImageUrl(ImageFormat.Png, ImageSize.ImageSizeFullResolution);
     }
 
+    /**
+     * This method has been replaced with getImage
+     */
     @Nullable
+    @Deprecated
     public String getWebpThumbUrl() {
-        try {
-            return images.webp.image150.url;
-        } catch (NullPointerException e) {
-        }
-        return null;
+        return this.getImageUrl(ImageFormat.Webp, ImageSize.ImageSizeThumbnail);
     }
 
+    /**
+     * This method has been replaced with getImage
+     */
     @Nullable
+    @Deprecated
     public String getWebpUrl() {
-        try {
-            return images.webp.image1200.url;
-        } catch (NullPointerException e) {
-        }
-        return null;
+        return this.getImageUrl(ImageFormat.Webp, ImageSize.ImageSizeFullResolution);
     }
 
-    static class Image implements Parcelable{
+    /**
+     * Returns an appropriate URL for the requested format and size
+     */
+    @Nullable
+    public String getImageUrl(@NonNull ImageFormat imageFormat, @NonNull ImageSize imageSize) {
+        if (this.images == null) {
+            return null;
+        }
+
+        final Image.ImageType imageType;
+        switch (imageFormat) {
+            case Webp:
+                imageType = this.images.webp;
+                break;
+
+            case Png:
+                imageType = this.images.png;
+                break;
+            default:
+                imageType = null;
+                break;
+        }
+
+        if (imageType == null) {
+            return null;
+        }
+
+        final Image.ImageType.Info url;
+        switch (imageSize) {
+            case ImageSizeThumbnail:
+                url = imageType.image150;
+                break;
+
+            case ImageSizeFullResolution:
+                url = imageType.image1200;
+                break;
+
+            case ImageSize320:
+                url = imageType.image320;
+
+                break;
+            case ImageSize512:
+                url = imageType.image512;
+                break;
+
+            default:
+                url = null;
+                break;
+        }
+
+        return url != null ? url.url : null;
+    }
+
+    static class Image implements Parcelable {
 
         ImageType png;
         ImageType webp;
 
+        @SuppressWarnings("unused")
         public Image() { //no arg constructor for deserialization
         }
 
@@ -244,7 +332,6 @@ public class Imoji implements Parcelable{
             }
         };
     }
-
 }
 
 

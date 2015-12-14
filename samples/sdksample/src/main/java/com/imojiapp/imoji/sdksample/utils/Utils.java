@@ -38,7 +38,7 @@ public class Utils {
         TextView idTv = ButterKnife.findById(v, R.id.tv_imoji_id);
         ImageButton closeBtn = ButterKnife.findById(v, R.id.ib_close);
 
-        Picasso.with(activity).load(imoji.getThumbUrl()).into(imojiIv);
+        Picasso.with(activity).load(imoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(imojiIv);
         tagsTv.setText(Joiner.on(", ").join(imoji.getTags()));
         idTv.setText(imoji.getImojiId());
 

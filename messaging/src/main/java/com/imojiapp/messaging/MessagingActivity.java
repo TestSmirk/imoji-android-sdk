@@ -116,7 +116,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageInter
         }
 
         private void bindImoji(ImojiMessage msg, ViewHolder vh) {
-            Picasso.with(MessagingActivity.this).load(msg.mImoji.getThumbUrl()).into(vh.mImojiIv);
+            Picasso.with(MessagingActivity.this).load(msg.mImoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(vh.mImojiIv);
         }
 
         private void bindText(TextMessage msg, ViewHolder vh) {

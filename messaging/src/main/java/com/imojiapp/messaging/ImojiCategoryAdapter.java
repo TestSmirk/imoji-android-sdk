@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiCategory;
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,7 @@ public class ImojiCategoryAdapter extends ArrayAdapter<ImojiCategory> {
         }
 
         ImojiCategory category = getItem(position);
-        Picasso.with(getContext()).load(category.getImoji().getThumbUrl()).into(holder.mImojiIv);
+        Picasso.with(getContext()).load(category.getImoji().getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
 
         return convertView;
