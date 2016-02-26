@@ -16,6 +16,7 @@ public class ImojiCategory implements Parcelable{
         String NONE = "none";
         String TRENDING = "trending";
         String GENERIC = "generic";
+        String ARTIST = "artist";
     }
 
     private Imoji mImoji;

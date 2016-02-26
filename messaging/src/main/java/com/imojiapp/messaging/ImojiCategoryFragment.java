@@ -58,7 +58,6 @@ public class ImojiCategoryFragment extends Fragment {
             mTitle.setText("TRENDING");
         }else if (mClassification == ImojiCategory.Classification.GENERIC) {
             mTitle.setText("REACTIONS");
-        }
         mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
