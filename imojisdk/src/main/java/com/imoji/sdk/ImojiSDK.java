@@ -23,6 +23,7 @@
 
 package com.imoji.sdk;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.imoji.sdk.internal.ApiSession;
@@ -43,8 +44,20 @@ public class ImojiSDK {
         return this;
     }
 
-    public Session createSession() {
-        return new ApiSession();
+    public Session createSession(@NonNull Context context) {
+        if (this.apiToken == null) {
+            throw new RuntimeException("apiToken has not been set");
+        }
+
+        if (this.clientId == null) {
+            throw new RuntimeException("clientId has not been set");
+        }
+
+        return this.createSessionWithStoragePolicy(StoragePolicy.createWithContext(context));
+    }
+
+    public Session createSessionWithStoragePolicy(@NonNull StoragePolicy storagePolicy) {
+        return new ApiSession(storagePolicy);
     }
 
     @NonNull

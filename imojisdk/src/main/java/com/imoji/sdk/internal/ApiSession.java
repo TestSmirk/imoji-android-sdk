@@ -26,32 +26,35 @@ package com.imoji.sdk.internal;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.imoji.sdk.RenderingOptions;
+import com.imoji.sdk.StoragePolicy;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
+import com.imoji.sdk.response.NetworkResponse;
 import com.imoji.sdk.response.RenderResponse;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class ApiSession extends NetworkSession {
 
-    private static final int NUMBER_OF_EXECUTOR_TASKS = 5;
-    private static final ExecutorService DESERIALIZATION_EXECUTOR =
-            Executors.newFixedThreadPool(NUMBER_OF_EXECUTOR_TASKS);
+    public ApiSession(@NonNull StoragePolicy storagePolicy) {
+        super(storagePolicy);
+    }
 
+    @NonNull
+    @Override
     public Future<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
-        return null;
+        return validatedGet("/imoji/categories/fetch", CategoriesResponse.class,
+                Collections.singletonMap("classification", classification.name()), null
+        );
     }
 
     @NonNull
@@ -60,7 +63,6 @@ public class ApiSession extends NetworkSession {
                                                @Nullable Integer offset,
                                                @Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(3);
-        final HashMap<String, String> headers = new HashMap<>(3);
 
         params.put("query", term);
         if (offset != null) {
@@ -68,42 +70,41 @@ public class ApiSession extends NetworkSession {
         }
 
         if (numberOfResults != null) {
-            params.put("offset", numberOfResults.toString());
+            params.put("numResults", numberOfResults.toString());
         }
 
-        headers.put("Imoji-SDK-Version", ImojiSDKConstants.SERVER_SDK_VERSION);
-
-        return DESERIALIZATION_EXECUTOR.submit(new Callable<ImojisResponse>() {
-            @Override
-            public ImojisResponse call() throws Exception {
-                try {
-                    NetworkResponse response = GET(
-                            "/imoji/search", params, headers
-                    ).get();
-
-                } catch (NetworkException e) {
-                    return null;
-                }
-
-                return null;
-            }
-        });
+        return validatedGet("/imoji/search", ImojisResponse.class, params, null);
     }
 
     @NonNull
     @Override
     public Future<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults) {
-        return null;
+        final HashMap<String, String> params = new HashMap<>(1);
+
+        if (numberOfResults != null) {
+            params.put("numResults", numberOfResults.toString());
+        }
+
+        return validatedGet("/imoji/featured/fetch", ImojisResponse.class, params, null);
     }
 
     @Override
-    public Future<ImojisResponse> fetchImojisByIdentifiers(@Nullable List<String> numberOfResults) {
-        return null;
+    public Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
+        final String ids = Arrays.toString(identifiers.toArray());
+        return validatedGet("/imoji/featured/fetch", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
     }
 
     @Override
     public Future<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults) {
-        return null;
+        final HashMap<String, String> params = new HashMap<>(2);
+
+        params.put("sentence", sentence);
+
+        if (numberOfResults != null) {
+            params.put("numResults", numberOfResults.toString());
+        }
+
+        return validatedGet("/imoji/search", ImojisResponse.class, params, null);
     }
 
     @Override
@@ -113,12 +114,16 @@ public class ApiSession extends NetworkSession {
 
     @Override
     public Future<ImojisResponse> getImojisForAuthenticatedUser() {
-        return null;
+        return validatedGet("/user/imoji/fetch", ImojisResponse.class, null, null);
     }
 
     @Override
-    public Future<Boolean> addImojiToUserCollection(@NonNull Imoji imoji) {
-        return null;
+    public Future<NetworkResponse> addImojiToUserCollection(@NonNull Imoji imoji) {
+        return validatedPost("/user/imoji/collection/add",
+                NetworkResponse.class,
+                Collections.singletonMap("imojiId", imoji.getIdentifier()),
+                null
+        );
     }
 
     @Override
@@ -127,17 +132,32 @@ public class ApiSession extends NetworkSession {
     }
 
     @Override
-    public Future<Boolean> removeImoji(@NonNull Imoji imoji) {
-        return null;
+    public Future<NetworkResponse> removeImoji(@NonNull Imoji imoji) {
+        return validatedDelete("/imoji/remove", NetworkResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
     }
 
     @Override
-    public Future<Boolean> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason) {
-        return null;
+    public Future<NetworkResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
+                                                        @Nullable String reason) {
+        final HashMap<String, String> params = new HashMap<>(2);
+
+        params.put("imojiId", imoji.getIdentifier());
+        params.put("reason", reason);
+
+        return validatedPost("/imoji/reportAbusive", NetworkResponse.class, params, null);
     }
 
     @Override
-    public Future<Boolean> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier) {
-        return null;
+    public Future<NetworkResponse> markImojiUsage(@NonNull Imoji imoji,
+                                                  @Nullable String originIdentifier) {
+        final HashMap<String, String> params = new HashMap<>(2);
+
+        params.put("imojiId", imoji.getIdentifier());
+
+        if (originIdentifier != null) {
+            params.put("originIdentifier", originIdentifier);
+        }
+
+        return validatedGet("/analytics/imoji/sent", NetworkResponse.class, params, null);
     }
 }

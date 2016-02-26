@@ -23,5 +23,52 @@
 
 package com.imoji.sdk;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+
 public class StoragePolicy {
+
+    private static final String PREFERENCES_FILE = "imoji-store";
+    private final SharedPreferences preferences;
+
+    private StoragePolicy(@NonNull Context context) {
+        this.preferences = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+    }
+
+    public static StoragePolicy createWithContext(@NonNull Context context) {
+        return new StoragePolicy(context);
+    }
+
+    public void putString(String key, String value) {
+        preferences.edit().putString(key, value).apply();
+    }
+
+    public String getString(String key, String defaultValue) {
+        return preferences.getString(key, defaultValue);
+    }
+
+    public void putInt(String key, int value) {
+        preferences.edit().putInt(key, value).apply();
+    }
+
+    public int getInt(String key, int defaultValue) {
+        return preferences.getInt(key, defaultValue);
+    }
+
+    public void putLong(String key, long value) {
+        preferences.edit().putLong(key, value).apply();
+    }
+
+    public long getLong(String key, long defaultValue) {
+        return preferences.getLong(key, defaultValue);
+    }
+
+    public void putBoolean(String key, boolean value) {
+        preferences.edit().putBoolean(key, value).apply();
+    }
+
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return preferences.getBoolean(key, defaultValue);
+    }
 }

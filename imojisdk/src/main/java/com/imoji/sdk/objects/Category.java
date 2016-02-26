@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A category object represents an opaque grouping of imojis.
+ * A category object represents an opaque grouping of Imoji's.
  */
 public class Category {
 
@@ -42,57 +42,84 @@ public class Category {
         None
     }
 
+    /**
+     * Represents the attribution of the category
+     */
     public class Attribution {
+
+        /**
+         * A unique id for the category
+         */
+        @NonNull
         private final String identifier;
+
+
+        /**
+         * A unique id for the category
+         */
+        @NonNull
         private final Artist artist;
+
+        /**
+         * A punchout URL for the attribution
+         */
+        @NonNull
         private final URL url;
 
-        public Attribution(String identifier, Artist artist, URL url) {
+        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull URL url) {
             this.identifier = identifier;
             this.artist = artist;
             this.url = url;
         }
 
+        @NonNull
         public String getIdentifier() {
             return identifier;
         }
 
+        @NonNull
         public Artist getArtist() {
             return artist;
         }
 
+        @NonNull
         public URL getUrl() {
             return url;
         }
     }
 
+    /**
+     * A unique id for the category
+     */
     @NonNull
     private final String identifier;
 
+    /**
+     * Description of the category.
+     */
     @NonNull
     private final String title;
 
+    /**
+     * One or more Imoji objects representing the category.
+     */
     @NonNull
     private final List<Imoji> previewImojis;
 
-    private final int order;
-
-    private final int priority;
-
+    /**
+     * The attribution details associated with the category. This field can be null when the category
+     * does not contain artist content.
+     */
     @Nullable
     private final Attribution attribution;
 
     public Category(@NonNull String identifier,
                     @NonNull String title,
                     @NonNull List<Imoji> previewImojis,
-                    int order,
-                    int priority,
                     @Nullable Attribution attribution) {
         this.identifier = identifier;
         this.title = title;
         this.previewImojis = Collections.unmodifiableList(previewImojis);
-        this.order = order;
-        this.priority = priority;
         this.attribution = attribution;
     }
 
@@ -109,14 +136,6 @@ public class Category {
     @NonNull
     public List<Imoji> getPreviewImojis() {
         return previewImojis;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public int getPriority() {
-        return priority;
     }
 
     @Nullable

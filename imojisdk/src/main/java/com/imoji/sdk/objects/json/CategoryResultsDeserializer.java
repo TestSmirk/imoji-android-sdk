@@ -21,26 +21,24 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.objects.json;
 
-import android.net.Uri;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.imojiapp.imoji.sdk.ImojiCategory;
+
+import java.lang.reflect.Type;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/25/16.
  */
-public class ImojiSDKConstants {
-
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
-
-    public static final String SERVER_SDK_VERSION = "2.1.0";
-
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
-
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
-
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    private ImojiSDKConstants() {
-
+public class CategoryResultsDeserializer implements JsonDeserializer<ImojiCategory> {
+    @Override
+    public ImojiCategory deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return null;
     }
 }

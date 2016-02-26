@@ -23,6 +23,8 @@
 
 package com.imoji.sdk;
 
+import android.support.annotation.NonNull;
+
 public class RenderingOptions {
     public enum Size {
         Thumbnail,
@@ -41,5 +43,35 @@ public class RenderingOptions {
         WebP,
         AnimatedGif,
         AnimatedWebp
+    }
+
+    @NonNull
+    private final BorderStyle borderStyle;
+
+    @NonNull
+    private final ImageFormat imageFormat;
+
+    @NonNull
+    private final Size size;
+
+    public RenderingOptions(@NonNull BorderStyle borderStyle, @NonNull ImageFormat imageFormat, @NonNull Size size) {
+        this.borderStyle = borderStyle;
+        this.imageFormat = imageFormat;
+        this.size = size;
+    }
+
+    @NonNull
+    public BorderStyle getBorderStyle() {
+        return borderStyle;
+    }
+
+    @NonNull
+    public ImageFormat getImageFormat() {
+        return imageFormat;
+    }
+
+    @NonNull
+    public Size getSize() {
+        return size;
     }
 }

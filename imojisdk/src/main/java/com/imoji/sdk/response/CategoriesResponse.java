@@ -29,7 +29,7 @@ import com.imoji.sdk.objects.Category;
 
 import java.util.List;
 
-public class CategoriesResponse {
+public class CategoriesResponse extends NetworkResponse {
 
     @NonNull
     private final List<Category> categories;

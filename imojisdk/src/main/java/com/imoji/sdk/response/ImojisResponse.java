@@ -30,7 +30,7 @@ import com.imoji.sdk.objects.Imoji;
 
 import java.util.List;
 
-public class ImojisResponse {
+public class ImojisResponse extends NetworkResponse {
 
     @NonNull
     private final List<Imoji> imojis;
@@ -39,7 +39,7 @@ public class ImojisResponse {
     private final String followupSearchTerm;
 
 
-    public ImojisResponse(@NonNull List<Imoji> imojis, String followupSearchTerm) {
+    public ImojisResponse(@NonNull List<Imoji> imojis, @Nullable String followupSearchTerm) {
         this.imojis = imojis;
         this.followupSearchTerm = followupSearchTerm;
     }

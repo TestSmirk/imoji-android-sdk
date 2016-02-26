@@ -27,11 +27,13 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.imoji.sdk.internal.NetworkSession;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
+import com.imoji.sdk.response.NetworkResponse;
 import com.imoji.sdk.response.RenderResponse;
 
 import java.util.List;
@@ -71,7 +73,7 @@ public interface Session {
      * Imoji contents are downloaded individually and fetchedResponseCallback is called once the thumbnail of that imoji has been downloaded.
      * @return A cancellable future task for the request
      */
-    Future<ImojisResponse> fetchImojisByIdentifiers(@Nullable List<String> numberOfResults);
+    Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers);
 
 
     /**
@@ -105,7 +107,7 @@ public interface Session {
      * @param imoji The Imoji object to save to the users collection
      * @return A cancellable future task for the request
      */
-    Future<Boolean> addImojiToUserCollection(@NonNull Imoji imoji);
+    Future<NetworkResponse> addImojiToUserCollection(@NonNull Imoji imoji);
 
 
     /**
@@ -124,7 +126,7 @@ public interface Session {
      * @param imoji The added Imoji object
      * @return A cancellable future task for the request
      */
-    Future<Boolean> removeImoji(@NonNull Imoji imoji);
+    Future<NetworkResponse> removeImoji(@NonNull Imoji imoji);
 
     /**
      * Reports an Imoji sticker as abusive. You may expose this method in your application in order for users to have the ability to flag
@@ -133,7 +135,7 @@ public interface Session {
      * @param reason Optional text describing the reason why the content is being reported
      * @return An operation reference that can be used to cancel the request
      */
-    Future<Boolean> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
+    Future<NetworkResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
 
     /**
      * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
@@ -143,6 +145,6 @@ public interface Session {
      * triggered the usage. String must be less than or equal to 40 characters.
      * @return An operation reference that can be used to cancel the request
      */
-    Future<Boolean> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+    Future<NetworkResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
 
 }

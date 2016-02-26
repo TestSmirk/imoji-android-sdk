@@ -21,26 +21,34 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.objects.json;
 
-import android.net.Uri;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.imoji.sdk.response.OAuthTokenResponse;
+
+import java.lang.reflect.Type;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/25/16.
  */
-public class ImojiSDKConstants {
+public class OAuthTokenDeserializer implements JsonDeserializer<OAuthTokenResponse> {
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
+    @Override
+    public OAuthTokenResponse deserialize(JsonElement json,
+                              Type typeOfT,
+                              JsonDeserializationContext context) throws JsonParseException {
+        JsonObject root = json.getAsJsonObject();
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+        String accessToken = root.get("access_token").getAsString();
+        long expiration = root.get("expires_in").getAsLong();
+        String refreshToken = root.get("refresh_token").getAsString();
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
-
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
-
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    private ImojiSDKConstants() {
-
+        return new OAuthTokenResponse(accessToken, expiration, refreshToken);
     }
 }

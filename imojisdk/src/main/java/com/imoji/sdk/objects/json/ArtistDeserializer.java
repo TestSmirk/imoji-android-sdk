@@ -21,26 +21,36 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.objects.json;
 
-import android.net.Uri;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.imoji.sdk.objects.Artist;
+import com.imoji.sdk.objects.Imoji;
+
+import java.lang.reflect.Type;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/25/16.
  */
-public class ImojiSDKConstants {
+public class ArtistDeserializer implements JsonDeserializer<Artist> {
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
+    @Override
+    public Artist deserialize(JsonElement json,
+                              Type typeOfT,
+                              JsonDeserializationContext context) throws JsonParseException {
+        JsonObject root = json.getAsJsonObject();
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+        String identifier = root.get("id").getAsString();
+        String name = root.get("name").getAsString();
+        String description = root.get("description").getAsString();
+        Imoji profileImoji = context.deserialize(root, Imoji.class);
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
-
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
-
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    private ImojiSDKConstants() {
-
+        return new Artist(identifier, name, description, profileImoji);
     }
 }

@@ -21,26 +21,26 @@
  *
  */
 
-package com.imoji.sdk.internal;
-
-import android.net.Uri;
+package com.imoji.sdk.response;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/25/16.
  */
-public class ImojiSDKConstants {
+public abstract class NetworkResponse {
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
+    private int statusCode;
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+    public boolean succeeded() {
+        return statusCode >= 200 && statusCode < 300;
+    }
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
+    public int getStatusCode() {
+        return statusCode;
+    }
 
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
-
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    private ImojiSDKConstants() {
-
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 }

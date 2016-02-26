@@ -21,26 +21,42 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.response;
 
-import android.net.Uri;
+import android.support.annotation.NonNull;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/26/16.
  */
-public class ImojiSDKConstants {
+public class OAuthTokenResponse extends NetworkResponse {
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
+    @NonNull
+    private final String accessToken;
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+    private final long expiration;
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
+    @NonNull
+    private final String refreshToken;
 
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
+    public OAuthTokenResponse(@NonNull String accessToken, long expiration, @NonNull String refreshToken) {
+        this.accessToken = accessToken;
+        this.expiration = expiration;
+        this.refreshToken = refreshToken;
+    }
 
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
+    @NonNull
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-    private ImojiSDKConstants() {
+    public long getExpiration() {
+        return expiration;
+    }
 
+    @NonNull
+    public String getRefreshToken() {
+        return refreshToken;
     }
 }

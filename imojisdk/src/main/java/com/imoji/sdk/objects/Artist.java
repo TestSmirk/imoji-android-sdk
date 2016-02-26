@@ -23,21 +23,36 @@
 
 package com.imoji.sdk.objects;
 
+/**
+ * Represents a creator of an Imoji or Category
+ */
 public class Artist {
 
+    /**
+     * Unique id for the artist
+     */
     private final String identifier;
 
+    /**
+     * The name of the artist
+     */
     private final String name;
 
-    private final String summary;
+    /**
+     * Description of the artist
+     */
+    private final String description;
 
-    private final Imoji previewImoji;
+    /**
+     * An Imoji image representing the profile picture for the artist
+     */
+    private final Imoji profileImoji;
 
-    public Artist(String identifier, String name, String summary, Imoji previewImoji) {
+    public Artist(String identifier, String name, String description, Imoji profileImoji) {
         this.identifier = identifier;
         this.name = name;
-        this.summary = summary;
-        this.previewImoji = previewImoji;
+        this.description = description;
+        this.profileImoji = profileImoji;
     }
 
     public String getIdentifier() {
@@ -48,11 +63,11 @@ public class Artist {
         return name;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getDescription() {
+        return description;
     }
 
-    public Imoji getPreviewImoji() {
-        return previewImoji;
+    public Imoji getProfileImoji() {
+        return profileImoji;
     }
 }
