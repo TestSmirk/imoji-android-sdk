@@ -1,6 +1,6 @@
 /*
  * Imoji Android SDK
- * Created by nkhoshini on 2/25/16.
+ * Created by nkhoshini
  *
  * Copyright (C) 2016 Imoji
  * Permission is hereby granted, free of charge, to any person obtaining a copy
