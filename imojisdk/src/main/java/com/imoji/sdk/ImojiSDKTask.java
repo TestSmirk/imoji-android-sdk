@@ -47,4 +47,6 @@ public abstract class ImojiSDKTask<T extends NetworkResponse> extends AsyncTask<
             return null;
         }
     }
+
+    protected abstract void onPostExecute(T result);
 }

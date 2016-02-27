@@ -169,13 +169,4 @@ public class ApiSession extends NetworkSession {
 
         return validatedGet("analytics/imoji/sent", NetworkResponse.class, params, null);
     }
-
-    @NonNull
-    private <T extends NetworkResponse> ImojiSDKTask<T> resolveTask(Future<T> task) {
-        ImojiSDKTask<T> imojiSDKTask = new ImojiSDKTask<T>() {
-        };
-        imojiSDKTask.execute(task);
-
-        return imojiSDKTask;
-    }
 }
