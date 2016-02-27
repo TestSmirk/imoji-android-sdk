@@ -23,6 +23,7 @@
 
 package com.imoji.sdk.objects;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -45,7 +46,7 @@ public class Category {
     /**
      * Represents the attribution of the category
      */
-    public class Attribution {
+    public static class Attribution {
 
         /**
          * A unique id for the category
@@ -64,12 +65,12 @@ public class Category {
          * A punchout URL for the attribution
          */
         @NonNull
-        private final URL url;
+        private final Uri uri;
 
-        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull URL url) {
+        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull Uri uri) {
             this.identifier = identifier;
             this.artist = artist;
-            this.url = url;
+            this.uri = uri;
         }
 
         @NonNull
@@ -83,8 +84,8 @@ public class Category {
         }
 
         @NonNull
-        public URL getUrl() {
-            return url;
+        public Uri getUri() {
+            return uri;
         }
     }
 

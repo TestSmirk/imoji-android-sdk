@@ -26,7 +26,9 @@ package com.imoji.sdk.internal;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import com.imoji.sdk.ImojiSDKTask;
 import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.StoragePolicy;
 import com.imoji.sdk.objects.Category;
@@ -52,8 +54,8 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public Future<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
-        return validatedGet("/imoji/categories/fetch", CategoriesResponse.class,
-                Collections.singletonMap("classification", classification.name()), null
+        return validatedGet("imoji/categories/fetch", CategoriesResponse.class,
+                Collections.singletonMap("classification", classification.name().toLowerCase()), null
         );
     }
 
@@ -73,7 +75,7 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("/imoji/search", ImojisResponse.class, params, null);
+        return validatedGet("imoji/search", ImojisResponse.class, params, null);
     }
 
     @NonNull
@@ -85,13 +87,13 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("/imoji/featured/fetch", ImojisResponse.class, params, null);
+        return validatedGet("imoji/featured/fetch", ImojisResponse.class, params, null);
     }
 
     @Override
     public Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
-        final String ids = Arrays.toString(identifiers.toArray());
-        return validatedGet("/imoji/featured/fetch", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
+        final String ids = TextUtils.join(",", identifiers);
+        return validatedPost("imoji/fetchMultiple", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
     }
 
     @Override
@@ -104,38 +106,44 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("/imoji/search", ImojisResponse.class, params, null);
+        return validatedGet("imoji/search", ImojisResponse.class, params, null);
     }
 
+    @NonNull
     @Override
     public Future<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options) {
         return null;
     }
 
+    @NonNull
     @Override
     public Future<ImojisResponse> getImojisForAuthenticatedUser() {
-        return validatedGet("/user/imoji/fetch", ImojisResponse.class, null, null);
+        return validatedGet("user/imoji/fetch", ImojisResponse.class, null, null);
     }
 
+    @NonNull
     @Override
     public Future<NetworkResponse> addImojiToUserCollection(@NonNull Imoji imoji) {
-        return validatedPost("/user/imoji/collection/add",
+        return validatedPost("user/imoji/collection/add",
                 NetworkResponse.class,
                 Collections.singletonMap("imojiId", imoji.getIdentifier()),
                 null
         );
     }
 
+    @NonNull
     @Override
     public Future<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage, @NonNull Bitmap borderedImage, @Nullable List<String> tags) {
         return null;
     }
 
+    @NonNull
     @Override
     public Future<NetworkResponse> removeImoji(@NonNull Imoji imoji) {
-        return validatedDelete("/imoji/remove", NetworkResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
+        return validatedDelete("imoji/remove", NetworkResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
     }
 
+    @NonNull
     @Override
     public Future<NetworkResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
                                                         @Nullable String reason) {
@@ -144,9 +152,10 @@ public class ApiSession extends NetworkSession {
         params.put("imojiId", imoji.getIdentifier());
         params.put("reason", reason);
 
-        return validatedPost("/imoji/reportAbusive", NetworkResponse.class, params, null);
+        return validatedPost("imoji/reportAbusive", NetworkResponse.class, params, null);
     }
 
+    @NonNull
     @Override
     public Future<NetworkResponse> markImojiUsage(@NonNull Imoji imoji,
                                                   @Nullable String originIdentifier) {
@@ -158,6 +167,15 @@ public class ApiSession extends NetworkSession {
             params.put("originIdentifier", originIdentifier);
         }
 
-        return validatedGet("/analytics/imoji/sent", NetworkResponse.class, params, null);
+        return validatedGet("analytics/imoji/sent", NetworkResponse.class, params, null);
+    }
+
+    @NonNull
+    private <T extends NetworkResponse> ImojiSDKTask<T> resolveTask(Future<T> task) {
+        ImojiSDKTask<T> imojiSDKTask = new ImojiSDKTask<T>() {
+        };
+        imojiSDKTask.execute(task);
+
+        return imojiSDKTask;
     }
 }

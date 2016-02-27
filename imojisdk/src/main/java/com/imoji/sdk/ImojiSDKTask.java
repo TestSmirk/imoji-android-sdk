@@ -21,7 +21,30 @@
  *
  */
 
-package com.imoji.sdk.response;
+package com.imoji.sdk;
 
-public class CreateImojiResponse extends NetworkResponse {
+import android.os.AsyncTask;
+
+import com.imoji.sdk.response.NetworkResponse;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+/**
+ * Imoji Android SDK
+ * <p/>
+ * Created by nkhoshini on 2/26/16.
+ */
+public abstract class ImojiSDKTask<T extends NetworkResponse> extends AsyncTask<Future<T>, Integer, T> {
+
+    @SafeVarargs
+    @Override
+    protected final T doInBackground(Future<T>... params) {
+        try {
+            return params[0].get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

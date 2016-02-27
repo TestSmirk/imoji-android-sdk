@@ -74,4 +74,45 @@ public class RenderingOptions {
     public Size getSize() {
         return size;
     }
+
+    @NonNull
+    public static RenderingOptions borderedPngThumbnail() {
+        return new RenderingOptions(BorderStyle.Sticker, ImageFormat.Png, Size.Thumbnail);
+    }
+
+    @NonNull
+    public static RenderingOptions borderedPngFullSize() {
+        return new RenderingOptions(BorderStyle.Sticker, ImageFormat.Png, Size.FullResolution);
+    }
+
+    @NonNull
+    public static RenderingOptions borderedWebThumbnail() {
+        return new RenderingOptions(BorderStyle.Sticker, ImageFormat.WebP, Size.Thumbnail);
+    }
+
+    @NonNull
+    public static RenderingOptions borderedWebFullSize() {
+        return new RenderingOptions(BorderStyle.Sticker, ImageFormat.WebP, Size.FullResolution);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RenderingOptions that = (RenderingOptions) o;
+
+        if (borderStyle != that.borderStyle) return false;
+        if (imageFormat != that.imageFormat) return false;
+        return size == that.size;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = borderStyle.hashCode();
+        result = 31 * result + imageFormat.hashCode();
+        result = 31 * result + size.hashCode();
+        return result;
+    }
 }

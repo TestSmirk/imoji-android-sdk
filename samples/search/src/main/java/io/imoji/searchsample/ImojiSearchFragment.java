@@ -17,11 +17,16 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.response.ImojisResponse;
 import com.imojiapp.imoji.sdk.Callback;
 import com.imojiapp.imoji.sdk.Imoji;
 import com.imojiapp.imoji.sdk.ImojiApi;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class ImojiSearchFragment extends Fragment {
 
@@ -116,6 +121,20 @@ public class ImojiSearchFragment extends Fragment {
     }
 
     private void doSearch(String query) {
+        ImojiSDK.getInstance().setCredentials(
+                UUID.fromString("748cddd4-460d-420a-bd42-fcba7f6c031b"),
+                "U2FsdGVkX1/yhkvIVfvMcPCALxJ1VHzTt8FPZdp1vj7GIb+fsdzOjyafu9MZRveo7ebjx1+SKdLUvz8aM6woAw=="
+        );
+
+        Session session = ImojiSDK.getInstance().createSession(this.getContext());
+        try {
+            ImojisResponse imojisResponse = session.searchImojis("haha", null, null).get();
+            List<com.imoji.sdk.objects.Imoji> imojis = imojisResponse.getImojis();
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
         ImojiApi.with(getActivity()).search(query, new Callback<List<Imoji>, String>() {
             @Override
             public void onSuccess(List<Imoji> result) {

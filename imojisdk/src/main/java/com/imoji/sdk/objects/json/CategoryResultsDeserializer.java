@@ -23,22 +23,46 @@
 
 package com.imoji.sdk.objects.json;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.response.CategoriesResponse;
 import com.imojiapp.imoji.sdk.ImojiCategory;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Imoji Android SDK
  * <p/>
  * Created by nkhoshini on 2/25/16.
  */
-public class CategoryResultsDeserializer implements JsonDeserializer<ImojiCategory> {
+public class CategoryResultsDeserializer implements JsonDeserializer<CategoriesResponse> {
     @Override
-    public ImojiCategory deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return null;
+    public CategoriesResponse deserialize(JsonElement json,
+                                          Type typeOfT,
+                                          JsonDeserializationContext context) throws JsonParseException {
+
+        JsonObject root = json.getAsJsonObject();
+        JsonArray categories = root.getAsJsonArray("categories");
+
+        List<Category> converted;
+        if (categories.size() > 0) {
+            converted = new ArrayList<>(categories.size());
+
+            for (JsonElement c : categories) {
+                converted.add(context.<Category>deserialize(c, Category.class));
+            }
+        } else {
+            converted = Collections.emptyList();
+        }
+
+        return new CategoriesResponse(converted);
     }
 }

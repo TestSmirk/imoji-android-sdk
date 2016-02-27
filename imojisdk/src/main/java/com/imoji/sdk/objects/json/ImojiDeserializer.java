@@ -61,11 +61,16 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
             identifier = root.get("id").getAsString();
         }
 
-        JsonArray tagsArray = root.get("tags").getAsJsonArray();
-        List<String> tags = tagsArray.size() > 0 ? new ArrayList<String>(tagsArray.size()) :
-                Collections.<String>emptyList();
-        for (JsonElement tag : tagsArray) {
-            tags.add(tag.getAsString());
+        JsonArray tagsArray = root.getAsJsonArray("tags");
+        List<String> tags;
+
+        if (tagsArray != null && tagsArray.size() > 0) {
+            tags = new ArrayList<>(tagsArray.size());
+            for (JsonElement tag : tagsArray) {
+                tags.add(tag.getAsString());
+            }
+        } else {
+            tags = null;
         }
 
         Map<RenderingOptions, Imoji.Metadata> metadataMap = new HashMap<>();
@@ -79,13 +84,13 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
 
                     switch (borderStyle) {
                         case Sticker:
-                            subDocument = images.has("bordered") ? images.getAsJsonObject("bordered") : null;
+                            subDocument = images.getAsJsonObject("bordered");
                             break;
                         case None:
                             if (imageFormat == RenderingOptions.ImageFormat.AnimatedGif || imageFormat == RenderingOptions.ImageFormat.AnimatedWebp) {
-                                subDocument = images.has("animated") ? images.getAsJsonObject("animated") : null;
+                                subDocument = images.getAsJsonObject("animated");
                             } else {
-                                subDocument = images.has("unbordered") ? images.getAsJsonObject("unbordered") : null;
+                                subDocument = images.getAsJsonObject("unbordered");
                             }
 
                             break;
@@ -100,14 +105,14 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
 
                     switch (imageFormat) {
                         case Png:
-                            subDocument = images.has("png") ? images.getAsJsonObject("png") : null;
+                            subDocument = subDocument.getAsJsonObject("png");
                             break;
                         case WebP:
                         case AnimatedWebp:
-                            subDocument = images.has("png") ? images.getAsJsonObject("webp") : null;
+                            subDocument = subDocument.getAsJsonObject("webp");
                             break;
                         case AnimatedGif:
-                            subDocument = images.has("gif") ? images.getAsJsonObject("gif") : null;
+                            subDocument = subDocument.getAsJsonObject("gif");
                             break;
                     }
 
@@ -118,16 +123,16 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
 
                     switch (size) {
                         case Thumbnail:
-                            subDocument = images.has("150") ? images.getAsJsonObject("150") : null;
+                            subDocument = subDocument.getAsJsonObject("150");
                             break;
                         case FullResolution:
-                            subDocument = images.has("1200") ? images.getAsJsonObject("1200") : null;
+                            subDocument = subDocument.getAsJsonObject("1200");
                             break;
                         case Resolution320:
-                            subDocument = images.has("320") ? images.getAsJsonObject("320") : null;
+                            subDocument = subDocument.getAsJsonObject("320");
                             break;
                         case Resolution512:
-                            subDocument = images.has("512") ? images.getAsJsonObject("512") : null;
+                            subDocument = subDocument.getAsJsonObject("512");
                             break;
                     }
 
@@ -136,15 +141,24 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
                         Integer width = null, height = null, fileSize = null;
 
                         if (subDocument.has("width")) {
-                            width = subDocument.get("width").getAsInt();
+                            JsonElement widthObj = subDocument.get("width");
+                            if (widthObj.isJsonPrimitive()) {
+                                width = widthObj.getAsInt();
+                            }
                         }
 
                         if (subDocument.has("height")) {
-                            height = subDocument.get("height").getAsInt();
+                            JsonElement heightObj = subDocument.get("height");
+                            if (heightObj.isJsonPrimitive()) {
+                                height = heightObj.getAsInt();
+                            }
                         }
 
                         if (subDocument.has("fileSize")) {
-                            fileSize = subDocument.get("fileSize").getAsInt();
+                            JsonElement fileSizeObj = subDocument.get("fileSize");
+                            if (fileSizeObj.isJsonPrimitive()) {
+                                fileSize = fileSizeObj.getAsInt();
+                            }
                         }
 
                         metadataMap.put(

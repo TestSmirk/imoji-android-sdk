@@ -31,6 +31,7 @@ import com.google.gson.JsonParseException;
 import com.imoji.sdk.response.OAuthTokenResponse;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 
 /**
  * Imoji Android SDK
@@ -46,7 +47,7 @@ public class OAuthTokenDeserializer implements JsonDeserializer<OAuthTokenRespon
         JsonObject root = json.getAsJsonObject();
 
         String accessToken = root.get("access_token").getAsString();
-        long expiration = root.get("expires_in").getAsLong();
+        long expiration = root.get("expires_in").getAsLong() + new Date().getTime();
         String refreshToken = root.get("refresh_token").getAsString();
 
         return new OAuthTokenResponse(accessToken, expiration, refreshToken);

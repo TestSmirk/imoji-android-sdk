@@ -24,6 +24,7 @@
 package com.imoji.sdk;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -37,6 +38,7 @@ import com.imoji.sdk.response.NetworkResponse;
 import com.imoji.sdk.response.RenderResponse;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public interface Session {
@@ -73,6 +75,7 @@ public interface Session {
      * Imoji contents are downloaded individually and fetchedResponseCallback is called once the thumbnail of that imoji has been downloaded.
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers);
 
 
@@ -82,6 +85,7 @@ public interface Session {
      * @param numberOfResults Number of results to fetch. This can be nil.
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults);
 
 
@@ -93,12 +97,14 @@ public interface Session {
      * @param options Set of options to render the imoji with.
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options);
 
     /**
      * Gets imojis associated to the synchronized user account. 
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<ImojisResponse> getImojisForAuthenticatedUser();
 
     /**
@@ -107,6 +113,7 @@ public interface Session {
      * @param imoji The Imoji object to save to the users collection
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<NetworkResponse> addImojiToUserCollection(@NonNull Imoji imoji);
 
 
@@ -117,6 +124,7 @@ public interface Session {
      * @param tags An array of NSString tags or nil if there are none
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage,
                                                         @NonNull Bitmap borderedImage,
                                                         @Nullable List<String> tags);
@@ -126,6 +134,7 @@ public interface Session {
      * @param imoji The added Imoji object
      * @return A cancellable future task for the request
      */
+    @NonNull
     Future<NetworkResponse> removeImoji(@NonNull Imoji imoji);
 
     /**
@@ -135,6 +144,7 @@ public interface Session {
      * @param reason Optional text describing the reason why the content is being reported
      * @return An operation reference that can be used to cancel the request
      */
+    @NonNull
     Future<NetworkResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
 
     /**
@@ -145,6 +155,7 @@ public interface Session {
      * triggered the usage. String must be less than or equal to 40 characters.
      * @return An operation reference that can be used to cancel the request
      */
+    @NonNull
     Future<NetworkResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
 
 }

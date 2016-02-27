@@ -23,6 +23,8 @@
 
 package com.imoji.sdk.objects.json;
 
+import android.net.Uri;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -35,6 +37,7 @@ import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
 
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,7 +66,12 @@ public class CategoryDeserializer implements JsonDeserializer<Category> {
         Category.Attribution attribution = null;
 
         if (root.has("artist")) {
-            attribution = context.deserialize(root.getAsJsonObject("artist"), Artist.class);
+            JsonObject artistJson = root.getAsJsonObject("artist");
+            Artist artist = context.deserialize(artistJson, Artist.class);
+            String attributionId = artistJson.get("packId").getAsString();
+            Uri uri = Uri.parse(artistJson.get("packURL").getAsString());
+
+            attribution = new Category.Attribution(attributionId, artist, uri);
         }
 
         List<Imoji> previewImojis;
