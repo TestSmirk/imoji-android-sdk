@@ -29,15 +29,18 @@ import android.support.annotation.Nullable;
 
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.RenderResponse;
 
 import java.util.List;
-import java.util.concurrent.Future;
 
+/**
+ * Base interface for generating any Imoji Api Request
+ * @author nkhoshini
+ */
 public interface Session {
 
     /**
@@ -46,7 +49,7 @@ public interface Session {
      * @return An operation reference that can be used to cancel the request.
      */
     @NonNull
-    Future<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification);
+    ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification);
 
     /**
      * Searches the imojis database with a given search term. The resultSetResponseCallback block is called once the results are available.
@@ -56,7 +59,7 @@ public interface Session {
      * @param numberOfResults Number of results to fetch. This can be nil.
      */
     @NonNull
-    Future<ImojisResponse> searchImojis(@NonNull String term, @Nullable Integer offset, @Nullable Integer numberOfResults);
+    ApiTask<ImojisResponse> searchImojis(@NonNull String term, @Nullable Integer offset, @Nullable Integer numberOfResults);
 
     /**
      * Gets a random set of featured imojis. The resultSetResponseCallback block is called once the results are available.
@@ -65,7 +68,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults);
+    ApiTask<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults);
 
     /**
      * Gets corresponding Imoji's for one or more imoji identifiers as NSString's
@@ -73,7 +76,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers);
+    ApiTask<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers);
 
 
     /**
@@ -83,7 +86,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults);
+    ApiTask<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults);
 
 
     /**
@@ -95,14 +98,14 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options);
+    ApiTask<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options);
 
     /**
      * Gets imojis associated to the synchronized user account. 
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ImojisResponse> getImojisForAuthenticatedUser();
+    ApiTask<ImojisResponse> getImojisForAuthenticatedUser();
 
     /**
      * Adds a given Imoji to a users collection which is also synchronized with their account.
@@ -111,7 +114,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji);
+    ApiTask<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji);
 
 
     /**
@@ -122,7 +125,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage,
+    ApiTask<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage,
                                                         @NonNull Bitmap borderedImage,
                                                         @Nullable List<String> tags);
 
@@ -132,7 +135,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<ApiResponse> removeImoji(@NonNull Imoji imoji);
+    ApiTask<ApiResponse> removeImoji(@NonNull Imoji imoji);
 
     /**
      * Reports an Imoji sticker as abusive. You may expose this method in your application in order for users to have the ability to flag
@@ -142,7 +145,7 @@ public interface Session {
      * @return An operation reference that can be used to cancel the request
      */
     @NonNull
-    Future<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
+    ApiTask<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
 
     /**
      * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
@@ -153,6 +156,6 @@ public interface Session {
      * @return An operation reference that can be used to cancel the request
      */
     @NonNull
-    Future<ApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+    ApiTask<ApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
 
 }

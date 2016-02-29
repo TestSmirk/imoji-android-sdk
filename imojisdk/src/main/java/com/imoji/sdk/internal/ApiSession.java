@@ -28,20 +28,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.StoragePolicy;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.RenderResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Future;
 
 public class ApiSession extends NetworkSession {
 
@@ -51,7 +51,7 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
+    public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
         return validatedGet("imoji/categories/fetch", CategoriesResponse.class,
                 Collections.singletonMap("classification", classification.name().toLowerCase()), null
         );
@@ -59,7 +59,7 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<ImojisResponse> searchImojis(@NonNull String term,
+    public ApiTask<ImojisResponse> searchImojis(@NonNull String term,
                                                @Nullable Integer offset,
                                                @Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(3);
@@ -78,7 +78,7 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults) {
+    public ApiTask<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(1);
 
         if (numberOfResults != null) {
@@ -89,13 +89,13 @@ public class ApiSession extends NetworkSession {
     }
 
     @Override
-    public Future<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
+    public ApiTask<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
         final String ids = TextUtils.join(",", identifiers);
         return validatedPost("imoji/fetchMultiple", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
     }
 
     @Override
-    public Future<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults) {
+    public ApiTask<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(2);
 
         params.put("sentence", sentence);
@@ -109,19 +109,19 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options) {
+    public ApiTask<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options) {
         return null;
     }
 
     @NonNull
     @Override
-    public Future<ImojisResponse> getImojisForAuthenticatedUser() {
+    public ApiTask<ImojisResponse> getImojisForAuthenticatedUser() {
         return validatedGet("user/imoji/fetch", ImojisResponse.class, null, null);
     }
 
     @NonNull
     @Override
-    public Future<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji) {
+    public ApiTask<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji) {
         return validatedPost("user/imoji/collection/add",
                 ApiResponse.class,
                 Collections.singletonMap("imojiId", imoji.getIdentifier()),
@@ -131,19 +131,19 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage, @NonNull Bitmap borderedImage, @Nullable List<String> tags) {
+    public ApiTask<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage, @NonNull Bitmap borderedImage, @Nullable List<String> tags) {
         return null;
     }
 
     @NonNull
     @Override
-    public Future<ApiResponse> removeImoji(@NonNull Imoji imoji) {
+    public ApiTask<ApiResponse> removeImoji(@NonNull Imoji imoji) {
         return validatedDelete("imoji/remove", ApiResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
     }
 
     @NonNull
     @Override
-    public Future<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
+    public ApiTask<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
                                                         @Nullable String reason) {
         final HashMap<String, String> params = new HashMap<>(2);
 
@@ -155,7 +155,7 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public Future<ApiResponse> markImojiUsage(@NonNull Imoji imoji,
+    public ApiTask<ApiResponse> markImojiUsage(@NonNull Imoji imoji,
                                                   @Nullable String originIdentifier) {
         final HashMap<String, String> params = new HashMap<>(2);
 

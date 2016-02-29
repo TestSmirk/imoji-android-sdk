@@ -32,6 +32,7 @@ import android.util.Xml;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.StoragePolicy;
@@ -45,10 +46,10 @@ import com.imoji.sdk.objects.json.GenericNetworkResponsDeserializer;
 import com.imoji.sdk.objects.json.ImojiDeserializer;
 import com.imoji.sdk.objects.json.ImojiResultsDeserializer;
 import com.imoji.sdk.objects.json.OAuthTokenDeserializer;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.GenericNetworkResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.OAuthTokenResponse;
 
 import java.io.BufferedReader;
@@ -60,30 +61,19 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public abstract class NetworkSession implements Session {
-
-    private static final Collection<Integer> SUCCESS_CODES = new HashSet<>(
-            Arrays.asList(
-                    HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED,
-                    HttpURLConnection.HTTP_ACCEPTED
-            )
-    );
 
     /**
      * HTTP Executor settings borrowed from Bolts-Android's AndroidExecutors.newCachedThreadPool
@@ -122,59 +112,59 @@ public abstract class NetworkSession implements Session {
         this.storagePolicy = storagePolicy;
     }
 
-    protected <T extends ApiResponse> Future<T> validatedGet(@NonNull String path,
-                                                             @NonNull final Class<T> responseClass,
-                                                             @Nullable Map<String, String> queryStrings,
-                                                             @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> validatedGet(@NonNull String path,
+                                                              @NonNull final Class<T> responseClass,
+                                                              @Nullable Map<String, String> queryStrings,
+                                                              @Nullable Map<String, String> headers) {
         return oauthValidatedQueryStringConnection(path, "GET", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> validatedDelete(@NonNull String path,
-                                                                @NonNull final Class<T> responseClass,
-                                                                @Nullable Map<String, String> queryStrings,
-                                                                @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> validatedDelete(@NonNull String path,
+                                                                 @NonNull final Class<T> responseClass,
+                                                                 @Nullable Map<String, String> queryStrings,
+                                                                 @Nullable Map<String, String> headers) {
         return oauthValidatedQueryStringConnection(path, "DELETE", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> validatedPost(@NonNull String path,
-                                                              @NonNull final Class<T> responseClass,
-                                                              @Nullable Map<String, String> body,
-                                                              @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> validatedPost(@NonNull String path,
+                                                               @NonNull final Class<T> responseClass,
+                                                               @Nullable Map<String, String> body,
+                                                               @Nullable Map<String, String> headers) {
         return oauthValidatedFormEncodedConnection(path, "POST", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> validatedPut(@NonNull String path,
-                                                             @NonNull final Class<T> responseClass,
-                                                             @Nullable Map<String, String> body,
-                                                             @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> validatedPut(@NonNull String path,
+                                                              @NonNull final Class<T> responseClass,
+                                                              @Nullable Map<String, String> body,
+                                                              @Nullable Map<String, String> headers) {
         return oauthValidatedFormEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> GET(@NonNull String path,
-                                                    @NonNull final Class<T> responseClass,
-                                                    @Nullable Map<String, String> queryStrings,
-                                                    @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> GET(@NonNull String path,
+                                                     @NonNull final Class<T> responseClass,
+                                                     @Nullable Map<String, String> queryStrings,
+                                                     @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "GET", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> DELETE(@NonNull String path,
-                                                       @NonNull final Class<T> responseClass,
-                                                       @Nullable Map<String, String> queryStrings,
-                                                       @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> DELETE(@NonNull String path,
+                                                        @NonNull final Class<T> responseClass,
+                                                        @Nullable Map<String, String> queryStrings,
+                                                        @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "DELETE", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> POST(@NonNull String path,
-                                                     @NonNull final Class<T> responseClass,
-                                                     @Nullable Map<String, String> body,
-                                                     @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> POST(@NonNull String path,
+                                                      @NonNull final Class<T> responseClass,
+                                                      @Nullable Map<String, String> body,
+                                                      @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "POST", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> Future<T> PUT(@NonNull String path,
-                                                    @NonNull final Class<T> responseClass,
-                                                    @Nullable Map<String, String> body,
-                                                    @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> PUT(@NonNull String path,
+                                                     @NonNull final Class<T> responseClass,
+                                                     @Nullable Map<String, String> body,
+                                                     @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
@@ -185,8 +175,8 @@ public abstract class NetworkSession implements Session {
                 );
     }
 
-    private Future<OAuthTokenResponse> validateSession() {
-        return HTTPExecutor.submit(new Callable<OAuthTokenResponse>() {
+    private ApiTask<OAuthTokenResponse> validateSession() {
+        return new ApiTask<>(new Callable<OAuthTokenResponse>() {
 
             @Override
             public OAuthTokenResponse call() throws Exception {
@@ -209,11 +199,11 @@ public abstract class NetworkSession implements Session {
                 if (refreshTokenExpired && refreshToken != null) {
                     body.put("grant_type", "refresh_token");
                     body.put("refresh_token", refreshToken);
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).get();
+                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately(HTTPExecutor);
                 } else {
                     // get a new one all together
                     body.put("grant_type", "client_credentials");
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).get();
+                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately(HTTPExecutor);
                 }
 
                 if (oAuthTokenResponse != null) {
@@ -227,12 +217,12 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends ApiResponse> Future<T> queryStringConnection(@NonNull final String path,
-                                                                    @NonNull final String method,
-                                                                    @NonNull final Class<T> responseClass,
-                                                                    @NonNull final Map<String, String> queryStrings,
-                                                                    @NonNull final Map<String, String> headers) {
-        return HTTPExecutor.submit(new Callable<T>() {
+    private <T extends ApiResponse> ApiTask<T> queryStringConnection(@NonNull final String path,
+                                                                     @NonNull final String method,
+                                                                     @NonNull final Class<T> responseClass,
+                                                                     @NonNull final Map<String, String> queryStrings,
+                                                                     @NonNull final Map<String, String> headers) {
+        return new ApiTask<>(new Callable<T>() {
             @Override
             public T call() throws Exception {
                 HttpURLConnection connection = null;
@@ -268,12 +258,12 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends ApiResponse> Future<T> formEncodedConnection(@NonNull final String path,
-                                                                    @NonNull final String method,
-                                                                    @NonNull final Class<T> responseClass,
-                                                                    @NonNull final Map<String, String> body,
-                                                                    @NonNull final Map<String, String> headers) {
-        return HTTPExecutor.submit(new Callable<T>() {
+    private <T extends ApiResponse> ApiTask<T> formEncodedConnection(@NonNull final String path,
+                                                                     @NonNull final String method,
+                                                                     @NonNull final Class<T> responseClass,
+                                                                     @NonNull final Map<String, String> body,
+                                                                     @NonNull final Map<String, String> headers) {
+        return new ApiTask<>(new Callable<T>() {
             @Override
             public T call() throws Exception {
                 HttpURLConnection connection = null;
@@ -326,17 +316,17 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends ApiResponse> Future<T> oauthValidatedQueryStringConnection(@NonNull final String path,
-                                                                                  @NonNull final String method,
-                                                                                  @NonNull final Class<T> responseClass,
-                                                                                  @NonNull final Map<String, String> queryStrings,
-                                                                                  @NonNull final Map<String, String> headers) {
-        return HTTPExecutor.submit(new Callable<T>() {
+    private <T extends ApiResponse> ApiTask<T> oauthValidatedQueryStringConnection(@NonNull final String path,
+                                                                                   @NonNull final String method,
+                                                                                   @NonNull final Class<T> responseClass,
+                                                                                   @NonNull final Map<String, String> queryStrings,
+                                                                                   @NonNull final Map<String, String> headers) {
+        return new ApiTask<>(new Callable<T>() {
             @Override
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().get();
+                    oAuthTokenResponse = validateSession().executeImmediately(HTTPExecutor);
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> queryStringsWithOauth = new HashMap<>(queryStrings);
 
@@ -344,7 +334,7 @@ public abstract class NetworkSession implements Session {
                     headersWithOauth.put("User-Locale", Locale.getDefault().toString());
                     queryStringsWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
 
-                    return queryStringConnection(path, method, responseClass, queryStringsWithOauth, headersWithOauth).get();
+                    return queryStringConnection(path, method, responseClass, queryStringsWithOauth, headersWithOauth).executeImmediately(HTTPExecutor);
 
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
@@ -353,17 +343,17 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends ApiResponse> Future<T> oauthValidatedFormEncodedConnection(@NonNull final String path,
-                                                                                  @NonNull final String method,
-                                                                                  @NonNull final Class<T> responseClass,
-                                                                                  @NonNull final Map<String, String> body,
-                                                                                  @NonNull final Map<String, String> headers) {
-        return HTTPExecutor.submit(new Callable<T>() {
+    private <T extends ApiResponse> ApiTask<T> oauthValidatedFormEncodedConnection(@NonNull final String path,
+                                                                                   @NonNull final String method,
+                                                                                   @NonNull final Class<T> responseClass,
+                                                                                   @NonNull final Map<String, String> body,
+                                                                                   @NonNull final Map<String, String> headers) {
+        return new ApiTask<>(new Callable<T>() {
             @Override
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().get();
+                    oAuthTokenResponse = validateSession().executeImmediately(HTTPExecutor);
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> bodyWithOauth = new HashMap<>(body);
 
@@ -371,7 +361,7 @@ public abstract class NetworkSession implements Session {
                     headersWithOauth.put("User-Locale", Locale.getDefault().toString());
                     bodyWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
 
-                    return formEncodedConnection(path, method, responseClass, bodyWithOauth, headersWithOauth).get();
+                    return formEncodedConnection(path, method, responseClass, bodyWithOauth, headersWithOauth).executeImmediately(HTTPExecutor);
 
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
@@ -382,7 +372,7 @@ public abstract class NetworkSession implements Session {
 
     private <T extends ApiResponse> T readJsonResponse(@NonNull HttpURLConnection connection,
                                                        @NonNull Class<T> responseClass) throws IOException {
-                
+
         BufferedReader bufferedReader =
                 new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringWriter stringWriter = new StringWriter();

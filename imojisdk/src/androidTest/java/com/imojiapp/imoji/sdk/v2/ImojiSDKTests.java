@@ -26,7 +26,7 @@ package com.imojiapp.imoji.sdk.v2;
 import android.test.AndroidTestCase;
 
 import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.ImojiSDKTask;
+import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Artist;
@@ -60,49 +60,46 @@ public class ImojiSDKTests extends AndroidTestCase {
 
     public void testSearch() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        final ImojiSDKTask<ImojisResponse> imojiSDKTask = new ImojiSDKTask<ImojisResponse>() {
+        sdkSession.searchImojis("haha", null, null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
                 latch.countDown();
             }
-        };
-        imojiSDKTask.execute(sdkSession.searchImojis("haha", null, null));
+        });
 
         latch.await();
     }
 
     public void testFeatured() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        final ImojiSDKTask<ImojisResponse> imojiSDKTask = new ImojiSDKTask<ImojisResponse>() {
+        sdkSession.getFeaturedImojis(40).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
                 latch.countDown();
             }
-        };
-        imojiSDKTask.execute(sdkSession.getFeaturedImojis(40));
+        });
 
         latch.await();
     }
 
     public void testSentenceSearch() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        final ImojiSDKTask<ImojisResponse> imojiSDKTask = new ImojiSDKTask<ImojisResponse>() {
+        sdkSession.searchImojisWithSentence("this is great!", null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
                 latch.countDown();
             }
-        };
-        imojiSDKTask.execute(sdkSession.searchImojisWithSentence("this is great!", null));
+        });
 
         latch.await();
     }
 
     public void testArtistCategories() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        final ImojiSDKTask<CategoriesResponse> imojiSDKTask = new ImojiSDKTask<CategoriesResponse>() {
+        sdkSession.getImojiCategories(Category.Classification.Artist).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
             @Override
             protected void onPostExecute(CategoriesResponse categoriesResponse) {
                 assertNotNull(categoriesResponse);
@@ -136,9 +133,9 @@ public class ImojiSDKTests extends AndroidTestCase {
                 assertNotNull(artist.getProfileImoji().urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));
 
                 latch.countDown();
+
             }
-        };
-        imojiSDKTask.execute(sdkSession.getImojiCategories(Category.Classification.Artist));
+        });
 
         latch.await();
     }
@@ -146,7 +143,7 @@ public class ImojiSDKTests extends AndroidTestCase {
     public void testFetchByIds() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
         final List<String> identifiers = new ArrayList<>();
-        final ImojiSDKTask<ImojisResponse> imojiSDKTask = new ImojiSDKTask<ImojisResponse>() {
+        sdkSession.searchImojis("haha", null, null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
@@ -158,14 +155,13 @@ public class ImojiSDKTests extends AndroidTestCase {
 
                 latch.countDown();
             }
-        };
-        imojiSDKTask.execute(sdkSession.searchImojis("haha", null, null));
+        });
 
         latch.await();
 
         final CountDownLatch secondaryLatch = new CountDownLatch(1);
 
-        final ImojiSDKTask<ImojisResponse> fetchTask = new ImojiSDKTask<ImojisResponse>() {
+        sdkSession.fetchImojisByIdentifiers(identifiers).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
@@ -176,9 +172,9 @@ public class ImojiSDKTests extends AndroidTestCase {
                 assertTrue(identifiers.contains(imojis.next().getIdentifier()));
 
                 secondaryLatch.countDown();
+
             }
-        };
-        fetchTask.execute(sdkSession.fetchImojisByIdentifiers(identifiers));
+        });
 
         secondaryLatch.await();
     }
