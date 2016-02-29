@@ -28,5 +28,8 @@ package com.imoji.sdk.response;
  * <p/>
  * Created by nkhoshini on 2/26/16.
  */
-public class GenericNetworkResponse extends NetworkResponse {
+public class GenericNetworkResponse implements ApiResponse {
+    public GenericNetworkResponse() {
+
+    }
 }

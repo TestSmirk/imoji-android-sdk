@@ -23,5 +23,9 @@
 
 package com.imoji.sdk.response;
 
-public class CreateImojiResponse extends NetworkResponse {
+public class CreateImojiResponse implements ApiResponse {
+
+    public CreateImojiResponse() {
+
+    }
 }

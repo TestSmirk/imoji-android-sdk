@@ -30,7 +30,7 @@ import android.support.annotation.NonNull;
  * <p/>
  * Created by nkhoshini on 2/26/16.
  */
-public class OAuthTokenResponse extends NetworkResponse {
+public class OAuthTokenResponse implements ApiResponse {
 
     @NonNull
     private final String accessToken;

@@ -30,7 +30,7 @@ import com.imoji.sdk.objects.Imoji;
 
 import java.util.List;
 
-public class ImojisResponse extends NetworkResponse {
+public class ImojisResponse implements ApiResponse {
 
     @NonNull
     private final List<Imoji> imojis;

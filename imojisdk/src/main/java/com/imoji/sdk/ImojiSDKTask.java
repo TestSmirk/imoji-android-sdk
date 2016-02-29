@@ -25,7 +25,7 @@ package com.imoji.sdk;
 
 import android.os.AsyncTask;
 
-import com.imoji.sdk.response.NetworkResponse;
+import com.imoji.sdk.response.ApiResponse;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -35,7 +35,7 @@ import java.util.concurrent.Future;
  * <p/>
  * Created by nkhoshini on 2/26/16.
  */
-public abstract class ImojiSDKTask<T extends NetworkResponse> extends AsyncTask<Future<T>, Integer, T> {
+public abstract class ImojiSDKTask<T extends ApiResponse> extends AsyncTask<Future<T>, Integer, T> {
 
     @SafeVarargs
     @Override

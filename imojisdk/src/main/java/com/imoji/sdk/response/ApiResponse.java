@@ -25,22 +25,10 @@ package com.imoji.sdk.response;
 
 /**
  * Imoji Android SDK
- * <p/>
+ * <p>
  * Created by nkhoshini on 2/25/16.
  */
-public abstract class NetworkResponse {
+public interface ApiResponse {
 
-    private int statusCode;
 
-    public boolean succeeded() {
-        return statusCode >= 200 && statusCode < 300;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
 }

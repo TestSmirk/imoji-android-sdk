@@ -24,21 +24,18 @@
 package com.imoji.sdk;
 
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.imoji.sdk.internal.NetworkSession;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.NetworkResponse;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.RenderResponse;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public interface Session {
@@ -114,7 +111,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<NetworkResponse> addImojiToUserCollection(@NonNull Imoji imoji);
+    Future<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji);
 
 
     /**
@@ -135,7 +132,7 @@ public interface Session {
      * @return A cancellable future task for the request
      */
     @NonNull
-    Future<NetworkResponse> removeImoji(@NonNull Imoji imoji);
+    Future<ApiResponse> removeImoji(@NonNull Imoji imoji);
 
     /**
      * Reports an Imoji sticker as abusive. You may expose this method in your application in order for users to have the ability to flag
@@ -145,7 +142,7 @@ public interface Session {
      * @return An operation reference that can be used to cancel the request
      */
     @NonNull
-    Future<NetworkResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
+    Future<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
 
     /**
      * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
@@ -156,6 +153,6 @@ public interface Session {
      * @return An operation reference that can be used to cancel the request
      */
     @NonNull
-    Future<NetworkResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+    Future<ApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
 
 }

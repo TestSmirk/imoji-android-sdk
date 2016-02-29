@@ -23,6 +23,8 @@
 
 package com.imoji.sdk.response;
 
-public class RenderResponse extends NetworkResponse {
+public class RenderResponse implements ApiResponse {
 
+    public RenderResponse() {
+    }
 }

@@ -48,7 +48,7 @@ import com.imoji.sdk.objects.json.OAuthTokenDeserializer;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.GenericNetworkResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.NetworkResponse;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.OAuthTokenResponse;
 
 import java.io.BufferedReader;
@@ -57,13 +57,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -75,6 +77,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public abstract class NetworkSession implements Session {
+
+    private static final Collection<Integer> SUCCESS_CODES = new HashSet<>(
+            Arrays.asList(
+                    HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED,
+                    HttpURLConnection.HTTP_ACCEPTED
+            )
+    );
 
     /**
      * HTTP Executor settings borrowed from Bolts-Android's AndroidExecutors.newCachedThreadPool
@@ -113,59 +122,59 @@ public abstract class NetworkSession implements Session {
         this.storagePolicy = storagePolicy;
     }
 
-    protected <T extends NetworkResponse> Future<T> validatedGet(@NonNull String path,
-                                                                 @NonNull final Class<T> responseClass,
-                                                                 @Nullable Map<String, String> queryStrings,
-                                                                 @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> validatedGet(@NonNull String path,
+                                                             @NonNull final Class<T> responseClass,
+                                                             @Nullable Map<String, String> queryStrings,
+                                                             @Nullable Map<String, String> headers) {
         return oauthValidatedQueryStringConnection(path, "GET", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> validatedDelete(@NonNull String path,
-                                                                    @NonNull final Class<T> responseClass,
-                                                                    @Nullable Map<String, String> queryStrings,
-                                                                    @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> validatedDelete(@NonNull String path,
+                                                                @NonNull final Class<T> responseClass,
+                                                                @Nullable Map<String, String> queryStrings,
+                                                                @Nullable Map<String, String> headers) {
         return oauthValidatedQueryStringConnection(path, "DELETE", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> validatedPost(@NonNull String path,
-                                                                  @NonNull final Class<T> responseClass,
-                                                                  @Nullable Map<String, String> body,
-                                                                  @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> validatedPost(@NonNull String path,
+                                                              @NonNull final Class<T> responseClass,
+                                                              @Nullable Map<String, String> body,
+                                                              @Nullable Map<String, String> headers) {
         return oauthValidatedFormEncodedConnection(path, "POST", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> validatedPut(@NonNull String path,
-                                                                 @NonNull final Class<T> responseClass,
-                                                                 @Nullable Map<String, String> body,
-                                                                 @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> validatedPut(@NonNull String path,
+                                                             @NonNull final Class<T> responseClass,
+                                                             @Nullable Map<String, String> body,
+                                                             @Nullable Map<String, String> headers) {
         return oauthValidatedFormEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> GET(@NonNull String path,
-                                                        @NonNull final Class<T> responseClass,
-                                                        @Nullable Map<String, String> queryStrings,
-                                                        @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> GET(@NonNull String path,
+                                                    @NonNull final Class<T> responseClass,
+                                                    @Nullable Map<String, String> queryStrings,
+                                                    @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "GET", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> DELETE(@NonNull String path,
-                                                           @NonNull final Class<T> responseClass,
-                                                           @Nullable Map<String, String> queryStrings,
-                                                           @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> DELETE(@NonNull String path,
+                                                       @NonNull final Class<T> responseClass,
+                                                       @Nullable Map<String, String> queryStrings,
+                                                       @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "DELETE", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> POST(@NonNull String path,
-                                                         @NonNull final Class<T> responseClass,
-                                                         @Nullable Map<String, String> body,
-                                                         @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> POST(@NonNull String path,
+                                                     @NonNull final Class<T> responseClass,
+                                                     @Nullable Map<String, String> body,
+                                                     @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "POST", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends NetworkResponse> Future<T> PUT(@NonNull String path,
-                                                        @NonNull final Class<T> responseClass,
-                                                        @Nullable Map<String, String> body,
-                                                        @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> Future<T> PUT(@NonNull String path,
+                                                    @NonNull final Class<T> responseClass,
+                                                    @Nullable Map<String, String> body,
+                                                    @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
@@ -218,11 +227,11 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends NetworkResponse> Future<T> queryStringConnection(@NonNull final String path,
-                                                                        @NonNull final String method,
-                                                                        @NonNull final Class<T> responseClass,
-                                                                        @NonNull final Map<String, String> queryStrings,
-                                                                        @NonNull final Map<String, String> headers) {
+    private <T extends ApiResponse> Future<T> queryStringConnection(@NonNull final String path,
+                                                                    @NonNull final String method,
+                                                                    @NonNull final Class<T> responseClass,
+                                                                    @NonNull final Map<String, String> queryStrings,
+                                                                    @NonNull final Map<String, String> headers) {
         return HTTPExecutor.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -248,7 +257,7 @@ public abstract class NetworkSession implements Session {
                     return readJsonResponse(connection, responseClass);
 
                 } catch (Throwable t) {
-                    Log.e("NETWORK_ERROR", "Unable to perform network request", t);
+                    Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);
                     throw t;
                 } finally {
                     if (connection != null) {
@@ -259,11 +268,11 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends NetworkResponse> Future<T> formEncodedConnection(@NonNull final String path,
-                                                                        @NonNull final String method,
-                                                                        @NonNull final Class<T> responseClass,
-                                                                        @NonNull final Map<String, String> body,
-                                                                        @NonNull final Map<String, String> headers) {
+    private <T extends ApiResponse> Future<T> formEncodedConnection(@NonNull final String path,
+                                                                    @NonNull final String method,
+                                                                    @NonNull final Class<T> responseClass,
+                                                                    @NonNull final Map<String, String> body,
+                                                                    @NonNull final Map<String, String> headers) {
         return HTTPExecutor.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -302,7 +311,7 @@ public abstract class NetworkSession implements Session {
                     return readJsonResponse(connection, responseClass);
 
                 } catch (Throwable t) {
-                    Log.e("NETWORK_ERROR", "Unable to perform network request", t);
+                    Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);
                     throw t;
                 } finally {
                     if (connection != null) {
@@ -317,11 +326,11 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends NetworkResponse> Future<T> oauthValidatedQueryStringConnection(@NonNull final String path,
-                                                                                      @NonNull final String method,
-                                                                                      @NonNull final Class<T> responseClass,
-                                                                                      @NonNull final Map<String, String> queryStrings,
-                                                                                      @NonNull final Map<String, String> headers) {
+    private <T extends ApiResponse> Future<T> oauthValidatedQueryStringConnection(@NonNull final String path,
+                                                                                  @NonNull final String method,
+                                                                                  @NonNull final Class<T> responseClass,
+                                                                                  @NonNull final Map<String, String> queryStrings,
+                                                                                  @NonNull final Map<String, String> headers) {
         return HTTPExecutor.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -344,11 +353,11 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends NetworkResponse> Future<T> oauthValidatedFormEncodedConnection(@NonNull final String path,
-                                                                                      @NonNull final String method,
-                                                                                      @NonNull final Class<T> responseClass,
-                                                                                      @NonNull final Map<String, String> body,
-                                                                                      @NonNull final Map<String, String> headers) {
+    private <T extends ApiResponse> Future<T> oauthValidatedFormEncodedConnection(@NonNull final String path,
+                                                                                  @NonNull final String method,
+                                                                                  @NonNull final Class<T> responseClass,
+                                                                                  @NonNull final Map<String, String> body,
+                                                                                  @NonNull final Map<String, String> headers) {
         return HTTPExecutor.submit(new Callable<T>() {
             @Override
             public T call() throws Exception {
@@ -371,8 +380,9 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private <T extends NetworkResponse> T readJsonResponse(@NonNull HttpURLConnection connection,
-                                                           @NonNull Class<T> responseClass) throws IOException {
+    private <T extends ApiResponse> T readJsonResponse(@NonNull HttpURLConnection connection,
+                                                       @NonNull Class<T> responseClass) throws IOException {
+                
         BufferedReader bufferedReader =
                 new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringWriter stringWriter = new StringWriter();
@@ -382,11 +392,7 @@ public abstract class NetworkSession implements Session {
             stringWriter.append(line);
         }
 
-        T result = GSON_INSTANCE.fromJson(stringWriter.toString(), responseClass);
-
-        result.setStatusCode(connection.getResponseCode());
-
-        return result;
+        return GSON_INSTANCE.fromJson(stringWriter.toString(), responseClass);
     }
 
     @NonNull
