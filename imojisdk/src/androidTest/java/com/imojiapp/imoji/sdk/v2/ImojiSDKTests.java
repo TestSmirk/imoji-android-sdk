@@ -60,7 +60,7 @@ public class ImojiSDKTests extends AndroidTestCase {
 
     public void testSearch() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        sdkSession.searchImojis("haha", null, null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+        sdkSession.searchImojis("haha").executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
@@ -86,7 +86,7 @@ public class ImojiSDKTests extends AndroidTestCase {
 
     public void testSentenceSearch() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        sdkSession.searchImojisWithSentence("this is great!", null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+        sdkSession.searchImojisWithSentence("this is great!").executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);
@@ -142,7 +142,7 @@ public class ImojiSDKTests extends AndroidTestCase {
     public void testFetchByIds() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
         final List<String> identifiers = new ArrayList<>();
-        sdkSession.searchImojis("haha", null, null).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+        sdkSession.searchImojis("haha").executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
             protected void onPostExecute(ImojisResponse imojisResponse) {
                 validateImojiResponse(imojisResponse);

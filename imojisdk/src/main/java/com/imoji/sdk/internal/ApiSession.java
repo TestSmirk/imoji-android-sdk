@@ -59,9 +59,15 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
+    public ApiTask<ImojisResponse> searchImojis(@NonNull String term) {
+        return this.searchImojis(term, null, null);
+    }
+
+    @NonNull
+    @Override
     public ApiTask<ImojisResponse> searchImojis(@NonNull String term,
-                                               @Nullable Integer offset,
-                                               @Nullable Integer numberOfResults) {
+                                                @Nullable Integer offset,
+                                                @Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(3);
 
         params.put("query", term);
@@ -78,6 +84,12 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
+    public ApiTask<ImojisResponse> getFeaturedImojis() {
+        return this.getFeaturedImojis(null);
+    }
+
+    @NonNull
+    @Override
     public ApiTask<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(1);
 
@@ -88,12 +100,20 @@ public class ApiSession extends NetworkSession {
         return validatedGet("imoji/featured/fetch", ImojisResponse.class, params, null);
     }
 
+    @NonNull
     @Override
     public ApiTask<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
         final String ids = TextUtils.join(",", identifiers);
         return validatedPost("imoji/fetchMultiple", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
     }
 
+    @NonNull
+    @Override
+    public ApiTask<ImojisResponse> searchImojisWithSentence(@NonNull String sentence) {
+        return this.searchImojisWithSentence(sentence, null);
+    }
+
+    @NonNull
     @Override
     public ApiTask<ImojisResponse> searchImojisWithSentence(@NonNull String sentence, @Nullable Integer numberOfResults) {
         final HashMap<String, String> params = new HashMap<>(2);
@@ -144,7 +164,7 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public ApiTask<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
-                                                        @Nullable String reason) {
+                                                     @Nullable String reason) {
         final HashMap<String, String> params = new HashMap<>(2);
 
         params.put("imojiId", imoji.getIdentifier());
@@ -156,7 +176,7 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public ApiTask<ApiResponse> markImojiUsage(@NonNull Imoji imoji,
-                                                  @Nullable String originIdentifier) {
+                                               @Nullable String originIdentifier) {
         final HashMap<String, String> params = new HashMap<>(2);
 
         params.put("imojiId", imoji.getIdentifier());
