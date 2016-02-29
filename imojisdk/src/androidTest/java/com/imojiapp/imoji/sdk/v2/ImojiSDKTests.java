@@ -25,8 +25,8 @@ package com.imojiapp.imoji.sdk.v2;
 
 import android.test.AndroidTestCase;
 
-import com.imoji.sdk.ImojiSDK;
 import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
 import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Artist;
@@ -129,7 +129,6 @@ public class ImojiSDKTests extends AndroidTestCase {
                 assertNotNull(artist.getName());
                 assertNotNull(artist.getProfileImoji());
                 assertNotNull(artist.getProfileImoji().getIdentifier());
-                assertNotNull(artist.getProfileImoji().getTags());
                 assertNotNull(artist.getProfileImoji().urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));
 
                 latch.countDown();

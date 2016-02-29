@@ -68,32 +68,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public abstract class NetworkSession implements Session {
-
-    /**
-     * HTTP Executor settings borrowed from Bolts-Android's AndroidExecutors.newCachedThreadPool
-     * https://github.com/BoltsFramework/Bolts-Android/blob/master/bolts-tasks/src/main/java/bolts/AndroidExecutors.java
-     */
-    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-
-    private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
-
-    private static final int MAX_POOL_SIZE = CPU_COUNT * 2 + 1;
-
-    private static final long KEEP_ALIVE_TIME = 1L;
-
-    private static final ExecutorService HTTPExecutor = new ThreadPoolExecutor(
-            CORE_POOL_SIZE,
-            MAX_POOL_SIZE,
-            KEEP_ALIVE_TIME,
-            TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>()
-    );
 
     private static final Gson GSON_INSTANCE = new GsonBuilder()
             .registerTypeAdapter(Artist.class, new ArtistDeserializer())
@@ -199,11 +175,11 @@ public abstract class NetworkSession implements Session {
                 if (refreshTokenExpired && refreshToken != null) {
                     body.put("grant_type", "refresh_token");
                     body.put("refresh_token", refreshToken);
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately(HTTPExecutor);
+                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
                 } else {
                     // get a new one all together
                     body.put("grant_type", "client_credentials");
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately(HTTPExecutor);
+                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
                 }
 
                 if (oAuthTokenResponse != null) {
@@ -326,7 +302,7 @@ public abstract class NetworkSession implements Session {
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().executeImmediately(HTTPExecutor);
+                    oAuthTokenResponse = validateSession().executeImmediately();
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> queryStringsWithOauth = new HashMap<>(queryStrings);
 
@@ -334,7 +310,7 @@ public abstract class NetworkSession implements Session {
                     headersWithOauth.put("User-Locale", Locale.getDefault().toString());
                     queryStringsWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
 
-                    return queryStringConnection(path, method, responseClass, queryStringsWithOauth, headersWithOauth).executeImmediately(HTTPExecutor);
+                    return queryStringConnection(path, method, responseClass, queryStringsWithOauth, headersWithOauth).executeImmediately();
 
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
@@ -353,7 +329,7 @@ public abstract class NetworkSession implements Session {
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().executeImmediately(HTTPExecutor);
+                    oAuthTokenResponse = validateSession().executeImmediately();
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> bodyWithOauth = new HashMap<>(body);
 
@@ -361,7 +337,7 @@ public abstract class NetworkSession implements Session {
                     headersWithOauth.put("User-Locale", Locale.getDefault().toString());
                     bodyWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
 
-                    return formEncodedConnection(path, method, responseClass, bodyWithOauth, headersWithOauth).executeImmediately(HTTPExecutor);
+                    return formEncodedConnection(path, method, responseClass, bodyWithOauth, headersWithOauth).executeImmediately();
 
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);

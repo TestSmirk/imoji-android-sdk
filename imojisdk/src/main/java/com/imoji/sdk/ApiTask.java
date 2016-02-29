@@ -33,6 +33,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents a top level task returned by API calls that can be ran as an AsyncTask or immediately
@@ -45,6 +48,23 @@ import java.util.concurrent.FutureTask;
 public class ApiTask<V> {
 
     /**
+     * HTTP Executor settings borrowed from Bolts-Android's AndroidExecutors.newCachedThreadPool
+     * https://github.com/BoltsFramework/Bolts-Android/blob/master/bolts-tasks/src/main/java/bolts/AndroidExecutors.java
+     */
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final int THREAD_POOL_CORE_SIZE = CPU_COUNT + 1;
+    private static final int THREAD_POOL_MAX_SIZE = CPU_COUNT * 2 + 1;
+    private static final long THREAD_POOL_KEEP_ALIVE_TIME = 1L;
+    private static final ExecutorService THREAD_POOL_EXECUTOR_SERVICE = new ThreadPoolExecutor(
+            THREAD_POOL_CORE_SIZE,
+            THREAD_POOL_MAX_SIZE,
+            THREAD_POOL_KEEP_ALIVE_TIME,
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>()
+    );
+
+
+    /**
      * A wrapped convenience class for running ApiTask's for Imoji SDK calls. Callers need to
      * override onPostExecute to get the value asynchronously from the call.
      * @param <V>
@@ -54,7 +74,9 @@ public class ApiTask<V> {
         @Override
         protected final V doInBackground(Future<V>... params) {
             try {
-                return params[0].get();
+                FutureTask<V> task = (FutureTask<V>) params[0];
+                THREAD_POOL_EXECUTOR_SERVICE.submit(task);
+                return task.get();
             } catch (InterruptedException | ExecutionException e) {
                 Log.e(ApiTask.class.getName(), "Unable to perform async task", e);
                 return null;
@@ -81,6 +103,7 @@ public class ApiTask<V> {
      * @return The executed async task. Callers can perform any operation on the WrappedAsyncTask
      * as a standard AsyncTask such as cancelling it.
      */
+    @SuppressWarnings("unchecked")
     public AsyncTask<Future<V>, Void, V> executeAsyncTask(@NonNull WrappedAsyncTask<V> asyncTask) {
         return asyncTask.execute((Future<V>) this.scheduledTask);
     }
@@ -95,9 +118,21 @@ public class ApiTask<V> {
      * as a standard AsyncTask such as cancelling it.
      */
     @TargetApi(11)
+    @SuppressWarnings("unchecked")
     public AsyncTask<Future<V>, Void, V> executeAsyncTaskOnExecutor(@NonNull WrappedAsyncTask<V> asyncTask,
                                                                     @NonNull ExecutorService executorService) {
         return asyncTask.executeOnExecutor(executorService, this.scheduledTask);
+    }
+
+    /**
+     * Immediately resolves the task on a shared thread pool executor service.
+     * @return The resolved value from running the task.
+     * @throws ExecutionException From executorService.submit
+     * @throws InterruptedException From executorService.submit
+     * @see ExecutorService
+     */
+    public V executeImmediately() throws ExecutionException, InterruptedException {
+        return this.executeImmediately(THREAD_POOL_EXECUTOR_SERVICE);
     }
 
     /**
@@ -108,9 +143,8 @@ public class ApiTask<V> {
      * @throws InterruptedException From executorService.submit
      * @see ExecutorService
      */
-    @SuppressWarnings("unchecked")
     public V executeImmediately(@NonNull ExecutorService executorService) throws ExecutionException, InterruptedException {
-        // annoying we have to send over a Runnable to the execture which isn't generified
-        return ((Future<V>) executorService.submit(scheduledTask)).get();
+        executorService.submit(scheduledTask);
+        return scheduledTask.get();
     }
 }
