@@ -21,7 +21,7 @@
  *
  */
 
-package com.imojiapp.imoji.sdk.v2;
+package com.imojiapp.imoji.sdk;
 
 import android.test.AndroidTestCase;
 
