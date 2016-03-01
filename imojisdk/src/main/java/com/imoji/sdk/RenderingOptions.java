@@ -95,6 +95,17 @@ public class RenderingOptions {
         return new RenderingOptions(BorderStyle.Sticker, ImageFormat.WebP, Size.FullResolution);
     }
 
+    @NonNull
+    public static RenderingOptions animatedGifThumbnail() {
+        return new RenderingOptions(BorderStyle.None, ImageFormat.AnimatedGif, Size.Thumbnail);
+    }
+
+    @NonNull
+    public static RenderingOptions animatedGifFullSize() {
+        return new RenderingOptions(BorderStyle.None, ImageFormat.AnimatedGif, Size.FullResolution);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

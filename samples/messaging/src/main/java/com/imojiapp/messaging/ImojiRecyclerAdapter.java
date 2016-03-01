@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +47,7 @@ public class ImojiRecyclerAdapter extends RecyclerView.Adapter<ImojiRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Imoji imoji = mItems.get(position);
-        Picasso.with(mContext).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
+        Picasso.with(mContext).load(imoji.getStandardThumbnailUri()).into(holder.mImojiIv);
 
     }
 

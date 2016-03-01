@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.ApiResponse;
@@ -49,7 +48,7 @@ public class ReportAbusiveImojiActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(ImojisResponse imojisResponse) {
                         abusiveImoji.set(imojisResponse.getImojis().iterator().next());
-                        Picasso.with(ReportAbusiveImojiActivity.this).load(abusiveImoji.get().urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(mImojiIv);
+                        Picasso.with(ReportAbusiveImojiActivity.this).load(abusiveImoji.get().getStandardThumbnailUri()).into(mImojiIv);
                     }
                 });
 

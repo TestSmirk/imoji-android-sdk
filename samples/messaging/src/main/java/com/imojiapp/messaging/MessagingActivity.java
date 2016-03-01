@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
@@ -111,7 +110,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageInter
         }
 
         private void bindImoji(ImojiMessage msg, ViewHolder vh) {
-            Picasso.with(MessagingActivity.this).load(msg.mImoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(vh.mImojiIv);
+            Picasso.with(MessagingActivity.this).load(msg.mImoji.getStandardThumbnailUri()).into(vh.mImojiIv);
         }
 
         private void bindText(TextMessage msg, ViewHolder vh) {

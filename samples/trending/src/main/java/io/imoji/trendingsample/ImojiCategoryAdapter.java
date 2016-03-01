@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,7 +41,8 @@ public class ImojiCategoryAdapter extends ArrayAdapter<Category> {
         }
 
         Category category = getItem(position);
-        Picasso.with(getContext()).load(category.getPreviewImoji().urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
+        Imoji previewImoji = category.getPreviewImoji();
+        Picasso.with(getContext()).load(previewImoji.getStandardThumbnailUri()).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
 
         return convertView;

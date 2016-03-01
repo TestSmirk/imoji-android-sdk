@@ -27,7 +27,6 @@ import android.test.AndroidTestCase;
 
 import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Artist;
 import com.imoji.sdk.objects.Category;
@@ -126,7 +125,7 @@ public class ImojiSDKTests extends AndroidTestCase {
                 Imoji previewImoji = category.getPreviewImoji();
                 assertNotNull(previewImoji.getIdentifier());
                 assertNotNull(previewImoji.getTags());
-                assertNotNull(previewImoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));
+                assertNotNull(previewImoji.getStandardThumbnailUri());
 
                 Artist artist = category.getAttribution().getArtist();
                 assertNotNull(artist.getIdentifier());
@@ -134,7 +133,7 @@ public class ImojiSDKTests extends AndroidTestCase {
                 assertNotNull(artist.getName());
                 assertNotNull(artist.getProfileImoji());
                 assertNotNull(artist.getProfileImoji().getIdentifier());
-                assertNotNull(artist.getProfileImoji().urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));
+                assertNotNull(artist.getProfileImoji().getStandardThumbnailUri());
 
                 latch.countDown();
 
@@ -253,6 +252,6 @@ public class ImojiSDKTests extends AndroidTestCase {
         assertNotNull(first);
         assertNotNull(first.getIdentifier());
         assertNotNull(first.getTags());
-        assertNotNull(first.urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));
+        assertNotNull(first.getStandardThumbnailUri());
     }
 }

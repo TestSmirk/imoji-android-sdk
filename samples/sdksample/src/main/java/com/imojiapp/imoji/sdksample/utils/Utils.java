@@ -13,7 +13,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.common.base.Joiner;
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.objects.Imoji;
 import com.imojiapp.imoji.sdksample.R;
 import com.squareup.picasso.Picasso;
@@ -37,7 +36,7 @@ public class Utils {
         TextView idTv = ButterKnife.findById(v, R.id.tv_imoji_id);
         ImageButton closeBtn = ButterKnife.findById(v, R.id.ib_close);
 
-        Picasso.with(activity).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(imojiIv);
+        Picasso.with(activity).load(imoji.getStandardThumbnailUri()).into(imojiIv);
         tagsTv.setText(Joiner.on(", ").join(imoji.getTags()));
         idTv.setText(imoji.getIdentifier());
 

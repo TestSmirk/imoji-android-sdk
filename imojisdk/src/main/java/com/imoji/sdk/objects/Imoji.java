@@ -26,6 +26,7 @@ package com.imoji.sdk.objects;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.Pair;
 
 import com.imoji.sdk.RenderingOptions;
@@ -153,6 +154,55 @@ public class Imoji {
     public int fileSizeForRenderingOptions(RenderingOptions renderingOptions) {
         Metadata metadata = metadataMap.get(renderingOptions);
         return metadata != null && metadata.fileSize != null ? metadata.fileSize : 0;
+    }
+
+    /**
+     * @return If the Imoji has animated GIF content available
+     */
+    public boolean hasAnimationCapability() {
+        return metadataMap.get(RenderingOptions.animatedGifThumbnail()) != null;
+    }
+
+    /**
+     * @return Gets either a bordered PNG thumbnail URL or GIF thumbnail URL if animation is
+     * supported
+     */
+    public Uri getStandardThumbnailUri() {
+        return this.getStandardThumbnailUri(true);
+    }
+
+    /**
+     * @param supportAnimation Whether or not to fetch an animated URL or not
+     * @return Gets either a bordered PNG thumbnail URL or GIF thumbnail URL if animation is
+     * supported and requested
+     */
+    public Uri getStandardThumbnailUri(boolean supportAnimation) {
+        if (supportAnimation && hasAnimationCapability()) {
+            return this.urlForRenderingOption(RenderingOptions.animatedGifThumbnail());
+        }
+
+        return this.urlForRenderingOption(RenderingOptions.borderedPngThumbnail());
+    }
+
+    /**
+     * @return Gets either a bordered PNG full size URL or GIF thumbnail URL if animation is
+     * supported
+     */
+    public Uri getStandardFullSizelUri() {
+        return this.getStandardFullSizelUri(true);
+    }
+
+    /**
+     * @param supportAnimation Whether or not to fetch an animated URL or not
+     * @return Gets either a bordered PNG full size URL or GIF thumbnail URL if animation is
+     * supported and requested
+     */
+    public Uri getStandardFullSizelUri(boolean supportAnimation) {
+        if (supportAnimation && hasAnimationCapability()) {
+            return this.urlForRenderingOption(RenderingOptions.animatedGifFullSize());
+        }
+
+        return this.urlForRenderingOption(RenderingOptions.borderedPngFullSize());
     }
 
     public Imoji(@NonNull String identifier,

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
@@ -140,7 +139,7 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
 
             Category category = getItem(position);
             Imoji preview = category.getPreviewImoji();
-            Picasso.with(getContext()).load(preview.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
+            Picasso.with(getContext()).load(preview.getStandardThumbnailUri()).into(holder.mImojiIv);
             holder.mTitleTv.setText(category.getTitle());
             holder.mSearchTextTv.setText(category.getIdentifier());
 

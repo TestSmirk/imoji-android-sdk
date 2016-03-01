@@ -39,7 +39,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        Picasso.with(getContext()).load(item.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
+        Picasso.with(getContext()).load(item.getStandardThumbnailUri()).into(holder.mImojiIv);
 
         return convertView;
     }
