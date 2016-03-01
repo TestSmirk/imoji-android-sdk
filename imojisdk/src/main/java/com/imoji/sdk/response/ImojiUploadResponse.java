@@ -21,48 +21,54 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.response;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
+
+import com.imoji.sdk.response.ApiResponse;
+
+import java.util.UUID;
 
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p>
+ * Created by nkhoshini on 3/1/16.
  */
-public class ImojiSDKConstants {
+public class ImojiUploadResponse implements ApiResponse {
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
+    @NonNull
+    private final String imojiId;
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+    @NonNull
+    private final Uri uploadUri;
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
+    private final int maxWidth;
 
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
+    private final int maxHeight;
 
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    public static class Paths {
-
-        public static final String CATEGORIES_FETCH = "imoji/categories/fetch";
-
-        public static final String SEARCH = "imoji/search";
-
-        public static final String FEATURED = "imoji/featured/fetch";
-
-        public static final String FETCH_IMOJIS_BY_ID = "imoji/fetchMultiple";
-
-        public static final String CREATE_IMOJI = "imoji/create";
-
-        public static final String REMOVE_IMOJI = "imoji/remove";
-
-        public static final String REPORT_IMOJI = "imoji/reportAbusive";
-
-        public static final String IMOJI_USAGE = "analytics/imoji/sent";
-
-        private Paths() {
-        }
+    public ImojiUploadResponse(@NonNull String imojiId, @NonNull Uri uploadUri, int maxWidth, int maxHeight) {
+        this.imojiId = imojiId;
+        this.uploadUri = uploadUri;
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
     }
 
-    private ImojiSDKConstants() {
+    @NonNull
+    public String getImojiId() {
+        return imojiId;
+    }
 
+    @NonNull
+    public Uri getUploadUri() {
+        return uploadUri;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
     }
 }

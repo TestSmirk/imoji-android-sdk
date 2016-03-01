@@ -2,7 +2,6 @@ package com.imojiapp.imoji.sdksample;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +13,12 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
 import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 import com.imojiapp.imoji.sdksample.utils.Utils;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -73,20 +73,17 @@ public class SearchImojiActivity extends Activity {
     }
 
     private void doSearch(String query) {
-        ImojiApi.with(SearchImojiActivity.this).search(query, new Callback<List<Imoji>, String>() {
-            @Override
-            public void onSuccess(List<Imoji> result) {
-                ImojiAdapter adapter = new ImojiAdapter(SearchImojiActivity.this, R.layout.imoji_item_layout, result);
-                mImojiGrid.setAdapter(adapter);
-                mProgress.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(LOG_TAG, "failed with error: " + error);
-            }
-        });
+        ImojiSDK.getInstance()
+                .createSession(getApplicationContext())
+                .searchImojis(query)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        ImojiAdapter adapter = new ImojiAdapter(SearchImojiActivity.this, R.layout.imoji_item_layout, imojisResponse.getImojis());
+                        mImojiGrid.setAdapter(adapter);
+                        mProgress.setVisibility(View.GONE);
+                    }
+                });
     }
 
     @Override

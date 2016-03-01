@@ -23,9 +23,20 @@
 
 package com.imoji.sdk.response;
 
+import com.imoji.sdk.objects.Imoji;
+
 public class CreateImojiResponse implements ApiResponse {
 
-    public CreateImojiResponse() {
+    private final Imoji imoji;
 
+    public CreateImojiResponse(Imoji imoji) {
+        this.imoji = imoji;
+    }
+
+    /**
+     * @return The newly created Imoji
+     */
+    public Imoji getImoji() {
+        return imoji;
     }
 }

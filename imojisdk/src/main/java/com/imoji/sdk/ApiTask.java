@@ -25,6 +25,7 @@ package com.imoji.sdk;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -105,6 +106,10 @@ public class ApiTask<V> {
      */
     @SuppressWarnings("unchecked")
     public AsyncTask<Future<V>, Void, V> executeAsyncTask(@NonNull WrappedAsyncTask<V> asyncTask) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            return this.executeAsyncTaskOnExecutor(asyncTask, THREAD_POOL_EXECUTOR_SERVICE);
+        }
+
         return asyncTask.execute((Future<V>) this.scheduledTask);
     }
 
@@ -117,7 +122,7 @@ public class ApiTask<V> {
      * @return The executed async task. Callers can perform any operation on the WrappedAsyncTask
      * as a standard AsyncTask such as cancelling it.
      */
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @SuppressWarnings("unchecked")
     public AsyncTask<Future<V>, Void, V> executeAsyncTaskOnExecutor(@NonNull WrappedAsyncTask<V> asyncTask,
                                                                     @NonNull ExecutorService executorService) {

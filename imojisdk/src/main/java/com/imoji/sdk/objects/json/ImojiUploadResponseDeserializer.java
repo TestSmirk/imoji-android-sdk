@@ -21,48 +21,34 @@
  *
  */
 
-package com.imoji.sdk.internal;
+package com.imoji.sdk.objects.json;
 
 import android.net.Uri;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.imoji.sdk.response.ImojiUploadResponse;
+
+import java.lang.reflect.Type;
+
 /**
- * Constant strings used throughout the SDK
+ * Imoji Android SDK
+ * <p>
+ * Created by nkhoshini on 3/1/16.
  */
-public class ImojiSDKConstants {
+public class ImojiUploadResponseDeserializer implements JsonDeserializer<ImojiUploadResponse> {
+    @Override
+    public ImojiUploadResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject root = json.getAsJsonObject();
 
-    public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+        String fullImageUrl = root.get("fullImageUrl").getAsString();
+        int maxWidth = root.get("fullImageResizeWidth").getAsInt();
+        int maxHeight = root.get("fullImageResizeHeight").getAsInt();
 
-    public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
-
-    public static final String PREFERENCES_OAUTH_EXPIRATION_KEY = "e";
-
-    public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
-
-    public static class Paths {
-
-        public static final String CATEGORIES_FETCH = "imoji/categories/fetch";
-
-        public static final String SEARCH = "imoji/search";
-
-        public static final String FEATURED = "imoji/featured/fetch";
-
-        public static final String FETCH_IMOJIS_BY_ID = "imoji/fetchMultiple";
-
-        public static final String CREATE_IMOJI = "imoji/create";
-
-        public static final String REMOVE_IMOJI = "imoji/remove";
-
-        public static final String REPORT_IMOJI = "imoji/reportAbusive";
-
-        public static final String IMOJI_USAGE = "analytics/imoji/sent";
-
-        private Paths() {
-        }
-    }
-
-    private ImojiSDKConstants() {
-
+        return new ImojiUploadResponse(Uri.parse(fullImageUrl), maxWidth, maxHeight);
     }
 }

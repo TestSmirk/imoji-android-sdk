@@ -116,32 +116,38 @@ public abstract class NetworkSession implements Session {
         return oauthValidatedFormEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> ApiTask<T> GET(@NonNull String path,
-                                                     @NonNull final Class<T> responseClass,
-                                                     @Nullable Map<String, String> queryStrings,
-                                                     @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> makeGetRequest(@NonNull String path,
+                                                                @NonNull final Class<T> responseClass,
+                                                                @Nullable Map<String, String> queryStrings,
+                                                                @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "GET", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> ApiTask<T> DELETE(@NonNull String path,
-                                                        @NonNull final Class<T> responseClass,
-                                                        @Nullable Map<String, String> queryStrings,
-                                                        @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> makeDeleteRequest(@NonNull String path,
+                                                                   @NonNull final Class<T> responseClass,
+                                                                   @Nullable Map<String, String> queryStrings,
+                                                                   @Nullable Map<String, String> headers) {
         return queryStringConnection(path, "DELETE", responseClass, checkedPairMap(queryStrings), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> ApiTask<T> POST(@NonNull String path,
-                                                      @NonNull final Class<T> responseClass,
-                                                      @Nullable Map<String, String> body,
-                                                      @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> makePostRequest(@NonNull String path,
+                                                                 @NonNull final Class<T> responseClass,
+                                                                 @Nullable Map<String, String> body,
+                                                                 @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "POST", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected <T extends ApiResponse> ApiTask<T> PUT(@NonNull String path,
-                                                     @NonNull final Class<T> responseClass,
-                                                     @Nullable Map<String, String> body,
-                                                     @Nullable Map<String, String> headers) {
+    protected <T extends ApiResponse> ApiTask<T> makePutRequest(@NonNull String path,
+                                                                @NonNull final Class<T> responseClass,
+                                                                @Nullable Map<String, String> body,
+                                                                @Nullable Map<String, String> headers) {
         return formEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
+    }
+
+    protected ApiTask<GenericNetworkResponse> makePutDataRequest(@NonNull Uri uri,
+                                                                 @NonNull byte [] body,
+                                                                 @Nullable Map<String, String> headers) {
+        return dataUploadFormEncodedConnection(uri, "PUT", body, checkedPairMap(headers));
     }
 
     protected String oauthCredentialsHeader() {
@@ -175,11 +181,11 @@ public abstract class NetworkSession implements Session {
                 if (refreshTokenExpired && refreshToken != null) {
                     body.put("grant_type", "refresh_token");
                     body.put("refresh_token", refreshToken);
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
+                    oAuthTokenResponse = makePostRequest("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
                 } else {
                     // get a new one all together
                     body.put("grant_type", "client_credentials");
-                    oAuthTokenResponse = POST("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
+                    oAuthTokenResponse = makePostRequest("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
                 }
 
                 if (oAuthTokenResponse != null) {
@@ -284,6 +290,45 @@ public abstract class NetworkSession implements Session {
                         connection.disconnect();
                     }
 
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            }
+        });
+    }
+
+    private ApiTask<GenericNetworkResponse> dataUploadFormEncodedConnection(@NonNull final Uri uri,
+                                                                            @NonNull final String method,
+                                                                            @NonNull final byte[] body,
+                                                                            @NonNull final Map<String, String> headers) {
+        return new ApiTask<>(new Callable<GenericNetworkResponse>() {
+            @Override
+            public GenericNetworkResponse call() throws Exception {
+                HttpURLConnection connection;
+                OutputStream outputStream = null;
+                try {
+                    URL url = new URL(uri.toString());
+
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod(method);
+                    connection.setDoOutput(true);
+
+                    //set headers
+                    for (Map.Entry<String, String> header : headers.entrySet()) {
+                        connection.setRequestProperty(header.getKey(), header.getValue());
+                    }
+
+                    outputStream = connection.getOutputStream();
+                    outputStream.write(body);
+                    outputStream.flush();
+
+                    return new GenericNetworkResponse();
+
+                } catch (Throwable t) {
+                    Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);
+                    throw t;
+                } finally {
                     if (outputStream != null) {
                         outputStream.close();
                     }

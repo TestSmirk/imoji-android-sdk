@@ -32,24 +32,29 @@ import com.imoji.sdk.Session;
 import com.imoji.sdk.objects.Artist;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.ImojisResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Imoji Android SDK
- * <p/>
+ * <p>
  * Created by nkhoshini on 2/26/16.
  */
 public class ImojiSDKTests extends AndroidTestCase {
 
     private static final UUID CLIENT_ID = UUID.fromString("748cddd4-460d-420a-bd42-fcba7f6c031b");
     private static final String API_TOKEN = "U2FsdGVkX1/yhkvIVfvMcPCALxJ1VHzTt8FPZdp1vj7GIb+fsdzOjyafu9MZRveo7ebjx1+SKdLUvz8aM6woAw==";
+    private static final String SAMPLE_IMOJI_ID = "ac6e038f-3392-46a6-a1fb-573cd2fea1cb";
+
     private Session sdkSession;
 
     protected void setUp() throws Exception {
@@ -174,6 +179,66 @@ public class ImojiSDKTests extends AndroidTestCase {
 
             }
         });
+
+        secondaryLatch.await();
+    }
+
+    public void testReportAsAbusive() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicReference<Imoji> imojiReference = new AtomicReference<>();
+
+        sdkSession.fetchImojisByIdentifiers(Collections.singletonList(SAMPLE_IMOJI_ID))
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        validateImojiResponse(imojisResponse);
+
+                        imojiReference.set(imojisResponse.getImojis().iterator().next());
+                        latch.countDown();
+                    }
+                });
+
+        latch.await();
+
+        final CountDownLatch secondaryLatch = new CountDownLatch(1);
+
+        sdkSession.reportImojiAsAbusive(imojiReference.get(), "Android Testing")
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ApiResponse>() {
+                    @Override
+                    protected void onPostExecute(ApiResponse apiResponse) {
+                        secondaryLatch.countDown();
+                    }
+                });
+
+        secondaryLatch.await();
+    }
+
+    public void testMarkImojiUsage() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicReference<Imoji> imojiReference = new AtomicReference<>();
+
+        sdkSession.fetchImojisByIdentifiers(Collections.singletonList(SAMPLE_IMOJI_ID))
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        validateImojiResponse(imojisResponse);
+
+                        imojiReference.set(imojisResponse.getImojis().iterator().next());
+                        latch.countDown();
+                    }
+                });
+
+        latch.await();
+
+        final CountDownLatch secondaryLatch = new CountDownLatch(1);
+
+        sdkSession.markImojiUsage(imojiReference.get(), "com.imoji.android.testing")
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ApiResponse>() {
+                    @Override
+                    protected void onPostExecute(ApiResponse apiResponse) {
+                        secondaryLatch.countDown();
+                    }
+                });
 
         secondaryLatch.await();
     }

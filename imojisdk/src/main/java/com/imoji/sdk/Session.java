@@ -121,37 +121,6 @@ public interface Session {
 
 
     /**
-     * Renders an imoji object into a image with the specified rendering options.
-     * The imoji image is scaled to fit the specified target size. This may make a server call depending on the availability.
-     * of the imoji with the session storage policy.
-     *
-     * @param imoji   The imoji to render.
-     * @param options Set of options to render the imoji with.
-     * @return An ApiTask reference to be resolved by the caller
-     */
-    @NonNull
-    ApiTask<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options);
-
-    /**
-     * Gets imojis associated to the synchronized user account.
-     *
-     * @return An ApiTask reference to be resolved by the caller
-     */
-    @NonNull
-    ApiTask<ImojisResponse> getImojisForAuthenticatedUser();
-
-    /**
-     * Adds a given Imoji to a users collection which is also synchronized with their account.
-     * The sessionState must be IMImojiSessionStateConnectedSynchronized in order to receive user imojis.
-     *
-     * @param imoji The Imoji object to save to the users collection
-     * @return An ApiTask reference to be resolved by the caller
-     */
-    @NonNull
-    ApiTask<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji);
-
-
-    /**
      * Adds an Imoji sticker to the database
      *
      * @param rawImage      The Imoji sticker image

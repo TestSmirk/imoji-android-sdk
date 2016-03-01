@@ -24,12 +24,12 @@
 package com.imoji.sdk.internal;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.RenderingOptions;
 import com.imoji.sdk.StoragePolicy;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
@@ -37,11 +37,14 @@ import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
 import com.imoji.sdk.response.ImojisResponse;
-import com.imoji.sdk.response.RenderResponse;
+import com.imoji.sdk.response.ImojiUploadResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class ApiSession extends NetworkSession {
 
@@ -52,8 +55,11 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
-        return validatedGet("imoji/categories/fetch", CategoriesResponse.class,
-                Collections.singletonMap("classification", classification.name().toLowerCase()), null
+        return validatedGet(
+                ImojiSDKConstants.Paths.CATEGORIES_FETCH,
+                CategoriesResponse.class,
+                Collections.singletonMap("classification", classification.name().toLowerCase()),
+                null
         );
     }
 
@@ -79,7 +85,7 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("imoji/search", ImojisResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.SEARCH, ImojisResponse.class, params, null);
     }
 
     @NonNull
@@ -97,14 +103,14 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("imoji/featured/fetch", ImojisResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.FEATURED, ImojisResponse.class, params, null);
     }
 
     @NonNull
     @Override
     public ApiTask<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
         final String ids = TextUtils.join(",", identifiers);
-        return validatedPost("imoji/fetchMultiple", ImojisResponse.class, Collections.singletonMap("ids", ids), null);
+        return validatedPost(ImojiSDKConstants.Paths.FETCH_IMOJIS_BY_ID, ImojisResponse.class, Collections.singletonMap("ids", ids), null);
     }
 
     @NonNull
@@ -124,41 +130,60 @@ public class ApiSession extends NetworkSession {
             params.put("numResults", numberOfResults.toString());
         }
 
-        return validatedGet("imoji/search", ImojisResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.SEARCH, ImojisResponse.class, params, null);
     }
 
     @NonNull
     @Override
-    public ApiTask<RenderResponse> renderImoji(@NonNull Imoji imoji, @NonNull RenderingOptions options) {
-        return null;
-    }
+    public ApiTask<CreateImojiResponse> createImojiWithRawImage(@NonNull final Bitmap rawImage,
+                                                                @NonNull Bitmap borderedImage,
+                                                                @Nullable final List<String> tags) {
+        return new ApiTask<>(new Callable<CreateImojiResponse>() {
+            @Override
+            public CreateImojiResponse call() throws Exception {
+                Map<String, String> params = new HashMap<>(1);
 
-    @NonNull
-    @Override
-    public ApiTask<ImojisResponse> getImojisForAuthenticatedUser() {
-        return validatedGet("user/imoji/fetch", ImojisResponse.class, null, null);
-    }
+                if (tags != null) {
+                    params.put("tags", TextUtils.join(",", tags));
+                }
 
-    @NonNull
-    @Override
-    public ApiTask<ApiResponse> addImojiToUserCollection(@NonNull Imoji imoji) {
-        return validatedPost("user/imoji/collection/add",
-                ApiResponse.class,
-                Collections.singletonMap("imojiId", imoji.getIdentifier()),
-                null
-        );
-    }
+                ImojiUploadResponse imojiUploadResponse =
+                        validatedPost(
+                                ImojiSDKConstants.Paths.CREATE_IMOJI,
+                                ImojiUploadResponse.class,
+                                params,
+                                null
+                        ).executeImmediately();
 
-    @NonNull
-    @Override
-    public ApiTask<CreateImojiResponse> createImojiWithRawImage(@NonNull Bitmap rawImage, @NonNull Bitmap borderedImage, @Nullable List<String> tags) {
-        return null;
+                Uri uploadUri = imojiUploadResponse.getUploadUri();
+
+                byte[] resizedImage = BitmapUtils.getPngDataWithMaxBoundaries(
+                        rawImage, imojiUploadResponse.getMaxWidth(), imojiUploadResponse.getMaxHeight()
+                );
+
+                makePutDataRequest(
+                        uploadUri,
+                        resizedImage,
+                        Collections.singletonMap("Content-Type", "image/png")
+                ).executeImmediately();
+
+                String imojiId = imojiUploadResponse.getImojiId();
+                ImojisResponse imojisResponse =
+                        fetchImojisByIdentifiers(Collections.singletonList(imojiId)).executeImmediately();
+
+                if (imojisResponse.getImojis().isEmpty()) {
+                    throw new IllegalStateException("Could not fetch Imoji with identifier " + imojiId + " after creation");
+                }
+
+                return new CreateImojiResponse(imojisResponse.getImojis().iterator().next());
+            }
+        });
     }
 
     @NonNull
     @Override
     public ApiTask<ApiResponse> removeImoji(@NonNull Imoji imoji) {
-        return validatedDelete("imoji/remove", ApiResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
+        return validatedDelete(ImojiSDKConstants.Paths.REMOVE_IMOJI, ApiResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
     }
 
     @NonNull
@@ -170,7 +195,7 @@ public class ApiSession extends NetworkSession {
         params.put("imojiId", imoji.getIdentifier());
         params.put("reason", reason);
 
-        return validatedPost("imoji/reportAbusive", ApiResponse.class, params, null);
+        return validatedPost(ImojiSDKConstants.Paths.REPORT_IMOJI, ApiResponse.class, params, null);
     }
 
     @NonNull
@@ -185,6 +210,53 @@ public class ApiSession extends NetworkSession {
             params.put("originIdentifier", originIdentifier);
         }
 
-        return validatedGet("analytics/imoji/sent", ApiResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.IMOJI_USAGE, ApiResponse.class, params, null);
+    }
+
+    private static class BitmapUtils {
+
+        public static int[] getSizeWithinBounds(int width, int height, int boundsWidth, int boundsHeight, boolean expandToFitBounds) {
+            int[] size = new int[2];
+
+            //if we fit within the bounds then don't scale
+            if (!expandToFitBounds && (width <= boundsWidth && height <= boundsHeight)) {
+                size[0] = width;
+                size[1] = height;
+                return size;
+            }
+
+            //get the aspect ratio of the original size
+            float originalAspectRatio = (float) width / (float) height;
+            float boundsAspectRatio = (float) boundsWidth / (float) boundsHeight;
+
+            if (originalAspectRatio > boundsAspectRatio) {
+                size[0] = boundsWidth;
+                size[1] = (int) ((float) boundsWidth / originalAspectRatio);
+            } else {
+                size[1] = boundsHeight;
+                size[0] = (int) ((float) boundsHeight * originalAspectRatio);
+            }
+
+            return size;
+        }
+
+        public static byte[] getPngDataWithMaxBoundaries(Bitmap bitmap, int maxWidth, int maxHeight) {
+            if (bitmap.getWidth() > maxWidth && bitmap.getHeight() > maxHeight) {
+                int[] size = getSizeWithinBounds(bitmap.getWidth(), bitmap.getHeight(), maxWidth, maxHeight, false);
+
+                //resize image
+                bitmap = Bitmap.createScaledBitmap(bitmap, size[0], size[1], false);
+            }
+
+            //estimate the size
+            int initialArraySize = bitmap.getWidth() * bitmap.getHeight() / 10;
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream(initialArraySize);
+
+            //compress the bitmap to png
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            return out.toByteArray();
+        }
     }
 }
