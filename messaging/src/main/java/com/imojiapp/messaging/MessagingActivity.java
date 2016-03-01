@@ -1,26 +1,21 @@
 package com.imojiapp.messaging;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Imoji;
+import com.imoji.sdk.RenderingOptions;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -116,7 +111,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageInter
         }
 
         private void bindImoji(ImojiMessage msg, ViewHolder vh) {
-            Picasso.with(MessagingActivity.this).load(msg.mImoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(vh.mImojiIv);
+            Picasso.with(MessagingActivity.this).load(msg.mImoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(vh.mImojiIv);
         }
 
         private void bindText(TextMessage msg, ViewHolder vh) {

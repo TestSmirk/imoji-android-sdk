@@ -2,14 +2,13 @@ package com.imojiapp.triggers;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.imojiapp.imoji.sdk.Imoji;
+import com.imoji.sdk.RenderingOptions;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class ImojiRecyclerAdapter extends RecyclerView.Adapter<ImojiRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Imoji imoji = mItems.get(position);
-        Picasso.with(mContext).load(imoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
+        Picasso.with(mContext).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
 
     }
 

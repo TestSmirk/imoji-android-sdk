@@ -3,7 +3,6 @@ package io.imoji.trendingsample;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
-import java.util.List;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 
 import io.imoji.imojitrendingsample.R;
 
@@ -112,23 +111,19 @@ public class ImojiSearchFragment extends Fragment {
     }
 
     private void doSearch(String query) {
-        ImojiApi.with(getActivity()).search(query, new Callback<List<Imoji>, String>() {
-            @Override
-            public void onSuccess(List<Imoji> result) {
-                if (isResumed()) {
-                    ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, result);
-                    mImojiGrid.setAdapter(adapter);
-                    mProgress.setVisibility(View.GONE);
-
-                }
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(LOG_TAG, "failed with error: " + error);
-            }
-        });
+        ImojiSDK.getInstance()
+                .createSession(getContext())
+                .searchImojis(query)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        if (isResumed()) {
+                            ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, imojisResponse.getImojis());
+                            mImojiGrid.setAdapter(adapter);
+                            mProgress.setVisibility(View.GONE);
+                        }
+                    }
+                });
     }
 
 }

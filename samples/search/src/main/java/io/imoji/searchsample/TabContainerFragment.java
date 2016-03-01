@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.imoji.sdk.objects.Category;
 
 
 /**
@@ -50,11 +50,11 @@ public class TabContainerFragment extends Fragment {
                     Fragment f;
                     switch (checkedId) {
                         case R.id.rb_reactions:
-                            f = ImojiCategoryFragment.newInstance(ImojiCategory.Classification.GENERIC);
+                            f = ImojiCategoryFragment.newInstance(Category.Classification.Generic.name());
                             getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                             break;
                         case R.id.rb_trending:
-                            f = ImojiCategoryFragment.newInstance(ImojiCategory.Classification.TRENDING);
+                            f = ImojiCategoryFragment.newInstance(Category.Classification.Trending.name());
                             getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                             break;
                         case R.id.rb_search:

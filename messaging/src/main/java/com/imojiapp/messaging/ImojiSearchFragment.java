@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +18,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Api;
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 
 public class ImojiSearchFragment extends Fragment {
 
@@ -153,30 +149,23 @@ public class ImojiSearchFragment extends Fragment {
     }
 
     public void doSearch(String query, boolean sentence) {
-        Map<String, String> params = new HashMap<>();
+        Session session = ImojiSDK.getInstance().createSession(getContext());
+        ApiTask<ImojisResponse> imojisResponseApiTask;
         if (sentence) {
-            params.put(Api.SearchParams.SENTENCE, query);
+            imojisResponseApiTask = session.searchImojisWithSentence(query);
         } else {
-            params.put(Api.SearchParams.QUERY, query);
+            imojisResponseApiTask = session.searchImojis(query);
         }
-        params.put(Api.SearchParams.OFFSET, String.valueOf(0));
-        params.put(Api.SearchParams.NUM_RESULTS, String.valueOf(60));
 
-        ImojiApi.with(getActivity()).search(params, new Callback<List<Imoji>, String>() {
+        imojisResponseApiTask.executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
             @Override
-            public void onSuccess(List<Imoji> result) {
+            protected void onPostExecute(ImojisResponse imojisResponse) {
                 if (isResumed()) {
-                    if (result.size() > 0) {
-                        mImojiRecyclerAdapter.setList(result);
+                    if (imojisResponse.getImojis().size() > 0) {
+                        mImojiRecyclerAdapter.setList(imojisResponse.getImojis());
                     }
                     mProgress.setVisibility(View.GONE);
                 }
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(LOG_TAG, "failed with error: " + error);
             }
         });
     }

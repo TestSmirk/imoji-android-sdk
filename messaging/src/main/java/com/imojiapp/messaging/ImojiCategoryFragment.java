@@ -4,19 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.ImojiApi;
-import com.imojiapp.imoji.sdk.ImojiCategory;
-
-import java.util.List;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.response.CategoriesResponse;
 
 public class ImojiCategoryFragment extends Fragment {
     public static final String CLASSIFICATION_BUNDLE_ARG_KEY = "CLASSIFICATION_BUNDLE_ARG_KEY";
@@ -54,20 +51,21 @@ public class ImojiCategoryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         mTitle = (TextView) view.findViewById(R.id.tv_title);
-        if (mClassification == ImojiCategory.Classification.TRENDING) {
+        if (Category.Classification.Trending.name().equals(mClassification)) {
             mTitle.setText("TRENDING");
-        }else if (mClassification == ImojiCategory.Classification.GENERIC) {
+        } else if (Category.Classification.Generic.name().equals(mClassification)) {
             mTitle.setText("REACTIONS");
-        mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
+            mCategoryGrid.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
 
-                ImojiCategory imojiCategory = mCategoryAdapter.getItemAt(position);
-                ImojiSearchFragment fragment = ImojiSearchFragment.newInstance(imojiCategory.getSearchText(), false);
-                getChildFragmentManager().beginTransaction().add(R.id.category_imojis_container, fragment).addToBackStack(null).commitAllowingStateLoss();
+                    Category imojiCategory = mCategoryAdapter.getItemAt(position);
+                    ImojiSearchFragment fragment = ImojiSearchFragment.newInstance(imojiCategory.getIdentifier(), false);
+                    getChildFragmentManager().beginTransaction().add(R.id.category_imojis_container, fragment).addToBackStack(null).commitAllowingStateLoss();
 
-            }
-        }));
+                }
+            }));
+        }
     }
 
     @Override
@@ -82,18 +80,17 @@ public class ImojiCategoryFragment extends Fragment {
     }
 
     private void loadImojiCategories(String classification) {
-        ImojiApi.with(getActivity()).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
+        Category.Classification c  = Category.Classification.Trending;
+        if (Category.Classification.Generic.name().equals(classification)) {
+            c = Category.Classification.Generic;
+        }
+
+        ImojiSDK.getInstance().createSession(getContext()).getImojiCategories(c).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
             @Override
-            public void onSuccess(List<ImojiCategory> result) {
+            protected void onPostExecute(CategoriesResponse categoriesResponse) {
                 if (isResumed()) {
-                    mCategoryAdapter.setImojiCategories(result);
+                    mCategoryAdapter.setImojiCategories(categoriesResponse.getCategories());
                 }
-            }
-
-            @Override
-            public void onFailure(String result) {
-                Log.w(LOG_TAG, "" + result);
-
             }
         });
     }

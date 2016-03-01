@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class Category {
 
-    public enum  Classification {
+    public enum Classification {
         Trending,
         Generic,
         Artist,
@@ -48,22 +48,13 @@ public class Category {
      */
     public static class Attribution {
 
-        /**
-         * A unique id for the category
-         */
         @NonNull
         private final String identifier;
 
 
-        /**
-         * A unique id for the category
-         */
         @NonNull
         private final Artist artist;
 
-        /**
-         * A punchout URL for the attribution
-         */
         @NonNull
         private final Uri uri;
 
@@ -73,44 +64,40 @@ public class Category {
             this.uri = uri;
         }
 
+        /**
+         * @return A unique id for the attribution record
+         */
         @NonNull
         public String getIdentifier() {
             return identifier;
         }
 
+        /**
+         * @return The artist/contributor information
+         */
         @NonNull
         public Artist getArtist() {
             return artist;
         }
 
+        /**
+         * @return A punchout URL for the attribution
+         */
         @NonNull
         public Uri getUri() {
             return uri;
         }
     }
 
-    /**
-     * A unique id for the category
-     */
     @NonNull
     private final String identifier;
 
-    /**
-     * Description of the category.
-     */
     @NonNull
     private final String title;
 
-    /**
-     * One or more Imoji objects representing the category.
-     */
     @NonNull
     private final List<Imoji> previewImojis;
 
-    /**
-     * The attribution details associated with the category. This field can be null when the category
-     * does not contain artist content.
-     */
     @Nullable
     private final Attribution attribution;
 
@@ -124,21 +111,42 @@ public class Category {
         this.attribution = attribution;
     }
 
+    /**
+     * @return A unique id for the category
+     */
     @NonNull
     public String getIdentifier() {
         return identifier;
     }
 
+    /**
+     * @return Description of the category.
+     */
     @NonNull
     public String getTitle() {
         return title;
     }
 
+    /**
+     * @return One or more Imoji objects representing the category.
+     */
     @NonNull
     public List<Imoji> getPreviewImojis() {
         return previewImojis;
     }
 
+    /**
+     * @return A imoji representing the category
+     */
+    @NonNull
+    public Imoji getPreviewImoji() {
+        return previewImojis.iterator().next();
+    }
+
+    /**
+     * @return The attribution details associated with the category. This field can be null when the
+     * category does not contain artist content.
+     */
     @Nullable
     public Attribution getAttribution() {
         return attribution;

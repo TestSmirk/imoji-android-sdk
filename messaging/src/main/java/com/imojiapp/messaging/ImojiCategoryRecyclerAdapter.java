@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.imoji.sdk.RenderingOptions;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,14 +21,14 @@ import java.util.List;
 public class ImojiCategoryRecyclerAdapter extends RecyclerView.Adapter<ImojiCategoryRecyclerAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<ImojiCategory> mImojiCategories;
+    private List<Category> mImojiCategories;
     private Context mContext;
 
     public ImojiCategoryRecyclerAdapter(Context context) {
         this(context, null);
     }
 
-    public ImojiCategoryRecyclerAdapter(Context context, List<ImojiCategory> imojiCategories) {
+    public ImojiCategoryRecyclerAdapter(Context context, List<Category> imojiCategories) {
         mImojiCategories = imojiCategories;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
@@ -41,12 +42,13 @@ public class ImojiCategoryRecyclerAdapter extends RecyclerView.Adapter<ImojiCate
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ImojiCategory category = mImojiCategories.get(position);
-        Picasso.with(mContext).load(category.getImoji().getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
+        Category category = mImojiCategories.get(position);
+        Imoji imoji = category.getPreviewImojis().iterator().next();
+        Picasso.with(mContext).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
     }
 
-    public ImojiCategory getItemAt(int position) {
+    public Category getItemAt(int position) {
         return mImojiCategories.get(position);
     }
 
@@ -55,7 +57,7 @@ public class ImojiCategoryRecyclerAdapter extends RecyclerView.Adapter<ImojiCate
         return mImojiCategories != null ? mImojiCategories.size() : 0;
     }
 
-    public void setImojiCategories(List<ImojiCategory> imojiCategories) {
+    public void setImojiCategories(List<Category> imojiCategories) {
         mImojiCategories = imojiCategories;
         notifyDataSetChanged();
     }

@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.ImojiApi;
-import com.imojiapp.imoji.sdk.ImojiCategory;
-
-import java.util.List;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.response.CategoriesResponse;
 
 import io.imoji.imojitrendingsample.R;
 
@@ -59,8 +58,8 @@ public class ImojiCategoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isResumed()) {
-                    ImojiCategory category = (ImojiCategory) parent.getItemAtPosition(position);
-                    ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getSearchText());
+                    Category category = (Category) parent.getItemAtPosition(position);
+                    ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getIdentifier());
                     getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.tab_container, f).commit();
                 }
             }
@@ -69,23 +68,24 @@ public class ImojiCategoryFragment extends Fragment {
 
 
     private void loadImojiCategories(String classification) {
-        ImojiApi.with(getActivity()).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
-            @Override
-            public void onSuccess(List<ImojiCategory> result) {
-                if (isResumed()) {
-                    mCategoryAdapter = new ImojiCategoryAdapter(getActivity(), R.layout.category_item_layout, result);
-                    mCategoryGrid.setAdapter(mCategoryAdapter);
-                    Log.d(LOG_TAG, "setting categories");
-                }
+        Category.Classification c = Category.Classification.Trending;
 
-            }
+        if (Category.Classification.Generic.name().equalsIgnoreCase(classification)) {
+            c = Category.Classification.Generic;
+        }
 
-            @Override
-            public void onFailure(String result) {
-                Log.w(LOG_TAG, "" + result);
-
-            }
-        });
+        ImojiSDK.getInstance()
+                .createSession(getContext())
+                .getImojiCategories(c)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+                    @Override
+                    protected void onPostExecute(CategoriesResponse categoriesResponse) {
+                        if (isResumed()) {
+                            mCategoryAdapter = new ImojiCategoryAdapter(getActivity(), R.layout.category_item_layout, categoriesResponse.getCategories());
+                            mCategoryGrid.setAdapter(mCategoryAdapter);
+                            Log.d(LOG_TAG, "setting categories");
+                        }
+                    }
+                });
     }
-
 }

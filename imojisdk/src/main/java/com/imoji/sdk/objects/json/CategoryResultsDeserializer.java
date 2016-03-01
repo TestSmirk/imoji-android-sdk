@@ -31,7 +31,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.response.CategoriesResponse;
-import com.imojiapp.imoji.sdk.ImojiCategory;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

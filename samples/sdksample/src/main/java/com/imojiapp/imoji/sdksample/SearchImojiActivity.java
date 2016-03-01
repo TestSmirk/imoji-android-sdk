@@ -14,9 +14,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.objects.Imoji;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 import com.imojiapp.imoji.sdksample.utils.Utils;
 

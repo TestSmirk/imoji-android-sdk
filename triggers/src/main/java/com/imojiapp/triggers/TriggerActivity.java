@@ -3,14 +3,12 @@ package com.imojiapp.triggers;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +21,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.imoji.sdk.RenderingOptions;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -49,7 +48,7 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
 
 
         if (savedInstanceState == null) {
-            ImojiCategoryFragment f = ImojiCategoryFragment.newInstance(ImojiCategory.Classification.TRENDING);
+            ImojiCategoryFragment f = ImojiCategoryFragment.newInstance(Category.Classification.Trending.name());
             getSupportFragmentManager().beginTransaction().add(R.id.container, f).commit();
         }
 
@@ -225,7 +224,7 @@ public class TriggerActivity extends AppCompatActivity implements MessageInterfa
         }
 
         private void bindImoji(ImojiMessage msg, ViewHolder vh) {
-            Picasso.with(TriggerActivity.this).load(msg.mImoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(vh.mImojiIv);
+            Picasso.with(TriggerActivity.this).load(msg.mImoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(vh.mImojiIv);
         }
 
         private void bindText(TextMessage msg, ViewHolder vh) {
