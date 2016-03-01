@@ -151,4 +151,27 @@ public class Category {
     public Attribution getAttribution() {
         return attribution;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (!identifier.equals(category.identifier)) return false;
+        if (!title.equals(category.title)) return false;
+        if (!previewImojis.equals(category.previewImojis)) return false;
+        return !(attribution != null ? !attribution.equals(category.attribution) : category.attribution != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + previewImojis.hashCode();
+        result = 31 * result + (attribution != null ? attribution.hashCode() : 0);
+        return result;
+    }
 }

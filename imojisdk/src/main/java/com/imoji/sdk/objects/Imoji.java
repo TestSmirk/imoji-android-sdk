@@ -162,4 +162,25 @@ public class Imoji {
         this.tags = tags;
         this.metadataMap = metadataMap;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Imoji imoji = (Imoji) o;
+
+        if (!identifier.equals(imoji.identifier)) return false;
+        if (!tags.equals(imoji.tags)) return false;
+        return metadataMap.equals(imoji.metadataMap);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier.hashCode();
+        result = 31 * result + tags.hashCode();
+        result = 31 * result + metadataMap.hashCode();
+        return result;
+    }
 }
