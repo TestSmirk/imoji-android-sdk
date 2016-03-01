@@ -46,9 +46,10 @@ public class ImojiUploadResponseDeserializer implements JsonDeserializer<ImojiUp
 
 
         String fullImageUrl = root.get("fullImageUrl").getAsString();
+        String imojiId = root.get("imojiId").getAsString();
         int maxWidth = root.get("fullImageResizeWidth").getAsInt();
         int maxHeight = root.get("fullImageResizeHeight").getAsInt();
 
-        return new ImojiUploadResponse(Uri.parse(fullImageUrl), maxWidth, maxHeight);
+        return new ImojiUploadResponse(imojiId, Uri.parse(fullImageUrl), maxWidth, maxHeight);
     }
 }
