@@ -38,7 +38,7 @@ public class ImojiCategoryAdapter extends ArrayAdapter<Category> {
         }
 
         Category category = getItem(position);
-        Picasso.with(getContext()).load(category.getPreviewImojis().iterator().next().urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
+        Picasso.with(getContext()).load(category.getPreviewImoji().urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
 
         return convertView;

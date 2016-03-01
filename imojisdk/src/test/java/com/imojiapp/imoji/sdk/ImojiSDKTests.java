@@ -123,7 +123,7 @@ public class ImojiSDKTests extends AndroidTestCase {
                 assertNotNull(category.getAttribution().getArtist());
                 assertNotNull(category.getAttribution().getUri());
 
-                Imoji previewImoji = category.getPreviewImojis().iterator().next();
+                Imoji previewImoji = category.getPreviewImoji();
                 assertNotNull(previewImoji.getIdentifier());
                 assertNotNull(previewImoji.getTags());
                 assertNotNull(previewImoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail()));

@@ -39,7 +39,7 @@ public class ImojiCategoryAdapter extends ArrayAdapter<Category> {
         }
 
         Category category = getItem(position);
-        Imoji imoji = category.getPreviewImojis().iterator().next();
+        Imoji imoji = category.getPreviewImoji();
         Picasso.with(getContext()).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
 

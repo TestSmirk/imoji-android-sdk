@@ -43,7 +43,7 @@ public class ImojiCategoryRecyclerAdapter extends RecyclerView.Adapter<ImojiCate
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Category category = mImojiCategories.get(position);
-        Imoji imoji = category.getPreviewImojis().iterator().next();
+        Imoji imoji = category.getPreviewImoji();
         Picasso.with(mContext).load(imoji.urlForRenderingOption(RenderingOptions.borderedPngThumbnail())).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
     }
