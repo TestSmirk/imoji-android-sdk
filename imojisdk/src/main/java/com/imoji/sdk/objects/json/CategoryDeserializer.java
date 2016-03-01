@@ -65,7 +65,7 @@ public class CategoryDeserializer implements JsonDeserializer<Category> {
 
         Category.Attribution attribution = null;
 
-        if (root.has("artist")) {
+        if (root.has("artist") && !root.get("artist").isJsonNull()) {
             JsonObject artistJson = root.getAsJsonObject("artist");
             Artist artist = context.deserialize(artistJson, Artist.class);
             String attributionId = artistJson.get("packId").getAsString();
