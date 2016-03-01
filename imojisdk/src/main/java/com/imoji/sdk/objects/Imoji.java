@@ -26,7 +26,6 @@ package com.imoji.sdk.objects;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.util.Pair;
 
 import com.imoji.sdk.RenderingOptions;
@@ -188,8 +187,8 @@ public class Imoji {
      * @return Gets either a bordered PNG full size URL or GIF thumbnail URL if animation is
      * supported
      */
-    public Uri getStandardFullSizelUri() {
-        return this.getStandardFullSizelUri(true);
+    public Uri getStandardFullSizeUri() {
+        return this.getStandardFullSizeUri(true);
     }
 
     /**
@@ -197,7 +196,7 @@ public class Imoji {
      * @return Gets either a bordered PNG full size URL or GIF thumbnail URL if animation is
      * supported and requested
      */
-    public Uri getStandardFullSizelUri(boolean supportAnimation) {
+    public Uri getStandardFullSizeUri(boolean supportAnimation) {
         if (supportAnimation && hasAnimationCapability()) {
             return this.urlForRenderingOption(RenderingOptions.animatedGifFullSize());
         }
