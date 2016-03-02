@@ -1,1 +1,1 @@
-include ':imojisdk', ':triggers', ':messaging', 'samples:sdksample', 'samples:keywordsearch', 'samples:sentenceparsing', 'samples:search', 'samples:reactions', 'samples:trending', 'samples:photo'
+include ':imoji-android-sdk', 'samples:sdksample', 'samples:keywordsearch', 'samples:sentenceparsing', 'samples:search', 'samples:reactions', 'samples:trending', 'samples:photo', 'samples:triggers', 'samples:messaging'

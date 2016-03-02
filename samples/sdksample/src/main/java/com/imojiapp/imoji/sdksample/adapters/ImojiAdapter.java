@@ -1,19 +1,15 @@
 package com.imojiapp.imoji.sdksample.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.objects.Imoji;
 import com.imojiapp.imoji.sdksample.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -44,7 +40,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        Picasso.with(getContext()).load(item.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv); //
+        Picasso.with(getContext()).load(item.getStandardThumbnailUri()).into(holder.mImojiIv); //
 
         return convertView;
     }

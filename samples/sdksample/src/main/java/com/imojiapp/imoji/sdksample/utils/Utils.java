@@ -1,7 +1,6 @@
 package com.imojiapp.imoji.sdksample.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
@@ -14,8 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.common.base.Joiner;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.objects.Imoji;
 import com.imojiapp.imoji.sdksample.R;
 import com.squareup.picasso.Picasso;
 
@@ -38,9 +36,9 @@ public class Utils {
         TextView idTv = ButterKnife.findById(v, R.id.tv_imoji_id);
         ImageButton closeBtn = ButterKnife.findById(v, R.id.ib_close);
 
-        Picasso.with(activity).load(imoji.getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(imojiIv);
+        Picasso.with(activity).load(imoji.getStandardThumbnailUri()).into(imojiIv);
         tagsTv.setText(Joiner.on(", ").join(imoji.getTags()));
-        idTv.setText(imoji.getImojiId());
+        idTv.setText(imoji.getIdentifier());
 
         final PopupWindow window = new PopupWindow(v, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         window.showAtLocation(activity.findViewById(android.R.id.content), Gravity.CENTER, 0, 0);

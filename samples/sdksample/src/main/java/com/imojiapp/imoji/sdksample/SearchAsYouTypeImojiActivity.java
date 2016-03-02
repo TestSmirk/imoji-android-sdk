@@ -1,10 +1,10 @@
 package com.imojiapp.imoji.sdksample;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,14 +16,15 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 import com.imojiapp.imoji.sdksample.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.Future;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -42,7 +43,9 @@ public class SearchAsYouTypeImojiActivity extends Activity {
     @InjectView(R.id.pb_progress)
     ProgressBar mProgress;
 
-    private CancellableCallback mActiveCallback;
+    private Session mImojiSession;
+
+    private AsyncTask<Future<ImojisResponse>, Void, ImojisResponse> mSearchTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class SearchAsYouTypeImojiActivity extends Activity {
                 return false;
             }
         });
+
+        mImojiSession = ImojiSDK.getInstance().createSession(getApplicationContext());
 
         mSearchEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -99,11 +104,18 @@ public class SearchAsYouTypeImojiActivity extends Activity {
     }
 
     private void doSearch(String query) {
-        if (mActiveCallback != null) {
-            mActiveCallback.cancel();
+        if (mSearchTask != null) {
+            mSearchTask.cancel(true);
         }
-        mActiveCallback = new CancellableCallback();
-        ImojiApi.with(SearchAsYouTypeImojiActivity.this).search(query, 0, 8, mActiveCallback);
+
+        mSearchTask = mImojiSession.searchImojis(query, 0, 8).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+            @Override
+            protected void onPostExecute(ImojisResponse imojisResponse) {
+                ImojiAdapter adapter = new ImojiAdapter(SearchAsYouTypeImojiActivity.this, R.layout.imoji_item_layout, imojisResponse.getImojis());
+                mImojiGrid.setAdapter(adapter);
+                mProgress.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -126,30 +138,5 @@ public class SearchAsYouTypeImojiActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class CancellableCallback implements Callback<List<Imoji>, String> {
-
-        public void cancel() {
-            mIsCancelled = true;
-        }
-
-        private boolean mIsCancelled;
-
-        @Override
-        public void onSuccess(List<Imoji> result) {
-            if (!mIsCancelled) {
-                ImojiAdapter adapter = new ImojiAdapter(SearchAsYouTypeImojiActivity.this, R.layout.imoji_item_layout, result == null ? new ArrayList<Imoji>() : result);
-                mImojiGrid.setAdapter(adapter);
-                mProgress.setVisibility(View.GONE);
-            }
-
-        }
-
-        @Override
-        public void onFailure(String error) {
-            mProgress.setVisibility(View.GONE);
-            Log.d(LOG_TAG, "failed with error: " + error);
-        }
     }
 }

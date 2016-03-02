@@ -20,16 +20,6 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".UserImojisActivity$ExternalGrantReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.imojiapp.imoji.oauth.external.GRANT" />
-
-                <category android:name="com.imojiapp.imoji.category.EXTERNAL_CATEGORY" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".SearchImojiActivity"
             android:label="@string/title_activity_search_imoji"
@@ -84,17 +74,6 @@
             <meta-data
                 android:name="imoji-sample-name"
                 android:value="Imoji Categories" />
-        </activity>
-        <activity
-            android:name=".UserImojisActivity"
-            android:label="@string/title_activity_user_imojis"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.imojiapp.imoji.sdksample.MainActivity" />
-            <meta-data
-                android:name="imoji-sample-name"
-                android:value="Get User Imojis" />
         </activity>
         <activity
             android:name=".CreateImojiActivity"

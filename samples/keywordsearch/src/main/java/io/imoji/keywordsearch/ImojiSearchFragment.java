@@ -1,12 +1,12 @@
 package io.imoji.keywordsearch;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +19,14 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class ImojiSearchFragment extends Fragment {
 
@@ -38,7 +39,7 @@ public class ImojiSearchFragment extends Fragment {
 
     ProgressBar mProgress;
     private InputMethodManager mImm;
-    private CancellableCallback mCallback;
+    private AsyncTask<Future<ImojisResponse>, Void, ImojisResponse> mCallback;
 
 
     public static ImojiSearchFragment newInstance(String query) {
@@ -139,48 +140,19 @@ public class ImojiSearchFragment extends Fragment {
 
     private void doSearch(String query) {
         if (mCallback != null) {
-            mCallback.cancel();
+            mCallback.cancel(true);
         }
-        mCallback = new CancellableCallback(this);
-        ImojiApi.with(getActivity()).search(query, mCallback);
-    }
+        Session session = ImojiSDK.getInstance().createSession(getContext());
 
-    private static class CancellableCallback implements Callback<List<Imoji>, String> {
-
-
-        private WeakReference<ImojiSearchFragment> mSearchFragmentWeakReference;
-        private boolean mIsCancelled;
-
-        public CancellableCallback(ImojiSearchFragment fragment) {
-            mSearchFragmentWeakReference = new WeakReference<ImojiSearchFragment>(fragment);
-        }
-
-        public void cancel() {
-            mIsCancelled = true;
-        }
-
-        @Override
-        public void onSuccess(List<Imoji> result) {
-            ImojiSearchFragment fragment = mSearchFragmentWeakReference.get();
-            if (!mIsCancelled && fragment != null && fragment.isResumed()) {
-
-
-                ImojiAdapter adapter = new ImojiAdapter(fragment.getActivity(), R.layout.imoji_item_layout, result == null ? new ArrayList<Imoji>() : result);
-                fragment.mImojiGrid.setAdapter(adapter);
-                fragment.mProgress.setVisibility(View.GONE);
+        mCallback = session.searchImojis(query).executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+            @Override
+            protected void onPostExecute(ImojisResponse imojisResponse) {
+                List<Imoji> imojis = imojisResponse.getImojis();
+                ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, imojis);
+                mImojiGrid.setAdapter(adapter);
+                mProgress.setVisibility(View.GONE);
             }
+        });
 
-        }
-
-        @Override
-        public void onFailure(String error) {
-            if (mSearchFragmentWeakReference.get() != null) {
-                ImojiSearchFragment fragment = mSearchFragmentWeakReference.get();
-                fragment.mProgress.setVisibility(View.GONE);
-
-            }
-            Log.d(LOG_TAG, "failed with error: " + error);
-        }
     }
-
 }

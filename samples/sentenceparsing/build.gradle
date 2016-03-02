@@ -20,12 +20,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile ('com.imojiapp:imoji-sdk:0.5.3@aar'){
-        transitive=true
-        exclude group: 'com.koushikdutta.ion'
-    }
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile project(':imoji-android-sdk')
 }

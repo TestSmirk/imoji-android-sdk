@@ -3,18 +3,17 @@ package io.imoji.keywordsearch;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.ImojiApi;
-import com.imojiapp.imoji.sdk.ImojiCategory;
-
-import java.util.List;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.response.CategoriesResponse;
 
 public class ImojiCategoryFragment extends Fragment {
     public static final String CLASSIFICATION_BUNDLE_ARG_KEY = "CLASSIFICATION_BUNDLE_ARG_KEY";
@@ -57,8 +56,8 @@ public class ImojiCategoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isResumed()) {
-                    ImojiCategory category = (ImojiCategory) parent.getItemAtPosition(position);
-                    ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getSearchText());
+                    Category category = (Category) parent.getItemAtPosition(position);
+                    ImojiSearchFragment f = ImojiSearchFragment.newInstance(category.getIdentifier());
                     getFragmentManager().beginTransaction().replace(R.id.tab_container, f).commit();
                 }
             }
@@ -66,21 +65,20 @@ public class ImojiCategoryFragment extends Fragment {
     }
 
 
-    private void loadImojiCategories(String classification) {
-        ImojiApi.with(getActivity()).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
+    private void loadImojiCategories(String classificationStr) {
+        Category.Classification classification = Category.Classification.Generic;
+        if ("trending".equalsIgnoreCase(classificationStr)) {
+            classification = Category.Classification.Trending;
+        }
+
+        Session session = ImojiSDK.getInstance().createSession(getContext());
+        session.getImojiCategories(classification).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
             @Override
-            public void onSuccess(List<ImojiCategory> result) {
+            protected void onPostExecute(CategoriesResponse categoriesResponse) {
                 if (isResumed()) {
-                    mCategoryAdapter = new ImojiCategoryAdapter(getActivity(), R.layout.category_item_layout, result);
+                    mCategoryAdapter = new ImojiCategoryAdapter(getActivity(), R.layout.category_item_layout, categoriesResponse.getCategories());
                     mCategoryGrid.setAdapter(mCategoryAdapter);
                 }
-
-            }
-
-            @Override
-            public void onFailure(String result) {
-                Log.w(LOG_TAG, "" + result);
-
             }
         });
     }

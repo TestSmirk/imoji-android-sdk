@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +16,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
-import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.Session;
+import com.imoji.sdk.objects.Category;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.CategoriesResponse;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -42,6 +41,7 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
     GridView mCategoryGrid;
 
     ImojiCategoryAdapter mCategoryAdapter;
+    Session mImojiSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +53,14 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
         mLoadAllBt.setOnClickListener(mOnButtonClick);
         mLoadEmoticonBt.setOnClickListener(mOnButtonClick);
         mLoadTrending.setOnClickListener(mOnButtonClick);
+        mImojiSession = ImojiSDK.getInstance().createSession(getApplicationContext());
 
         mCategoryGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ImojiCategory category = (ImojiCategory) parent.getItemAtPosition(position);
+                Category category = (Category) parent.getItemAtPosition(position);
                 Intent intent = new Intent(ImojiCategoryActivity.this, SearchImojiActivity.class);
-                intent.putExtra(SearchImojiActivity.QUERY_BUNDLE_ARG_KEY, category.getSearchText());
+                intent.putExtra(SearchImojiActivity.QUERY_BUNDLE_ARG_KEY, category.getIdentifier());
                 startActivity(intent);
             }
         });
@@ -68,13 +69,13 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
     private View.OnClickListener mOnButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String classification;
+            Category.Classification classification;
             if (v.getId() == R.id.bt_load_trending_categories) {
-                classification = ImojiCategory.Classification.TRENDING;
+                classification = Category.Classification.Trending;
             }else if (v.getId() == R.id.bt_load_emoji_categories) {
-                classification = ImojiCategory.Classification.GENERIC;
+                classification = Category.Classification.Generic;
             } else {
-                classification = ImojiCategory.Classification.NONE;
+                classification = Category.Classification.None;
             }
 
             loadImojiCategories(classification);
@@ -82,21 +83,16 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
     };
 
 
-    private void loadImojiCategories(String classification) {
-        ImojiApi.with(ImojiCategoryActivity.this).getImojiCategories(classification, new Callback<List<ImojiCategory>, String>() {
-            @Override
-            public void onSuccess(List<ImojiCategory> result) {
-                mCategoryAdapter = new ImojiCategoryAdapter(ImojiCategoryActivity.this, R.layout.imoji_category_item, result);
-                mCategoryGrid.setAdapter(mCategoryAdapter);
-
-            }
-
-            @Override
-            public void onFailure(String result) {
-                Log.w(LOG_TAG, "" + result);
-
-            }
-        });
+    private void loadImojiCategories(Category.Classification classification) {
+        mImojiSession
+                .getImojiCategories(classification)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+                    @Override
+                    protected void onPostExecute(CategoriesResponse categoriesResponse) {
+                        mCategoryAdapter = new ImojiCategoryAdapter(ImojiCategoryActivity.this, R.layout.imoji_category_item, categoriesResponse.getCategories());
+                        mCategoryGrid.setAdapter(mCategoryAdapter);
+                    }
+                });
     }
 
     @Override
@@ -121,11 +117,11 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
         return super.onOptionsItemSelected(item);
     }
 
-    private class ImojiCategoryAdapter extends ArrayAdapter<ImojiCategory> {
+    private class ImojiCategoryAdapter extends ArrayAdapter<Category> {
 
         private LayoutInflater mInflater;
 
-        public ImojiCategoryAdapter(Context context, int resource, List<ImojiCategory> items) {
+        public ImojiCategoryAdapter(Context context, int resource, List<Category> items) {
             super(context, resource, items);
             mInflater = LayoutInflater.from(context);
         }
@@ -141,10 +137,11 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
                 holder = (ViewHolder)convertView.getTag();
             }
 
-            ImojiCategory category = getItem(position);
-            Picasso.with(getContext()).load(category.getImoji().getImageUrl(Imoji.ImageFormat.Png, Imoji.ImageSize.ImageSizeThumbnail)).into(holder.mImojiIv);
+            Category category = getItem(position);
+            Imoji preview = category.getPreviewImoji();
+            Picasso.with(getContext()).load(preview.getStandardThumbnailUri()).into(holder.mImojiIv);
             holder.mTitleTv.setText(category.getTitle());
-            holder.mSearchTextTv.setText(category.getSearchText());
+            holder.mSearchTextTv.setText(category.getIdentifier());
 
             return convertView;
         }

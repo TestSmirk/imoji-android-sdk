@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +16,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.Api;
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.ImojisResponse;
 
 import io.imoji.searchsample.R;
 
@@ -121,27 +116,17 @@ public class ImojiSearchFragment extends Fragment {
     }
 
     private void doSearch(String query) {
-
-        Map<String, String> params = new HashMap<>();
-        params.put(Api.SearchParams.SENTENCE, query);
-        params.put(Api.SearchParams.OFFSET, String.valueOf(0));
-        params.put(Api.SearchParams.NUM_RESULTS, String.valueOf(60));
-
-        ImojiApi.with(getActivity()).search(params, new Callback<List<Imoji>, String>() {
-            @Override
-            public void onSuccess(List<Imoji> result) {
-                ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, result);
-                mImojiGrid.setAdapter(adapter);
-                mProgress.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(LOG_TAG, "failed with error: " + error);
-            }
-        });
-
+        ImojiSDK.getInstance()
+                .createSession(getContext())
+                .searchImojisWithSentence(query)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        ImojiAdapter adapter = new ImojiAdapter(getActivity(), R.layout.imoji_item_layout, imojisResponse.getImojis());
+                        mImojiGrid.setAdapter(adapter);
+                        mProgress.setVisibility(View.GONE);
+                    }
+                });
     }
 
 }

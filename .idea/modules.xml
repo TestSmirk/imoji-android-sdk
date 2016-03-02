@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/imoji-android-sdk.iml" filepath="$PROJECT_DIR$/imoji-android-sdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imojisdk/imojisdk.iml" filepath="$PROJECT_DIR$/imojisdk/imojisdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imoji-android-sdk/imoji-android-sdk-imoji-android-sdk.iml" filepath="$PROJECT_DIR$/imoji-android-sdk/imoji-android-sdk-imoji-android-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/keywordsearch/keywordsearch.iml" filepath="$PROJECT_DIR$/samples/keywordsearch/keywordsearch.iml" />
-      <module fileurl="file://$PROJECT_DIR$/messaging/messaging.iml" filepath="$PROJECT_DIR$/messaging/messaging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/samples/messaging/messaging.iml" filepath="$PROJECT_DIR$/samples/messaging/messaging.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/photo/photo.iml" filepath="$PROJECT_DIR$/samples/photo/photo.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/reactions/reactions.iml" filepath="$PROJECT_DIR$/samples/reactions/reactions.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/samples.iml" filepath="$PROJECT_DIR$/samples/samples.iml" />
@@ -13,7 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/samples/search/search.iml" filepath="$PROJECT_DIR$/samples/search/search.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/sentenceparsing/sentenceparsing.iml" filepath="$PROJECT_DIR$/samples/sentenceparsing/sentenceparsing.iml" />
       <module fileurl="file://$PROJECT_DIR$/samples/trending/trending.iml" filepath="$PROJECT_DIR$/samples/trending/trending.iml" />
-      <module fileurl="file://$PROJECT_DIR$/triggers/triggers.iml" filepath="$PROJECT_DIR$/triggers/triggers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/samples/triggers/triggers.iml" filepath="$PROJECT_DIR$/samples/triggers/triggers.iml" />
     </modules>
   </component>
 </project>

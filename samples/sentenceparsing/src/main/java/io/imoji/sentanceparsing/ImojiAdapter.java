@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.imojiapp.imoji.sdk.Imoji;
+import com.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class ImojiAdapter extends ArrayAdapter<Imoji> {
         }
 
         Imoji item = getItem(position);
-        Picasso.with(getContext()).load(item.getThumbUrl()).into(holder.mImojiIv);
+        Picasso.with(getContext()).load(item.getStandardThumbnailUri()).into(holder.mImojiIv);
 
         return convertView;
     }

@@ -5,21 +5,21 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="1.7" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/imojisdk" />
-            <option value="$PROJECT_DIR$/messaging" />
+            <option value="$PROJECT_DIR$/imoji-android-sdk" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/keywordsearch" />
+            <option value="$PROJECT_DIR$/samples/messaging" />
             <option value="$PROJECT_DIR$/samples/photo" />
             <option value="$PROJECT_DIR$/samples/reactions" />
             <option value="$PROJECT_DIR$/samples/sdksample" />
             <option value="$PROJECT_DIR$/samples/search" />
             <option value="$PROJECT_DIR$/samples/sentenceparsing" />
             <option value="$PROJECT_DIR$/samples/trending" />
-            <option value="$PROJECT_DIR$/triggers" />
+            <option value="$PROJECT_DIR$/samples/triggers" />
           </set>
         </option>
       </GradleProjectSettings>

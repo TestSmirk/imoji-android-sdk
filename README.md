@@ -17,7 +17,8 @@ public class MyApplication extends Application {
  @Override
     public void onCreate() {
         super.onCreate();
-        ImojiApi.init(this, "YOUR_CLIENT_ID_HERE", "YOUR_CLIENT_SECRET_HERE");
+        ImojiSDK.getInstance()
+                .setCredentials(UUID.fromString("YOUR_CLIENT_ID_HERE"), "YOUR_CLIENT_SECRET_HERE");
     }
 }
 ```
@@ -27,63 +28,17 @@ public class MyApplication extends Application {
 public class MyActivity extends Activity {
     @Override
     public void onCreate() {
-        ImojiApi.with(this).getFeatured(new Callback<List<Imoji>>() {
-            @Override
-            public void onSuccess(List<Imoji> result) {
-                //Bind the results to an adapter of sorts
-            }
-  
-            @Override
-            public void onFailure() {
-                Log.d(LOG_TAG, "failure");
-            }
-        });
-    }
-  }  
-```
-or for a more proper production ready example:
-```java
-public class MyActivity extends Activity {
-
-    @Override
-    public void onCreate() {
-        ImojiApi.with(this).getFeatured(new FeatureCallback(this));
-    }
-    
-    public static class FeatureCallback extends Callback<List<Imoji>>{
-        
-        private WeakReference<MyActivity> mMyActivity;
-        
-        public FeatureCallback(MyActivity activity){
-            mMyActivity = new WeakReference(activity);
-        }
-        
-        @Override
-        public void onSuccess(List<Imoji> result) {
-            MyActivity a = mMyActivity.get();
-            if(a != null){
-                //update the ui, bind to adapter, etc
-            }
-        }
-
-        @Override
-        public void onFailure() {
-            Log.d(LOG_TAG, "failure");
-        }
+        ImojiSDK.getInstance()
+                .createSession(getApplicationContext())
+                .getFeaturedImojis()
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        //Bind the results to an adapter of sorts
+                    }
+                });
     }
   }  
 ```
 
-### Advanced Integration
-- You can configure the ImojiApi instance before initialization to set defaults or modify its behavior:
-```java
-public class MyApplication extends Application {
- @Override
-    public void onCreate() {
-        super.onCreate();
-        ImojiApi apiInstance = new ImojiApi.Builder().defaultResultCount(60).build();
-        ImojiApi.init(this, "YOUR_CLIENT_ID_HERE", "YOUR_CLIENT_SECRET_HERE", apiInstance);
-    }
-}
-```
 

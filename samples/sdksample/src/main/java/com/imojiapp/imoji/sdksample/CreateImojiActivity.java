@@ -6,11 +6,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.imojiapp.imoji.sdk.Callback;
-import com.imojiapp.imoji.sdk.Imoji;
-import com.imojiapp.imoji.sdk.ImojiApi;
+import com.imoji.sdk.ApiTask;
+import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Imoji;
+import com.imoji.sdk.response.CreateImojiResponse;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,19 +24,20 @@ private static final String LOG_TAG = CreateImojiActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bitmap bitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.sample)).getBitmap();
-        List<String> tags = Arrays.asList(new String[]{"Let's do it!"});
-        ImojiApi.with(this).createImoji(bitmap, tags, new Callback<Imoji, String>() {
-            @Override
-            public void onSuccess(Imoji result) {
-                Log.d(LOG_TAG, "sweet, got an imoji");
-                Log.d(LOG_TAG, "got imoji: " + result.getImojiId());
-            }
+        List<String> tags = Collections.singletonList("Let's do it!");
 
-            @Override
-            public void onFailure(String result) {
-                Log.d(LOG_TAG, "damn, :...(");
-
-            }
-        });
+        ImojiSDK.getInstance()
+                .createSession(getApplicationContext())
+                .createImojiWithRawImage(
+                        bitmap, bitmap, tags
+                )
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<CreateImojiResponse>() {
+                    @Override
+                    protected void onPostExecute(CreateImojiResponse createImojiResponse) {
+                        Log.d(LOG_TAG, "sweet, got an imoji");
+                        Imoji imoji = createImojiResponse.getImoji();
+                        Log.d(LOG_TAG, "got imoji: " + imoji.getIdentifier() + "download URL is: " + imoji.getStandardThumbnailUri());
+                    }
+                });
     }
 }

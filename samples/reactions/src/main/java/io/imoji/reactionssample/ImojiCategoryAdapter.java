@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imojiapp.imoji.sdk.ImojiCategory;
+import com.imoji.sdk.objects.Category;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
 /**
  * Created by sajjadtabib on 8/25/15.
  */
-public class ImojiCategoryAdapter extends ArrayAdapter<ImojiCategory> {
+public class ImojiCategoryAdapter extends ArrayAdapter<Category> {
 
     private LayoutInflater mInflater;
 
-    public ImojiCategoryAdapter(Context context, int resource, List<ImojiCategory> items) {
+    public ImojiCategoryAdapter(Context context, int resource, List<Category> items) {
         super(context, resource, items);
         mInflater = LayoutInflater.from(context);
     }
@@ -36,8 +36,8 @@ public class ImojiCategoryAdapter extends ArrayAdapter<ImojiCategory> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ImojiCategory category = getItem(position);
-        Picasso.with(getContext()).load(category.getImoji().getThumbUrl()).into(holder.mImojiIv);
+        Category category = getItem(position);
+        Picasso.with(getContext()).load(category.getPreviewImoji().getStandardThumbnailUri()).into(holder.mImojiIv);
         holder.mTitleTv.setText(category.getTitle());
 
         return convertView;
