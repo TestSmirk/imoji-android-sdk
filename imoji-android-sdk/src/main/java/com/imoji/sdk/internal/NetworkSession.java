@@ -32,6 +32,7 @@ import android.util.Xml;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
 import com.imoji.sdk.Session;
@@ -42,6 +43,7 @@ import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.objects.json.ArtistDeserializer;
 import com.imoji.sdk.objects.json.CategoryDeserializer;
 import com.imoji.sdk.objects.json.CategoryResultsDeserializer;
+import com.imoji.sdk.objects.json.ErrorResponseDeserializer;
 import com.imoji.sdk.objects.json.GenericNetworkResponsDeserializer;
 import com.imoji.sdk.objects.json.ImojiDeserializer;
 import com.imoji.sdk.objects.json.ImojiResultsDeserializer;
@@ -49,6 +51,7 @@ import com.imoji.sdk.objects.json.ImojiUploadResponseDeserializer;
 import com.imoji.sdk.objects.json.OAuthTokenDeserializer;
 import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
+import com.imoji.sdk.response.ErrorResponse;
 import com.imoji.sdk.response.GenericNetworkResponse;
 import com.imoji.sdk.response.ImojiUploadResponse;
 import com.imoji.sdk.response.ImojisResponse;
@@ -82,6 +85,7 @@ public abstract class NetworkSession implements Session {
             .registerTypeAdapter(ImojisResponse.class, new ImojiResultsDeserializer())
             .registerTypeAdapter(OAuthTokenResponse.class, new OAuthTokenDeserializer())
             .registerTypeAdapter(ImojiUploadResponse.class, new ImojiUploadResponseDeserializer())
+            .registerTypeAdapter(ErrorResponse.class, new ErrorResponseDeserializer())
             .create();
 
     @NonNull
@@ -176,19 +180,19 @@ public abstract class NetworkSession implements Session {
                 Map<String, String> headers = new HashMap<>(2);
                 Map<String, String> body = new HashMap<>(1);
 
-                headers.put("Imoji-SDK-Version", ImojiSDKConstants.SERVER_SDK_VERSION);
-                headers.put("Authorization", oauthCredentialsHeader());
+                headers.put(ImojiSDKConstants.Headers.SDK_VERSION, ImojiSDKConstants.SERVER_SDK_VERSION);
+                headers.put(ImojiSDKConstants.Headers.AUTHORIZATION, oauthCredentialsHeader());
 
                 // refresh token expired, use the refresh_token grant type to get a new one
                 OAuthTokenResponse oAuthTokenResponse;
                 if (refreshTokenExpired && refreshToken != null) {
                     body.put("grant_type", "refresh_token");
                     body.put("refresh_token", refreshToken);
-                    oAuthTokenResponse = makePostRequest("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
+                    oAuthTokenResponse = makePostRequest(ImojiSDKConstants.Paths.OAUTH_REGISTER, OAuthTokenResponse.class, body, headers).executeImmediately();
                 } else {
                     // get a new one all together
                     body.put("grant_type", "client_credentials");
-                    oAuthTokenResponse = makePostRequest("oauth/token", OAuthTokenResponse.class, body, headers).executeImmediately();
+                    oAuthTokenResponse = makePostRequest(ImojiSDKConstants.Paths.OAUTH_REGISTER, OAuthTokenResponse.class, body, headers).executeImmediately();
                 }
 
                 if (oAuthTokenResponse != null) {
@@ -355,14 +359,32 @@ public abstract class NetworkSession implements Session {
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> queryStringsWithOauth = new HashMap<>(queryStrings);
 
-                    headersWithOauth.put("Imoji-SDK-Version", ImojiSDKConstants.SERVER_SDK_VERSION);
-                    headersWithOauth.put("User-Locale", Locale.getDefault().toString());
-                    queryStringsWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
+                    headersWithOauth.put(ImojiSDKConstants.Headers.SDK_VERSION, ImojiSDKConstants.SERVER_SDK_VERSION);
+                    headersWithOauth.put(ImojiSDKConstants.Headers.LOCALE, Locale.getDefault().toString());
+                    queryStringsWithOauth.put(ImojiSDKConstants.Params.AUTH_TOKEN, oAuthTokenResponse.getAccessToken());
 
                     return queryStringConnection(path, method, responseClass, queryStringsWithOauth, headersWithOauth).executeImmediately();
 
                 } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
+                    if (e.getCause().getClass().isAssignableFrom(ApiException.class)) {
+                        ApiException apiException = (ApiException) e.getCause();
+                        ErrorResponse errorResponse = apiException.getErrorResponse();
+
+                        // OAuth token verification error occurred, reset the token settings,
+                        // generate a new token and call the same method again
+                        if (errorResponse != null && ImojiSDKConstants.Errors.OAUTH_VERIFICATION_ERROR_STATUS.equals(errorResponse.getServerStatus())) {
+                            clearOauthSettings();
+                            oAuthTokenResponse = validateSession().executeImmediately();
+
+                            if (oAuthTokenResponse != null) {
+                                return oauthValidatedQueryStringConnection(
+                                        path, method, responseClass, queryStrings, headers
+                                ).executeImmediately();
+                            }
+                        }
+                    }
+
+                    throw e;
                 }
             }
         });
@@ -382,32 +404,73 @@ public abstract class NetworkSession implements Session {
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> bodyWithOauth = new HashMap<>(body);
 
-                    headersWithOauth.put("Imoji-SDK-Version", ImojiSDKConstants.SERVER_SDK_VERSION);
-                    headersWithOauth.put("User-Locale", Locale.getDefault().toString());
-                    bodyWithOauth.put("access_token", oAuthTokenResponse.getAccessToken());
+                    headersWithOauth.put(ImojiSDKConstants.Headers.SDK_VERSION, ImojiSDKConstants.SERVER_SDK_VERSION);
+                    headersWithOauth.put(ImojiSDKConstants.Headers.LOCALE, Locale.getDefault().toString());
+                    bodyWithOauth.put(ImojiSDKConstants.Params.AUTH_TOKEN, oAuthTokenResponse.getAccessToken());
 
                     return formEncodedConnection(path, method, responseClass, bodyWithOauth, headersWithOauth).executeImmediately();
 
                 } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
+                    if (e.getCause().getClass().isAssignableFrom(ApiException.class)) {
+                        ApiException apiException = (ApiException) e.getCause();
+                        ErrorResponse errorResponse = apiException.getErrorResponse();
+
+                        // OAuth token verification error occurred, reset the token settings,
+                        // generate a new token and call the same method again
+                        if (errorResponse != null && ImojiSDKConstants.Errors.OAUTH_VERIFICATION_ERROR_STATUS.equals(errorResponse.getServerStatus())) {
+                            clearOauthSettings();
+                            oAuthTokenResponse = validateSession().executeImmediately();
+
+                            if (oAuthTokenResponse != null) {
+                                return oauthValidatedFormEncodedConnection(
+                                        path, method, responseClass, body, headers
+                                ).executeImmediately();
+                            }
+                        }
+                    }
+
+                    throw e;
                 }
             }
         });
     }
 
     private <T extends ApiResponse> T readJsonResponse(@NonNull HttpURLConnection connection,
-                                                       @NonNull Class<T> responseClass) throws IOException {
+                                                       @NonNull Class<T> responseClass) throws IOException, ApiException {
 
-        BufferedReader bufferedReader =
-                new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        boolean succeeded = connection.getResponseCode() == HttpURLConnection.HTTP_OK ||
+                connection.getResponseCode() == HttpURLConnection.HTTP_CREATED ||
+                connection.getResponseCode() == HttpURLConnection.HTTP_ACCEPTED;
+        BufferedReader inputReader;
+        if (succeeded) {
+            inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        } else {
+            inputReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+        }
         StringWriter stringWriter = new StringWriter();
 
         String line;
-        while ((line = bufferedReader.readLine()) != null) {
+        while ((line = inputReader.readLine()) != null) {
             stringWriter.append(line);
         }
 
-        return GSON_INSTANCE.fromJson(stringWriter.toString(), responseClass);
+        String contents = stringWriter.toString();
+        if (succeeded) {
+            return GSON_INSTANCE.fromJson(contents, responseClass);
+        } else {
+            try {
+                throw new ApiException(GSON_INSTANCE.fromJson(contents, ErrorResponse.class));
+            } catch (JsonParseException e) {
+                throw new ApiException("Unable to parse server response", new ErrorResponse("server_error", contents));
+            }
+        }
+    }
+
+    private void clearOauthSettings() {
+        this.storagePolicy.remove(ImojiSDKConstants.PREFERENCES_OAUTH_ACCESS_TOKEN_KEY);
+        this.storagePolicy.remove(ImojiSDKConstants.PREFERENCES_OAUTH_REFRESH_TOKEN_KEY);
+        this.storagePolicy.remove(ImojiSDKConstants.PREFERENCES_OAUTH_EXPIRATION_KEY);
     }
 
     @NonNull

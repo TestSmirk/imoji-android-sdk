@@ -76,4 +76,8 @@ public class StoragePolicy {
     public boolean getBoolean(String key, boolean defaultValue) {
         return preferences.getBoolean(key, defaultValue);
     }
+
+    public void remove(String key) {
+        preferences.edit().remove(key).apply();
+    }
 }

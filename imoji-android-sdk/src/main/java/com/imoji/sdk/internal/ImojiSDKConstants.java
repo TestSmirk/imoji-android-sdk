@@ -58,8 +58,26 @@ public class ImojiSDKConstants {
 
         public static final String IMOJI_USAGE = "analytics/imoji/sent";
 
+        public static final String OAUTH_REGISTER = "oauth/token";
+
         private Paths() {
         }
+    }
+
+    public static class Errors {
+        public static final String OAUTH_VERIFICATION_ERROR_STATUS = "server_error";
+    }
+
+    public static class Headers {
+        public static final String SDK_VERSION = "Imoji-SDK-Version";
+
+        public static final String LOCALE = "User-Locale";
+
+        public static final String AUTHORIZATION = "Authorization";
+    }
+
+    public static class Params {
+        public static final String AUTH_TOKEN = "access_token";
     }
 
     private ImojiSDKConstants() {
