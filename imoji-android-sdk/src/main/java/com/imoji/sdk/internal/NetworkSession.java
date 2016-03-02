@@ -52,7 +52,7 @@ import com.imoji.sdk.objects.json.OAuthTokenDeserializer;
 import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.ErrorResponse;
-import com.imoji.sdk.response.GenericNetworkResponse;
+import com.imoji.sdk.response.GenericApiResponse;
 import com.imoji.sdk.response.ImojiUploadResponse;
 import com.imoji.sdk.response.ImojisResponse;
 import com.imoji.sdk.response.OAuthTokenResponse;
@@ -80,7 +80,7 @@ public abstract class NetworkSession implements Session {
             .registerTypeAdapter(Artist.class, new ArtistDeserializer())
             .registerTypeAdapter(Category.class, new CategoryDeserializer())
             .registerTypeAdapter(CategoriesResponse.class, new CategoryResultsDeserializer())
-            .registerTypeAdapter(GenericNetworkResponse.class, new GenericNetworkResponsDeserializer())
+            .registerTypeAdapter(GenericApiResponse.class, new GenericNetworkResponsDeserializer())
             .registerTypeAdapter(Imoji.class, new ImojiDeserializer())
             .registerTypeAdapter(ImojisResponse.class, new ImojiResultsDeserializer())
             .registerTypeAdapter(OAuthTokenResponse.class, new OAuthTokenDeserializer())
@@ -151,7 +151,7 @@ public abstract class NetworkSession implements Session {
         return formEncodedConnection(path, "PUT", responseClass, checkedPairMap(body), checkedPairMap(headers));
     }
 
-    protected ApiTask<GenericNetworkResponse> makePutDataRequest(@NonNull Uri uri,
+    protected ApiTask<GenericApiResponse> makePutDataRequest(@NonNull Uri uri,
                                                                  @NonNull byte [] body,
                                                                  @Nullable Map<String, String> headers) {
         return dataUploadFormEncodedConnection(uri, "PUT", body, checkedPairMap(headers));
@@ -305,15 +305,15 @@ public abstract class NetworkSession implements Session {
         });
     }
 
-    private ApiTask<GenericNetworkResponse> dataUploadFormEncodedConnection(@NonNull final Uri uri,
+    private ApiTask<GenericApiResponse> dataUploadFormEncodedConnection(@NonNull final Uri uri,
                                                                             @NonNull final String method,
                                                                             @NonNull final byte[] body,
                                                                             @NonNull final Map<String, String> headers) {
-        return new ApiTask<>(new Callable<GenericNetworkResponse>() {
+        return new ApiTask<>(new Callable<GenericApiResponse>() {
             @Override
-            public GenericNetworkResponse call() throws Exception {
+            public GenericApiResponse call() throws Exception {
                 HttpURLConnection connection = null;
-                OutputStream outputStream = null;
+                OutputStream outputStream;
                 try {
                     URL url = new URL(uri.toString());
 
@@ -331,7 +331,7 @@ public abstract class NetworkSession implements Session {
                     outputStream.flush();
                     outputStream.close();
 
-                    return new GenericNetworkResponse();
+                    return new GenericApiResponse();
 
                 } catch (Throwable t) {
                     Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);

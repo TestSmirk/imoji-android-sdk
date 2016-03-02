@@ -29,9 +29,9 @@ import android.support.annotation.Nullable;
 
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
+import com.imoji.sdk.response.GenericApiResponse;
 import com.imoji.sdk.response.ImojisResponse;
 
 import java.util.List;
@@ -139,7 +139,7 @@ public interface Session {
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
-    ApiTask<ApiResponse> removeImoji(@NonNull Imoji imoji);
+    ApiTask<GenericApiResponse> removeImoji(@NonNull Imoji imoji);
 
     /**
      * Reports an Imoji sticker as abusive. You may expose this method in your application in order for users to have the ability to flag
@@ -150,7 +150,7 @@ public interface Session {
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
-    ApiTask<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
+    ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
 
     /**
      * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
@@ -162,6 +162,6 @@ public interface Session {
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
-    ApiTask<ApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+    ApiTask<GenericApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
 
 }

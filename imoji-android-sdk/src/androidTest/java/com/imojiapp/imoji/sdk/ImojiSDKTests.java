@@ -33,6 +33,7 @@ import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
+import com.imoji.sdk.response.GenericApiResponse;
 import com.imoji.sdk.response.ImojisResponse;
 
 import java.util.ArrayList;
@@ -202,9 +203,9 @@ public class ImojiSDKTests extends AndroidTestCase {
         final CountDownLatch secondaryLatch = new CountDownLatch(1);
 
         sdkSession.reportImojiAsAbusive(imojiReference.get(), "Android Testing")
-                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ApiResponse>() {
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
                     @Override
-                    protected void onPostExecute(ApiResponse apiResponse) {
+                    protected void onPostExecute(GenericApiResponse apiResponse) {
                         secondaryLatch.countDown();
                     }
                 });
@@ -232,9 +233,9 @@ public class ImojiSDKTests extends AndroidTestCase {
         final CountDownLatch secondaryLatch = new CountDownLatch(1);
 
         sdkSession.markImojiUsage(imojiReference.get(), "com.imoji.android.testing")
-                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ApiResponse>() {
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
                     @Override
-                    protected void onPostExecute(ApiResponse apiResponse) {
+                    protected void onPostExecute(GenericApiResponse apiResponse) {
                         secondaryLatch.countDown();
                     }
                 });

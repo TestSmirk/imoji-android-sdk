@@ -33,9 +33,9 @@ import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.StoragePolicy;
 import com.imoji.sdk.objects.Category;
 import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.CreateImojiResponse;
+import com.imoji.sdk.response.GenericApiResponse;
 import com.imoji.sdk.response.ImojisResponse;
 import com.imoji.sdk.response.ImojiUploadResponse;
 
@@ -182,25 +182,25 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public ApiTask<ApiResponse> removeImoji(@NonNull Imoji imoji) {
-        return validatedDelete(ImojiSDKConstants.Paths.REMOVE_IMOJI, ApiResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
+    public ApiTask<GenericApiResponse> removeImoji(@NonNull Imoji imoji) {
+        return validatedDelete(ImojiSDKConstants.Paths.REMOVE_IMOJI, GenericApiResponse.class, Collections.singletonMap("imojiId", imoji.getIdentifier()), null);
     }
 
     @NonNull
     @Override
-    public ApiTask<ApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
+    public ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
                                                      @Nullable String reason) {
         final HashMap<String, String> params = new HashMap<>(2);
 
         params.put("imojiId", imoji.getIdentifier());
         params.put("reason", reason);
 
-        return validatedPost(ImojiSDKConstants.Paths.REPORT_IMOJI, ApiResponse.class, params, null);
+        return validatedPost(ImojiSDKConstants.Paths.REPORT_IMOJI, GenericApiResponse.class, params, null);
     }
 
     @NonNull
     @Override
-    public ApiTask<ApiResponse> markImojiUsage(@NonNull Imoji imoji,
+    public ApiTask<GenericApiResponse> markImojiUsage(@NonNull Imoji imoji,
                                                @Nullable String originIdentifier) {
         final HashMap<String, String> params = new HashMap<>(2);
 
@@ -210,7 +210,7 @@ public class ApiSession extends NetworkSession {
             params.put("originIdentifier", originIdentifier);
         }
 
-        return validatedGet(ImojiSDKConstants.Paths.IMOJI_USAGE, ApiResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.IMOJI_USAGE, GenericApiResponse.class, params, null);
     }
 
     private static class BitmapUtils {
