@@ -1,5 +1,10 @@
 # Imoji SDK Change Log
 
+##2.0.0
+* Revamped Imoji Android SDK to work much like the iOS version!
+* Introduces Artist content, gif image url's and non-bordered images
+* Callers of Imoji endpoints now receive an ApiTask instance which can be executed as an AsyncTask or with an ExecutorService of your choosing.
+
 ##0.7.5
 * Exposes 320 and 512 size Imoji image urls. 
 * Deprecates getThumbUrl and getUrl in favor of a more explicit getImageUrl method.
