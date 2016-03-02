@@ -4,14 +4,15 @@
 ## Android Studio Setup
 
 1. In your ```builds.gradle``` file, add the following dependencies:
-
         
-        compile ('com.imojiapp:imoji-sdk:+@aar') {
+        compile ('com.imoji.sdk:imoji-sdk:+@aar') {
             transitive=true
         }
 
 ### Simple Integration
+
 - Initialize the Api in your Application's onCreate() method.
+
 ```java
 public class MyApplication extends Application {
  @Override
@@ -24,6 +25,7 @@ public class MyApplication extends Application {
 ```
 
 - Make an api call:
+
 ```java
 public class MyActivity extends Activity {
     @Override
