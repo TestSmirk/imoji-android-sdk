@@ -27,6 +27,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+/**
+ * The storage policy in the imoji-android-sdk determines where persistent files should be
+ * stored on the device. By default, SharedPreferences are used to store persistent data. Developers
+ * may override this class to store data in different locations.
+ */
 public class StoragePolicy {
 
     private static final String PREFERENCES_FILE = "imoji-store";

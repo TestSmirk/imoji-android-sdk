@@ -30,6 +30,10 @@ import com.imoji.sdk.internal.ApiSession;
 
 import java.util.UUID;
 
+/**
+ * Base class to create an Session object and set client credentials.
+ * Refer to https://developer.imoji.io for information on obtaining a token
+ */
 public class ImojiSDK {
     private static final ImojiSDK INSTANCE = new ImojiSDK();
 
@@ -44,6 +48,11 @@ public class ImojiSDK {
         return this;
     }
 
+    /**
+     * Creates a new session with the Android application context
+     * @param context The supplied application context
+     * @return A new Session object to be used for making API calls
+     */
     public Session createSession(@NonNull Context context) {
         if (this.apiToken == null) {
             throw new RuntimeException("apiToken has not been set");
@@ -56,15 +65,26 @@ public class ImojiSDK {
         return this.createSessionWithStoragePolicy(StoragePolicy.createWithContext(context));
     }
 
+    /**
+     * Creates a new session with a custom StoragePolicy instance
+     * @param storagePolicy The requested StoragePolicy to use
+     * @return A new Session object to be used for making API calls
+     */
     public Session createSessionWithStoragePolicy(@NonNull StoragePolicy storagePolicy) {
         return new ApiSession(storagePolicy);
     }
 
+    /**
+     * @return The client ID in use
+     */
     @NonNull
     public UUID getClientId() {
         return clientId;
     }
 
+    /**
+     * @return The supplied API Token
+     */
     @NonNull
     public String getApiToken() {
         return apiToken;

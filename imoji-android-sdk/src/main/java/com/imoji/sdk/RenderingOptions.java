@@ -25,19 +25,52 @@ package com.imoji.sdk;
 
 import android.support.annotation.NonNull;
 
+/**
+ * Represents various parameters to display Imoji sticker content
+ */
 public class RenderingOptions {
+
+    /**
+     * Size of the sticker to display.
+     */
     public enum Size {
+        /**
+         * A Thumbnail is maximum 150x150 pixels
+         */
         Thumbnail,
+        /**
+         * A Full Resolution image is maximum 1200x1200 pixels
+         */
         FullResolution,
+        /**
+         * Maximum 320x320 pixels
+         */
         Resolution320,
+        /**
+         * Maximum 512x512 pixels
+         */
         Resolution512
     }
 
+    /**
+     * Desired border style for the sticker. Note that animated content does not have a border
+     */
     public enum BorderStyle {
+        /**
+         * Displays a white bordered sticker with a slight drop shadow
+         */
         Sticker,
+        /**
+         * Displays a non-bordered sticker
+         */
         None
     }
 
+    /**
+     * Various support formats the stickers can be encoded from. Typically WebP images will have
+     * smaller download sizes than Png.
+     * Refer to https://github.com/imojiengineering/bifrost for rendering WebP content if desired
+     */
     public enum ImageFormat {
         Png,
         WebP,
