@@ -41,6 +41,6 @@
 -keep class io.imoji.sdk.objects.** { *; }
 -keep class io.imoji.sdk.ApiTask { *; }
 -keep class io.imoji.sdk.ImojiSDK { *; }
--keep class io.imoji.sdk.RenderingOptions { *; }
+-keep class io.imoji.sdk.objects.RenderingOptions { *; }
 -keep class io.imoji.sdk.Session { *; }
 -keep class io.imoji.sdk.StoragePolicy { *; }

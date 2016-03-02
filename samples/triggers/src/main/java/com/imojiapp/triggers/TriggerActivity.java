@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import io.imoji.sdk.RenderingOptions;
+import io.imoji.sdk.objects.RenderingOptions;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;

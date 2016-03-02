@@ -78,21 +78,12 @@ public class Artist {
 
         Artist artist = (Artist) o;
 
-        if (identifier != null ? !identifier.equals(artist.identifier) : artist.identifier != null)
-            return false;
-        if (name != null ? !name.equals(artist.name) : artist.name != null) return false;
-        if (description != null ? !description.equals(artist.description) : artist.description != null)
-            return false;
-        return !(profileImoji != null ? !profileImoji.equals(artist.profileImoji) : artist.profileImoji != null);
+        return !(identifier != null ? !identifier.equals(artist.identifier) : artist.identifier != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = identifier != null ? identifier.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (profileImoji != null ? profileImoji.hashCode() : 0);
-        return result;
+        return identifier != null ? identifier.hashCode() : 0;
     }
 }

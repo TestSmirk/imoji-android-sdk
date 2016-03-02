@@ -23,6 +23,7 @@
 
 package io.imoji.sdk;
 
+import android.os.Parcel;
 import android.test.AndroidTestCase;
 
 import io.imoji.sdk.ApiTask;
@@ -31,6 +32,7 @@ import io.imoji.sdk.Session;
 import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.RenderingOptions;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.GenericApiResponse;
 import io.imoji.sdk.response.ImojisResponse;
@@ -45,7 +47,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Imoji Android SDK
- * <p>
+ * <p/>
  * Created by nkhoshini on 2/26/16.
  */
 public class ImojiSDKTests extends AndroidTestCase {
@@ -240,6 +242,44 @@ public class ImojiSDKTests extends AndroidTestCase {
                 });
 
         secondaryLatch.await();
+    }
+
+    public void testImojiAsParcelable() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        sdkSession
+                .fetchImojisByIdentifiers(Collections.singletonList(SAMPLE_IMOJI_ID))
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        validateImojiResponse(imojisResponse);
+                        Imoji imoji = imojisResponse.getImojis().iterator().next();
+
+                        Parcel parcel = Parcel.obtain();
+
+                        imoji.writeToParcel(parcel, 0);
+                        parcel.setDataPosition(0);
+                        Imoji fromParcel = Imoji.CREATOR.createFromParcel(parcel);
+
+                        assertEquals(fromParcel, imoji);
+                    }
+                });
+
+        latch.await();
+    }
+
+    public void testEmptyTaggedImojiAsParcelable() throws Exception {
+        Imoji imoji = new Imoji(UUID.randomUUID().toString(),
+                Collections.<String>emptyList(),
+                Collections.<RenderingOptions, Imoji.Metadata>emptyMap()
+        );
+
+        Parcel parcel = Parcel.obtain();
+
+        imoji.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+        Imoji fromParcel = Imoji.CREATOR.createFromParcel(parcel);
+
+        assertEquals(fromParcel, imoji);
     }
 
     private void validateImojiResponse(ImojisResponse imojisResponse) {

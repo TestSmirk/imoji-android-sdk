@@ -21,14 +21,16 @@
  *
  */
 
-package io.imoji.sdk;
+package io.imoji.sdk.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 /**
  * Represents various parameters to display Imoji sticker content
  */
-public class RenderingOptions {
+public class RenderingOptions implements Parcelable {
 
     /**
      * Size of the sticker to display.
@@ -158,5 +160,38 @@ public class RenderingOptions {
         result = 31 * result + imageFormat.hashCode();
         result = 31 * result + size.hashCode();
         return result;
+    }
+
+    /**
+     * Parcelable Overrides
+     */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.borderStyle.ordinal());
+        dest.writeInt(this.imageFormat.ordinal());
+        dest.writeInt(this.size.ordinal());
+    }
+
+    public static final Parcelable.Creator<RenderingOptions> CREATOR
+            = new Parcelable.Creator<RenderingOptions>() {
+        public RenderingOptions createFromParcel(Parcel in) {
+            return new RenderingOptions(in);
+        }
+
+        public RenderingOptions[] newArray(int size) {
+            return new RenderingOptions[size];
+        }
+    };
+
+    private RenderingOptions(Parcel in) {
+        this.borderStyle = BorderStyle.values()[in.readInt()];
+        this.imageFormat = ImageFormat.values()[in.readInt()];
+        this.size = Size.values()[in.readInt()];
     }
 }

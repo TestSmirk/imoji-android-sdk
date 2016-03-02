@@ -31,7 +31,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import io.imoji.sdk.RenderingOptions;
+import io.imoji.sdk.objects.RenderingOptions;
 import io.imoji.sdk.objects.Imoji;
 
 import java.lang.reflect.Type;

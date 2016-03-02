@@ -86,6 +86,21 @@ public class Category {
         public Uri getUri() {
             return uri;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Attribution that = (Attribution) o;
+
+            return identifier.equals(that.identifier);
+        }
+
+        @Override
+        public int hashCode() {
+            return identifier.hashCode();
+        }
     }
 
     @NonNull

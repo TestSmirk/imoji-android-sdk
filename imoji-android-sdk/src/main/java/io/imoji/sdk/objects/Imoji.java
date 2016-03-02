@@ -24,21 +24,25 @@
 package io.imoji.sdk.objects;
 
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
-import io.imoji.sdk.RenderingOptions;
-
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * An Imoji is a reference to a sticker within the ImojiSDK.
  */
-public class Imoji {
+public class Imoji implements Parcelable {
 
-    public static class Metadata {
+    public static class Metadata implements Parcelable {
         @Nullable
         private final Integer width;
 
@@ -80,8 +84,60 @@ public class Imoji {
         public Uri getUri() {
             return uri;
         }
-    }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Metadata metadata = (Metadata) o;
+
+            return uri.equals(metadata.uri);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return uri.hashCode();
+        }
+
+        /**
+         * Parcelable Overrides
+         */
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(width != null ? width : 0);
+            dest.writeInt(height != null ? height : 0);
+            dest.writeInt(fileSize != null ? fileSize : 0);
+            dest.writeString(this.uri.toString());
+        }
+
+        public static final Parcelable.Creator<Metadata> CREATOR
+                = new Parcelable.Creator<Metadata>() {
+            public Metadata createFromParcel(Parcel in) {
+                return new Metadata(in);
+            }
+
+            public Metadata[] newArray(int size) {
+                return new Metadata[size];
+            }
+        };
+
+        private Metadata(Parcel in) {
+            int val = in.readInt();
+            this.width = val != 0 ? val : null;
+            val = in.readInt();
+            this.height = val != 0 ? val : null;
+            val = in.readInt();
+            this.fileSize = val != 0 ? val : null;
+            this.uri = Uri.parse(in.readString());
+        }
+    }
 
     /**
      * A unique identifier for the imoji.
@@ -140,7 +196,7 @@ public class Imoji {
     public Pair<Integer, Integer> imageDimensionsForRenderingOptions(RenderingOptions renderingOptions) {
         Metadata metadata = metadataMap.get(renderingOptions);
 
-        return metadata != null  && metadata.height != null && metadata.width != null ?
+        return metadata != null && metadata.height != null && metadata.width != null ?
                 new Pair<>(metadata.width, metadata.height) : null;
     }
 
@@ -231,5 +287,53 @@ public class Imoji {
         result = 31 * result + tags.hashCode();
         result = 31 * result + metadataMap.hashCode();
         return result;
+    }
+
+    /**
+     * Parcelable Overrides
+     */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.identifier);
+        dest.writeStringList(this.tags);
+        dest.writeInt(metadataMap.size());
+        for (Map.Entry<RenderingOptions, Metadata> entry : metadataMap.entrySet()) {
+            dest.writeParcelable(entry.getKey(), flags);
+            dest.writeParcelable(entry.getValue(), flags);
+        }
+    }
+
+    public static final Parcelable.Creator<Imoji> CREATOR
+            = new Parcelable.Creator<Imoji>() {
+        public Imoji createFromParcel(Parcel in) {
+            return new Imoji(in);
+        }
+
+        public Imoji[] newArray(int size) {
+            return new Imoji[size];
+        }
+    };
+
+    private Imoji(Parcel in) {
+        this.identifier = in.readString();
+        this.tags = in.createStringArrayList();
+        int entryCount = in.readInt();
+        if (entryCount > 0) {
+            this.metadataMap = new HashMap<>(entryCount);
+            for (int i = 0; i < entryCount; i++) {
+                this.metadataMap.put(
+                        in.<RenderingOptions>readParcelable(RenderingOptions.class.getClassLoader()),
+                        in.<Metadata>readParcelable(Metadata.class.getClassLoader())
+                );
+            }
+        } else {
+            this.metadataMap = Collections.emptyMap();
+        }
     }
 }
