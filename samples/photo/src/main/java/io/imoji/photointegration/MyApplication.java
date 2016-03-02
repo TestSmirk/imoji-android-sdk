@@ -2,7 +2,7 @@ package io.imoji.photointegration;
 
 import android.app.Application;
 
-import com.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.ImojiSDK;
 
 import java.util.UUID;
 

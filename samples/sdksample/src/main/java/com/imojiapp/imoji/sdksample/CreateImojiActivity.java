@@ -6,10 +6,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.CreateImojiResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.CreateImojiResponse;
 
 import java.util.Collections;
 import java.util.List;

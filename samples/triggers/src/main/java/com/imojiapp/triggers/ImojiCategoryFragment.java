@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.objects.Category;
-import com.imoji.sdk.response.CategoriesResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.response.CategoriesResponse;
 import com.imojiapp.triggers.view.RecyclerItemClickListener;
 
 public class ImojiCategoryFragment extends Fragment {

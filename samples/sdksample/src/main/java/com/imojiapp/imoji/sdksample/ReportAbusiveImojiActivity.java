@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.Session;
-import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.ApiResponse;
-import com.imoji.sdk.response.ImojisResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.Session;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.ApiResponse;
+import io.imoji.sdk.response.ImojisResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;

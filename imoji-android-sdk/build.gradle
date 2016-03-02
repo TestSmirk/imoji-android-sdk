@@ -90,10 +90,10 @@ uploadArchives {
         }
 
         pom.project {
-            groupId 'com.imoji.sdk'
+            groupId 'io.imoji.sdk'
             artifactId 'imoji-sdk'
             version android.defaultConfig.versionName
-            name 'com.imoji.sdk:imoji-sdk'
+            name 'io.imoji.sdk:imoji-sdk'
             description 'Integrate millions of stickers into your Android application'
             url 'https://imoji.io/developers'
             licenses {

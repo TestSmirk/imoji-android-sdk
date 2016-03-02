@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +18,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.response.ImojisResponse;
-
-import java.util.List;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.response.ImojisResponse;
 
 public class ImojiSearchFragment extends Fragment {
 

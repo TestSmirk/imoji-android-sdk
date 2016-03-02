@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

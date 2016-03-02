@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-import com.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.Category;
 
 import io.imoji.searchsample.R;
 

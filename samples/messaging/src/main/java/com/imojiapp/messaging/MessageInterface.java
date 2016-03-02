@@ -1,7 +1,7 @@
 package com.imojiapp.messaging;
 
 
-import com.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.Imoji;
 
 /**
  * Created by sajjadtabib on 10/19/15.

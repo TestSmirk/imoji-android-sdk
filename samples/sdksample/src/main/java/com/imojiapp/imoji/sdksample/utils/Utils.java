@@ -13,7 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.common.base.Joiner;
-import com.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.Imoji;
 import com.imojiapp.imoji.sdksample.R;
 import com.squareup.picasso.Picasso;
 

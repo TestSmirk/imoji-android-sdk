@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.Session;
-import com.imoji.sdk.objects.Category;
-import com.imoji.sdk.response.CategoriesResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.Session;
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.response.CategoriesResponse;
 
 public class ImojiCategoryFragment extends Fragment {
     public static final String CLASSIFICATION_BUNDLE_ARG_KEY = "CLASSIFICATION_BUNDLE_ARG_KEY";

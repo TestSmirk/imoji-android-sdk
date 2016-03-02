@@ -14,10 +14,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.ImojisResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.ImojisResponse;
 
 public class ImojiSearchFragment extends Fragment {
 

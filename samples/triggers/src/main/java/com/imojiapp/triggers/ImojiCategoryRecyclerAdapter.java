@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imoji.sdk.RenderingOptions;
-import com.imoji.sdk.objects.Category;
+import io.imoji.sdk.RenderingOptions;
+import io.imoji.sdk.objects.Category;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

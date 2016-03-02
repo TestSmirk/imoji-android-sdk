@@ -16,12 +16,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.Session;
-import com.imoji.sdk.objects.Category;
-import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.CategoriesResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.Session;
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.CategoriesResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

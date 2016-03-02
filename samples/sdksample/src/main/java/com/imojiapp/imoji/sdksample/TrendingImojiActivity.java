@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
-import com.imoji.sdk.ApiTask;
-import com.imoji.sdk.ImojiSDK;
-import com.imoji.sdk.objects.Imoji;
-import com.imoji.sdk.response.ImojisResponse;
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.ImojiSDK;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.ImojisResponse;
 import com.imojiapp.imoji.sdksample.adapters.ImojiAdapter;
 import com.imojiapp.imoji.sdksample.utils.Utils;
 

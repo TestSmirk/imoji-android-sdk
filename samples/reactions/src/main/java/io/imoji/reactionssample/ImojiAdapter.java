@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.Imoji;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
