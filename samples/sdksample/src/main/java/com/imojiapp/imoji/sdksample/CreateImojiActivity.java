@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.imoji.sdk.ApiTask;
 import com.imoji.sdk.ImojiSDK;
+import com.imoji.sdk.objects.Imoji;
 import com.imoji.sdk.response.CreateImojiResponse;
 
 import java.util.Collections;
@@ -34,7 +35,8 @@ private static final String LOG_TAG = CreateImojiActivity.class.getSimpleName();
                     @Override
                     protected void onPostExecute(CreateImojiResponse createImojiResponse) {
                         Log.d(LOG_TAG, "sweet, got an imoji");
-                        Log.d(LOG_TAG, "got imoji: " + createImojiResponse.getImoji().getIdentifier());
+                        Imoji imoji = createImojiResponse.getImoji();
+                        Log.d(LOG_TAG, "got imoji: " + imoji.getIdentifier() + "download URL is: " + imoji.getStandardThumbnailUri());
                     }
                 });
     }

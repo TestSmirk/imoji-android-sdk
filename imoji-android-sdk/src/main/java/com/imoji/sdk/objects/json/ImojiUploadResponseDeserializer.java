@@ -44,7 +44,6 @@ public class ImojiUploadResponseDeserializer implements JsonDeserializer<ImojiUp
     public ImojiUploadResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject root = json.getAsJsonObject();
 
-
         String fullImageUrl = root.get("fullImageUrl").getAsString();
         String imojiId = root.get("imojiId").getAsString();
         int maxWidth = root.get("fullImageResizeWidth").getAsInt();

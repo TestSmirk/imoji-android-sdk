@@ -45,10 +45,12 @@ import com.imoji.sdk.objects.json.CategoryResultsDeserializer;
 import com.imoji.sdk.objects.json.GenericNetworkResponsDeserializer;
 import com.imoji.sdk.objects.json.ImojiDeserializer;
 import com.imoji.sdk.objects.json.ImojiResultsDeserializer;
+import com.imoji.sdk.objects.json.ImojiUploadResponseDeserializer;
 import com.imoji.sdk.objects.json.OAuthTokenDeserializer;
 import com.imoji.sdk.response.ApiResponse;
 import com.imoji.sdk.response.CategoriesResponse;
 import com.imoji.sdk.response.GenericNetworkResponse;
+import com.imoji.sdk.response.ImojiUploadResponse;
 import com.imoji.sdk.response.ImojisResponse;
 import com.imoji.sdk.response.OAuthTokenResponse;
 
@@ -79,6 +81,7 @@ public abstract class NetworkSession implements Session {
             .registerTypeAdapter(Imoji.class, new ImojiDeserializer())
             .registerTypeAdapter(ImojisResponse.class, new ImojiResultsDeserializer())
             .registerTypeAdapter(OAuthTokenResponse.class, new OAuthTokenDeserializer())
+            .registerTypeAdapter(ImojiUploadResponse.class, new ImojiUploadResponseDeserializer())
             .create();
 
     @NonNull
@@ -305,14 +308,14 @@ public abstract class NetworkSession implements Session {
         return new ApiTask<>(new Callable<GenericNetworkResponse>() {
             @Override
             public GenericNetworkResponse call() throws Exception {
-                HttpURLConnection connection;
+                HttpURLConnection connection = null;
                 OutputStream outputStream = null;
                 try {
                     URL url = new URL(uri.toString());
 
                     connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod(method);
                     connection.setDoOutput(true);
+                    connection.setRequestMethod(method);
 
                     //set headers
                     for (Map.Entry<String, String> header : headers.entrySet()) {
@@ -320,8 +323,9 @@ public abstract class NetworkSession implements Session {
                     }
 
                     outputStream = connection.getOutputStream();
-                    outputStream.write(body);
+                    outputStream.write(body, 0, body.length);
                     outputStream.flush();
+                    outputStream.close();
 
                     return new GenericNetworkResponse();
 
@@ -329,8 +333,8 @@ public abstract class NetworkSession implements Session {
                     Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);
                     throw t;
                 } finally {
-                    if (outputStream != null) {
-                        outputStream.close();
+                    if (connection != null) {
+                        connection.disconnect();
                     }
                 }
             }
