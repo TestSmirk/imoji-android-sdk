@@ -1,6 +1,5 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /Users/sajjadtabib/Library/Android/sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -36,12 +35,12 @@
     native <methods>;
 }
 
--keep class com.imoji.sdk.response.** { *; }
--keep class com.imoji.sdk.internal.** { *; }
--keep class com.imoji.sdk.objects.json.** { *; }
--keep class com.imoji.sdk.objects.** { *; }
--keep class com.imoji.sdk.ApiTask { *; }
--keep class com.imoji.sdk.ImojiSDK { *; }
--keep class com.imoji.sdk.RenderingOptions { *; }
--keep class com.imoji.sdk.Session { *; }
--keep class com.imoji.sdk.StoragePolicy { *; }
+-keep class io.imoji.sdk.response.** { *; }
+-keep class io.imoji.sdk.internal.** { *; }
+-keep class io.imoji.sdk.objects.json.** { *; }
+-keep class io.imoji.sdk.objects.** { *; }
+-keep class io.imoji.sdk.ApiTask { *; }
+-keep class io.imoji.sdk.ImojiSDK { *; }
+-keep class io.imoji.sdk.RenderingOptions { *; }
+-keep class io.imoji.sdk.Session { *; }
+-keep class io.imoji.sdk.StoragePolicy { *; }
