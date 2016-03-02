@@ -26,12 +26,17 @@ package io.imoji.sdk;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -43,6 +48,7 @@ import java.util.concurrent.TimeUnit;
  * with an ExecutorService.
  * <p>
  * Created by nkhoshini on 2/26/16.
+ *
  * @see AsyncTask
  * @see ExecutorService
  */
@@ -64,10 +70,12 @@ public class ApiTask<V> {
             new LinkedBlockingQueue<Runnable>()
     );
 
+    private static final int WRAPPED_ASYNC_ERROR_MESSAGE = 1;
 
     /**
      * A wrapped convenience class for running ApiTask's for Imoji SDK calls. Callers need to
      * override onPostExecute to get the value asynchronously from the call.
+     *
      * @param <V>
      */
     public static abstract class WrappedAsyncTask<V> extends AsyncTask<Future<V>, Void, V> {
@@ -80,13 +88,49 @@ public class ApiTask<V> {
                 return task.get();
             } catch (InterruptedException | ExecutionException e) {
                 Log.e(ApiTask.class.getName(), "Unable to perform async task", e);
-                return null;
+                Message message = MAIN_LOOP_HANDLER.obtainMessage(
+                        WRAPPED_ASYNC_ERROR_MESSAGE,
+                        new Pair<WrappedAsyncTask<?>, Throwable>(this, e)
+                );
+                MAIN_LOOP_HANDLER.dispatchMessage(message);
+
+                this.onError(e);
+
+                throw new RuntimeException("Unable to perform async task", e);
             }
         }
 
         @Override
         protected abstract void onPostExecute(V v);
+
+        /**
+         * Called when the ApiTask encounters an error.
+         *
+         * @param error The error that occurred making the API call.
+         */
+        @SuppressWarnings("UnusedParameters")
+        protected void onError(@NonNull Throwable error) {
+
+        }
     }
+
+    private static class MainLoopDispatchHandler extends Handler {
+        public MainLoopDispatchHandler() {
+            super(Looper.getMainLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == WRAPPED_ASYNC_ERROR_MESSAGE) {
+                @SuppressWarnings("unchecked")
+                Pair<WrappedAsyncTask<?>, Throwable> details
+                        = (Pair<WrappedAsyncTask<?>, Throwable>) msg.obj;
+                details.first.onError(details.second);
+            }
+        }
+    }
+
+    private static final Handler MAIN_LOOP_HANDLER = new MainLoopDispatchHandler();
 
     private final FutureTask<V> scheduledTask;
 
@@ -131,8 +175,9 @@ public class ApiTask<V> {
 
     /**
      * Immediately resolves the task on a shared thread pool executor service.
+     *
      * @return The resolved value from running the task.
-     * @throws ExecutionException From executorService.submit
+     * @throws ExecutionException   From executorService.submit
      * @throws InterruptedException From executorService.submit
      * @see ExecutorService
      */
@@ -142,9 +187,10 @@ public class ApiTask<V> {
 
     /**
      * Immediately resolves the task on the supplied ExecutorService and returns its value
+     *
      * @param executorService The executor service to run on.
      * @return The resolved value from running the task.
-     * @throws ExecutionException From executorService.submit
+     * @throws ExecutionException   From executorService.submit
      * @throws InterruptedException From executorService.submit
      * @see ExecutorService
      */
