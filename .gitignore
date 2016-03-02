@@ -7,5 +7,5 @@
 /captures
 /app/build
 /sdksample/build
-/imojisdk/build
+/imoji-android-sdk/build
 *.iml

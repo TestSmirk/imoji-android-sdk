@@ -36,16 +36,12 @@
     native <methods>;
 }
 
--keep class com.imojiapp.imoji.sdk.networking.responses.** { *; }
--keep class com.imojiapp.imoji.sdk.ImojiApi { *; }
--keep class com.imojiapp.imoji.sdk.ImojiApi$* { *; }
--keep class com.imojiapp.imoji.sdk.Callback { *; }
--keep class com.imojiapp.imoji.sdk.Imoji { *; }
--keep class com.imojiapp.imoji.sdk.Imoji$* { *; }
--keep class com.imojiapp.imoji.sdk.ImojiCategory { *; }
--keep class com.imojiapp.imoji.sdk.ImojiCategory$* { *; }
--keep class com.imojiapp.imoji.sdk.OutlineOptions { *; }
--keep class com.imojiapp.imoji.sdk.ExternalIntents { *; }
--keep class com.imojiapp.imoji.sdk.ExternalGrantReceiver { *; }
--keep class com.imojiapp.imoji.sdk.Status { *; }
-
+-keep class com.imoji.sdk.response.** { *; }
+-keep class com.imoji.sdk.internal.** { *; }
+-keep class com.imoji.sdk.objects.json.** { *; }
+-keep class com.imoji.sdk.objects.** { *; }
+-keep class com.imoji.sdk.ApiTask { *; }
+-keep class com.imoji.sdk.ImojiSDK { *; }
+-keep class com.imoji.sdk.RenderingOptions { *; }
+-keep class com.imoji.sdk.Session { *; }
+-keep class com.imoji.sdk.StoragePolicy { *; }
