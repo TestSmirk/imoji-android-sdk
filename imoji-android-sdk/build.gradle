@@ -12,7 +12,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 22
         versionCode 19
-        versionName "0.7.5"
+        versionName "2.0.0"
     }
     buildTypes {
 
@@ -90,12 +90,12 @@ uploadArchives {
         }
 
         pom.project {
-            groupId 'com.imojiapp'
+            groupId 'com.imoji.sdk'
             artifactId 'imoji-sdk'
             version android.defaultConfig.versionName
-            name 'com.imojiapp:imoji-sdk'
+            name 'com.imoji.sdk:imoji-sdk'
             description 'Integrate millions of stickers into your Android application'
-            url 'http://imoji.io/sdk'
+            url 'https://imoji.io/developers'
             licenses {
                 license {
                     name 'MIT License'
@@ -107,6 +107,14 @@ uploadArchives {
                 developer {
                     name 'Sajjad Tabib'
                     email 'sajjad@imojiapp.com'
+                    url 'https://github.com/stabib'
+                    organization 'Builds, Inc'
+                    organizationUrl 'http://imoji.io'
+                }
+                developer {
+                    name 'Nima Khoshini'
+                    email 'nima@imojiapp.com'
+                    url 'https://github.com/nkhoshini'
                     organization 'Builds, Inc'
                     organizationUrl 'http://imoji.io'
                 }
