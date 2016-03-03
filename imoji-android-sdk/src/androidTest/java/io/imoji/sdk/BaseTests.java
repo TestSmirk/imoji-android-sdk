@@ -24,7 +24,9 @@
 package io.imoji.sdk;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.ImojiSDK;
@@ -50,7 +52,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p/>
  * Created by nkhoshini on 2/26/16.
  */
-public class ImojiSDKTests extends AndroidTestCase {
+public class BaseTests extends AndroidTestCase {
 
     private static final UUID CLIENT_ID = UUID.fromString("748cddd4-460d-420a-bd42-fcba7f6c031b");
     private static final String API_TOKEN = "U2FsdGVkX1/yhkvIVfvMcPCALxJ1VHzTt8FPZdp1vj7GIb+fsdzOjyafu9MZRveo7ebjx1+SKdLUvz8aM6woAw==";
@@ -281,6 +283,7 @@ public class ImojiSDKTests extends AndroidTestCase {
 
         assertEquals(fromParcel, imoji);
     }
+
 
     private void validateImojiResponse(ImojisResponse imojisResponse) {
         assertNotNull(imojisResponse);

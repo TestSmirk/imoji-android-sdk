@@ -40,6 +40,10 @@ public class ImojiSDKConstants {
 
     public static final String PREFERENCES_OAUTH_REFRESH_TOKEN_KEY = "r";
 
+    public static final String PREFERENCES_OAUTH_CLIENT_ID_KEY = "c";
+
+    public static final String PREFERENCES_OAUTH_CLIENT_TOKEN_KEY = "s";
+
     public static class Paths {
 
         public static final String CATEGORIES_FETCH = "imoji/categories/fetch";

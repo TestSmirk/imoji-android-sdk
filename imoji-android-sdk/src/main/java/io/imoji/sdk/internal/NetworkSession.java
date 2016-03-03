@@ -33,6 +33,7 @@ import android.util.Xml;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+
 import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.ImojiSDK;
 import io.imoji.sdk.Session;
@@ -152,8 +153,8 @@ public abstract class NetworkSession implements Session {
     }
 
     protected ApiTask<GenericApiResponse> makePutDataRequest(@NonNull Uri uri,
-                                                                 @NonNull byte [] body,
-                                                                 @Nullable Map<String, String> headers) {
+                                                             @NonNull byte[] body,
+                                                             @Nullable Map<String, String> headers) {
         return dataUploadFormEncodedConnection(uri, "PUT", body, checkedPairMap(headers));
     }
 
@@ -169,11 +170,18 @@ public abstract class NetworkSession implements Session {
 
             @Override
             public OAuthTokenResponse call() throws Exception {
+                String clientId = NetworkSession.this.storagePolicy.getString(ImojiSDKConstants.PREFERENCES_OAUTH_CLIENT_ID_KEY, null);
+                String clientToken = NetworkSession.this.storagePolicy.getString(ImojiSDKConstants.PREFERENCES_OAUTH_CLIENT_TOKEN_KEY, null);
+
+                // if the client credentials changed, the oauth info is no longer valid
+                boolean validClientInfo =
+                        ImojiSDK.getInstance().getApiToken().equals(clientToken) && ImojiSDK.getInstance().getClientId().toString().equals(clientId);
+
                 String accessToken = NetworkSession.this.storagePolicy.getString(ImojiSDKConstants.PREFERENCES_OAUTH_ACCESS_TOKEN_KEY, null);
                 String refreshToken = NetworkSession.this.storagePolicy.getString(ImojiSDKConstants.PREFERENCES_OAUTH_REFRESH_TOKEN_KEY, null);
                 long expiration = NetworkSession.this.storagePolicy.getLong(ImojiSDKConstants.PREFERENCES_OAUTH_EXPIRATION_KEY, 0);
                 boolean refreshTokenExpired = new Date(expiration).before(new Date());
-                if (accessToken != null && refreshToken != null && !refreshTokenExpired) {
+                if (validClientInfo && accessToken != null && refreshToken != null && !refreshTokenExpired) {
                     return new OAuthTokenResponse(accessToken, expiration, refreshToken);
                 }
 
@@ -196,6 +204,8 @@ public abstract class NetworkSession implements Session {
                 }
 
                 if (oAuthTokenResponse != null) {
+                    NetworkSession.this.storagePolicy.putString(ImojiSDKConstants.PREFERENCES_OAUTH_CLIENT_ID_KEY, ImojiSDK.getInstance().getClientId().toString());
+                    NetworkSession.this.storagePolicy.putString(ImojiSDKConstants.PREFERENCES_OAUTH_CLIENT_TOKEN_KEY, ImojiSDK.getInstance().getApiToken());
                     NetworkSession.this.storagePolicy.putString(ImojiSDKConstants.PREFERENCES_OAUTH_ACCESS_TOKEN_KEY, oAuthTokenResponse.getAccessToken());
                     NetworkSession.this.storagePolicy.putString(ImojiSDKConstants.PREFERENCES_OAUTH_REFRESH_TOKEN_KEY, oAuthTokenResponse.getRefreshToken());
                     NetworkSession.this.storagePolicy.putLong(ImojiSDKConstants.PREFERENCES_OAUTH_EXPIRATION_KEY, oAuthTokenResponse.getExpiration());
@@ -306,9 +316,9 @@ public abstract class NetworkSession implements Session {
     }
 
     private ApiTask<GenericApiResponse> dataUploadFormEncodedConnection(@NonNull final Uri uri,
-                                                                            @NonNull final String method,
-                                                                            @NonNull final byte[] body,
-                                                                            @NonNull final Map<String, String> headers) {
+                                                                        @NonNull final String method,
+                                                                        @NonNull final byte[] body,
+                                                                        @NonNull final Map<String, String> headers) {
         return new ApiTask<>(new Callable<GenericApiResponse>() {
             @Override
             public GenericApiResponse call() throws Exception {
