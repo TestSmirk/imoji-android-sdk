@@ -5,7 +5,7 @@
 
 1. In your ```builds.gradle``` file, add the following dependencies:
         
-        compile ('com.imoji.sdk:imoji-sdk:+@aar') {
+        compile ('io.imoji.sdk:imoji-sdk:+@aar') {
             transitive=true
         }
 
