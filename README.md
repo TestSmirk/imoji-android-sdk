@@ -2,8 +2,8 @@
 
 The Imoji Android SDK is a set of easy to integrate Java classes for integrating Imoji stickers into your application. Much of the codebase is built using standard Android libraries with the exception of the following libraries:
 
-* [https://github.com/google/gson](gson) - For faster processing of JSON results from the Imoji Rest API
-* [http://tools.android.com/tech-docs/support-annotations](Support Annotations) - To enfore null/nonnull checks throughout the codebase
+* [GSON](https://github.com/google/gson) - For faster processing of JSON results from the Imoji Rest API
+* [Support Annotations](http://tools.android.com/tech-docs/support-annotations) - To enfore null/nonnull checks throughout the codebase
 * AppCompat - For backward compatability for older Android builds
 
 ### Prerequisites
@@ -14,7 +14,7 @@ You'll need to grab developer keys prior to integration. Sign up for a free deve
 
 Integrating the libraries can be done in multiple fashions:
 
-* [http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.imoji.sdk%22%20AND%20a%3A%22imoji-sdk%22](Download the latest) build from Maven Central manually
+* [Download the latest](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.imoji.sdk%22%20AND%20a%3A%22imoji-sdk%22) build from Maven Central manually
 * Add the following to your Gradle build file:
 ```
 dependencies {
@@ -41,7 +41,7 @@ public class MyApplication extends Application {
 
 ### API Examples
 
-Call **createSession** in **ImojiSDK** to get a reference to the main class responsible for making API requests. Every API call with **Session** returns an **ApiTask** object that can be executed as an **AsyncTask** or dispatched to an ExecturService if you wish.
+Call **createSession** in **ImojiSDK** to get a reference to the main class responsible for making API requests. Every API call with **Session** returns an **ApiTask** object that can be executed as an **AsyncTask** or dispatched to an ExecutorService if you wish.
 
 In most cases, using the AsyncTask route is the simplest:
 
@@ -95,10 +95,10 @@ task.cancel(true);
 
 ### Downloading Imojis
 
-The SDK returns full URL's with size metadata for each imoji image but does not provide built in classes for downloading the contents. This can be easily libraries such as [http://square.github.io/picasso/](Picasso) as seen here:
+The SDK returns full URL's with size metadata for each imoji image but does not provide built in classes for downloading the contents. This can be easily libraries such as [Picasso](http://square.github.io/picasso/) as seen here:
 
 ```java
-Picasso.with(getContext()).load(item.getStandardThumbnailUri());
+Picasso.with(getContext()).load(imoji.getStandardThumbnailUri());
 ```
 ### Java Docs
 
