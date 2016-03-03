@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.0.2
+* Makes sure BuildConfig is in the new io.imoji.sdk namespace
+
 ##2.0.1
 * Updated ApiTask to handle errors properly and let callers override onError
 * If the client credentials change, invalidate the oauth credentials and get a new token
