@@ -1,5 +1,10 @@
 # Imoji SDK Change Log
 
+##2.0.1
+* Updated ApiTask to handle errors properly and let callers override onError
+* If the client credentials change, invalidate the oauth credentials and get a new token
+* Imoji is Parcelable again
+
 ##2.0.0
 * Revamped Imoji Android SDK to work much like the iOS version!
 * Introduces Artist content, gif image url's and non-bordered images
