@@ -94,8 +94,6 @@ public class ApiTask<V> {
                 );
                 MAIN_LOOP_HANDLER.dispatchMessage(message);
 
-                this.onError(e);
-
                 throw new RuntimeException("Unable to perform async task", e);
             }
         }
