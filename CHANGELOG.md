@@ -1,5 +1,9 @@
 # Imoji SDK Change Log
 
+##2.0.3
+* Avoid sending null tags arrays when creating new Imoji references
+* Avoid calling onError multiple times in WrappedAsyncTask
+
 ##2.0.2
 * Makes sure BuildConfig is in the new io.imoji.sdk namespace
 
