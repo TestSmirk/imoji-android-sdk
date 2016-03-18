@@ -36,6 +36,7 @@ import io.imoji.sdk.objects.Imoji;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,7 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
                 tags.add(tag.getAsString());
             }
         } else {
-            tags = null;
+            tags = Collections.emptyList();
         }
 
         Map<RenderingOptions, Imoji.Metadata> metadataMap = new HashMap<>();
