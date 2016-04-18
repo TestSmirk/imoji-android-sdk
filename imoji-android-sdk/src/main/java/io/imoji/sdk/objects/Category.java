@@ -35,11 +35,57 @@ import java.util.List;
  */
 public class Category {
 
+    /**
+     * Defines a high level grouping of category types
+     */
     public enum Classification {
+        /**
+         * Allows for the caller to obtain all trending and time sensitive categories
+         * (ex: sporting events, holidays, etc).
+         */
         Trending,
+
+        /**
+         * Allows for the caller to obtain categories of imojis that are not time sensitive
+         * (ex: emotions, locations, people, etc).
+         */
         Generic,
+
+        /**
+         * Allows for the caller to obtain all categories containing artist content
+         */
         Artist,
+
+        /**
+         * Allows for the caller to obtain all categories.
+         */
         None
+    }
+
+    /**
+     * Describes the type of attribution URL
+     */
+    public enum URLCategory {
+        /**
+         * The provided URL will link to a website.
+         */
+        Website,
+        /**
+         * The provided URL will link to an Instagram profile page.
+         */
+        Instagram,
+        /**
+         * The provided URL will link to a video (ex: Youtube, Vimeo, etc).
+         */
+        Video,
+        /**
+         * The provided URL will link to a Twitter Profile page.
+         */
+        Twitter,
+        /**
+         * The provided URL will link to a landing page in the Apple App Store.
+         */
+        AppStore
     }
 
     /**
@@ -57,10 +103,19 @@ public class Category {
         @NonNull
         private final Uri uri;
 
-        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull Uri uri) {
+        @Nullable
+        private final URLCategory urlCategory;
+
+        @NonNull
+        private final List<String> relatedTags;
+
+        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull Uri uri,
+                           @NonNull List<String> relatedTags, @Nullable URLCategory urlCategory) {
             this.identifier = identifier;
             this.artist = artist;
             this.uri = uri;
+            this.urlCategory = urlCategory;
+            this.relatedTags = relatedTags;
         }
 
         /**
@@ -85,6 +140,19 @@ public class Category {
         @NonNull
         public Uri getUri() {
             return uri;
+        }
+
+        /**
+         * @return Classification of the URL.
+         */
+        @Nullable
+        public URLCategory getUrlCategory() {
+            return urlCategory;
+        }
+
+        @NonNull
+        public List<String> getRelatedTags() {
+            return relatedTags;
         }
 
         @Override

@@ -37,9 +37,12 @@ import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Imoji Android SDK
@@ -47,6 +50,19 @@ import java.util.List;
  * Created by nkhoshini on 2/25/16.
  */
 public class CategoryDeserializer implements JsonDeserializer<Category> {
+
+    private static final Map<String, Category.URLCategory> URL_CATEGORY_MAP;
+
+    static {
+        Map<String, Category.URLCategory> urlCategoryMap = new HashMap<>();
+        urlCategoryMap.put("website", Category.URLCategory.Website);
+        urlCategoryMap.put("app store", Category.URLCategory.AppStore);
+        urlCategoryMap.put("twitter", Category.URLCategory.Twitter);
+        urlCategoryMap.put("instagram", Category.URLCategory.Instagram);
+        urlCategoryMap.put("video", Category.URLCategory.Video);
+
+        URL_CATEGORY_MAP = Collections.unmodifiableMap(urlCategoryMap);
+    }
 
     @Override
     public Category deserialize(JsonElement json,
@@ -67,8 +83,26 @@ public class CategoryDeserializer implements JsonDeserializer<Category> {
             Artist artist = context.deserialize(artistJson, Artist.class);
             String attributionId = artistJson.get("packId").getAsString();
             Uri uri = Uri.parse(artistJson.get("packURL").getAsString());
+            Category.URLCategory urlCategory = artistJson.has("packURLCategory") ?
+                    URL_CATEGORY_MAP.get(artistJson.get("packURLCategory").getAsString()) : Category.URLCategory.Website;
+            JsonArray relatedTagsArray = root.getAsJsonArray("relatedTags");
+            List<String> relatedTags;
 
-            attribution = new Category.Attribution(attributionId, artist, uri);
+            if (relatedTagsArray != null && relatedTagsArray.size() > 0) {
+                relatedTags = new ArrayList<>(relatedTagsArray.size());
+                for (JsonElement tag : relatedTagsArray) {
+                    relatedTags.add(tag.getAsString());
+                }
+            } else {
+                relatedTags = Collections.emptyList();
+            }
+
+            if (urlCategory == null) {
+                urlCategory = Category.URLCategory.Website;
+            }
+
+
+            attribution = new Category.Attribution(attributionId, artist, uri, relatedTags, urlCategory);
         }
 
         List<Imoji> previewImojis;

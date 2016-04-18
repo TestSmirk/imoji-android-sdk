@@ -29,6 +29,7 @@ import android.support.annotation.Nullable;
 
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.AttributionResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.CreateImojiResponse;
 import io.imoji.sdk.response.GenericApiResponse;
@@ -90,9 +91,9 @@ public interface Session {
     ApiTask<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults);
 
     /**
-     * Gets corresponding Imoji's for one or more imoji identifiers as NSString's
-     * Imoji contents are downloaded individually and fetchedResponseCallback is called once the thumbnail of that imoji has been downloaded.
+     * Gets corresponding Imoji's for one or more imoji identifiers as Strings
      *
+     * @param identifiers One or more Imoji ID's
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
@@ -163,5 +164,15 @@ public interface Session {
      */
     @NonNull
     ApiTask<GenericApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+
+    /**
+     * Gets attribution information for a set of Imoji ID's.
+     *
+     * @param identifiers One or more Imoji ID's
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<AttributionResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers);
+
 
 }

@@ -35,6 +35,7 @@ import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.objects.RenderingOptions;
+import io.imoji.sdk.response.AttributionResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.GenericApiResponse;
 import io.imoji.sdk.response.ImojisResponse;
@@ -244,6 +245,30 @@ public class BaseTests extends AndroidTestCase {
                 });
 
         secondaryLatch.await();
+    }
+
+    public void testImojiAttribution() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        sdkSession.fetchAttributionByImojiIdentifiers(Collections.singletonList(SAMPLE_IMOJI_ID))
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<AttributionResponse>() {
+                    @Override
+                    protected void onPostExecute(AttributionResponse attributionResponse) {
+                        assertNotNull(attributionResponse);
+                        assertNotNull(attributionResponse.getAttributions());
+                        assertNotSame(attributionResponse.getAttributions().size(), 0);
+
+                        Category.Attribution attribution =
+                                attributionResponse.getAttributions().iterator().next();
+
+                        assertNotNull(attribution);
+                        assertNotNull(attribution.getRelatedTags());
+
+                        latch.countDown();
+                    }
+                });
+
+        latch.await();
     }
 
     public void testImojiAsParcelable() throws Exception {
