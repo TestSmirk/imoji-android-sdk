@@ -36,6 +36,7 @@ import io.imoji.sdk.response.GenericApiResponse;
 import io.imoji.sdk.response.ImojisResponse;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Base interface for generating any Imoji Api Request
@@ -52,6 +53,19 @@ public interface Session {
      */
     @NonNull
     ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification);
+
+    /**
+     * Fetches top level imoji categories given a classification type.
+     *
+     * @param classification         Type of category classification to retrieve
+     * @param contextualSearchPhrase When set, instructs the server to return categories relevant to the search phrase.
+     * @param contextualSearchLocale Used in conjunction with contextualSearchPhrase to identify the locale of the phrase.
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification,
+                                                   @Nullable String contextualSearchPhrase,
+                                                   @Nullable Locale contextualSearchLocale);
 
     /**
      * Searches the imojis database with a given search term.

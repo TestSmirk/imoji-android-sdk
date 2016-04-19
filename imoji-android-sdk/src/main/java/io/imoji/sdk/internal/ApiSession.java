@@ -44,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -56,10 +57,28 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
+        return this.getImojiCategories(classification, null, null);
+    }
+
+    @NonNull
+    @Override
+    public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification,
+                                                          @Nullable String contextualSearchPhrase,
+                                                          @Nullable Locale contextualSearchLocale) {
+        Map<String, String> params = new HashMap<>();
+        params.put("classification", classification.name().toLowerCase());
+
+        if (contextualSearchPhrase != null) {
+            params.put("contextualSearchPhrase", contextualSearchPhrase);
+            if (contextualSearchLocale != null) {
+                params.put("locale", contextualSearchLocale.toString());
+            }
+        }
+
         return validatedGet(
                 ImojiSDKConstants.Paths.CATEGORIES_FETCH,
                 CategoriesResponse.class,
-                Collections.singletonMap("classification", classification.name().toLowerCase()),
+                params,
                 null
         );
     }

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -139,6 +140,38 @@ public class BaseTests extends AndroidTestCase {
 
             }
         });
+
+        latch.await();
+    }
+
+
+    public void testContextualCategoryFetch() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        sdkSession.getImojiCategories(Category.Classification.Trending, "Taylor swift is the best!", Locale.US)
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+                    @Override
+                    protected void onPostExecute(CategoriesResponse categoriesResponse) {
+                        assertNotNull(categoriesResponse);
+                        assertNotNull(categoriesResponse.getCategories());
+                        assertNotSame(categoriesResponse.getCategories().size(), 0);
+
+                        Category category = categoriesResponse.getCategories().iterator().next();
+
+                        assertNotNull(category);
+                        assertNotNull(category.getIdentifier());
+                        assertNotNull(category.getPreviewImojis());
+                        assertNotSame(category.getPreviewImojis().size(), 0);
+                        assertNotNull(category.getTitle());
+
+                        Imoji previewImoji = category.getPreviewImoji();
+                        assertNotNull(previewImoji.getIdentifier());
+                        assertNotNull(previewImoji.getTags());
+                        assertNotNull(previewImoji.getStandardThumbnailUri());
+
+                        latch.countDown();
+
+                    }
+                });
 
         latch.await();
     }
