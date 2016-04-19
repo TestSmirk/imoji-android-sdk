@@ -29,7 +29,7 @@ import android.support.annotation.Nullable;
 
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.response.AttributionResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.CreateImojiResponse;
 import io.imoji.sdk.response.GenericApiResponse;
@@ -172,7 +172,7 @@ public interface Session {
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
-    ApiTask<AttributionResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers);
+    ApiTask<ImojiAttributionsResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers);
 
 
 }

@@ -33,7 +33,7 @@ import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.StoragePolicy;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.response.AttributionResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.CreateImojiResponse;
 import io.imoji.sdk.response.GenericApiResponse;
@@ -216,13 +216,13 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
-    public ApiTask<AttributionResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers) {
+    public ApiTask<ImojiAttributionsResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers) {
         final HashMap<String, String> params = new HashMap<>(2);
         final String ids = TextUtils.join(",", identifiers);
 
         params.put("imojiIds", ids);
 
-        return validatedGet(ImojiSDKConstants.Paths.IMOJI_ATTRIBUTION, AttributionResponse.class, params, null);
+        return validatedGet(ImojiSDKConstants.Paths.IMOJI_ATTRIBUTION, ImojiAttributionsResponse.class, params, null);
     }
 
     private static class BitmapUtils {

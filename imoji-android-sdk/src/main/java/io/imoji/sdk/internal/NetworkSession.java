@@ -42,10 +42,12 @@ import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.objects.json.ArtistDeserializer;
+import io.imoji.sdk.objects.json.AttributionDeserializer;
 import io.imoji.sdk.objects.json.CategoryDeserializer;
 import io.imoji.sdk.objects.json.CategoryResultsDeserializer;
 import io.imoji.sdk.objects.json.ErrorResponseDeserializer;
 import io.imoji.sdk.objects.json.GenericNetworkResponsDeserializer;
+import io.imoji.sdk.objects.json.ImojiAttributionsResponseDeserializer;
 import io.imoji.sdk.objects.json.ImojiDeserializer;
 import io.imoji.sdk.objects.json.ImojiResultsDeserializer;
 import io.imoji.sdk.objects.json.ImojiUploadResponseDeserializer;
@@ -54,6 +56,7 @@ import io.imoji.sdk.response.ApiResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.ErrorResponse;
 import io.imoji.sdk.response.GenericApiResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.ImojiUploadResponse;
 import io.imoji.sdk.response.ImojisResponse;
 import io.imoji.sdk.response.OAuthTokenResponse;
@@ -84,6 +87,8 @@ public abstract class NetworkSession implements Session {
             .registerTypeAdapter(GenericApiResponse.class, new GenericNetworkResponsDeserializer())
             .registerTypeAdapter(Imoji.class, new ImojiDeserializer())
             .registerTypeAdapter(ImojisResponse.class, new ImojiResultsDeserializer())
+            .registerTypeAdapter(ImojiAttributionsResponse.class, new ImojiAttributionsResponseDeserializer())
+            .registerTypeAdapter(Category.Attribution.class, new AttributionDeserializer())
             .registerTypeAdapter(OAuthTokenResponse.class, new OAuthTokenDeserializer())
             .registerTypeAdapter(ImojiUploadResponse.class, new ImojiUploadResponseDeserializer())
             .registerTypeAdapter(ErrorResponse.class, new ErrorResponseDeserializer())

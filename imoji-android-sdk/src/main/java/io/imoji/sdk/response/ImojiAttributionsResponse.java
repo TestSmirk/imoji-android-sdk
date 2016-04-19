@@ -25,7 +25,7 @@ package io.imoji.sdk.response;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
+import java.util.Map;
 
 import io.imoji.sdk.objects.Category;
 
@@ -34,17 +34,17 @@ import io.imoji.sdk.objects.Category;
  * <p>
  * Created by nkhoshini on 4/18/16.
  */
-public class AttributionResponse implements ApiResponse {
+public class ImojiAttributionsResponse implements ApiResponse {
 
     @NonNull
-    private final List<Category.Attribution> attributions;
+    private final Map<String, Category.Attribution> attributionMap;
 
-    public AttributionResponse(@NonNull List<Category.Attribution> attributions) {
-        this.attributions = attributions;
+    public ImojiAttributionsResponse(@NonNull Map<String, Category.Attribution> attributionMap) {
+        this.attributionMap = attributionMap;
     }
 
     @NonNull
-    public List<Category.Attribution> getAttributions() {
-        return attributions;
+    public Map<String, Category.Attribution> getAttributionMap() {
+        return attributionMap;
     }
 }

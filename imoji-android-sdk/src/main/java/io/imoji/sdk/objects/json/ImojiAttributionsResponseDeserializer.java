@@ -28,33 +28,34 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import io.imoji.sdk.objects.Artist;
-import io.imoji.sdk.objects.Imoji;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 
 /**
  * Imoji Android SDK
  * <p/>
- * Created by nkhoshini on 2/25/16.
+ * Created by nkhoshini on 4/18/16.
  */
-public class ArtistDeserializer implements JsonDeserializer<Artist> {
+public class ImojiAttributionsResponseDeserializer implements JsonDeserializer<ImojiAttributionsResponse> {
 
     @Override
-    public Artist deserialize(JsonElement json,
-                              Type typeOfT,
-                              JsonDeserializationContext context) throws JsonParseException {
+    public ImojiAttributionsResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject root = json.getAsJsonObject();
+        Map<String, Category.Attribution> attributionMap = new HashMap<>();
 
-        if (root.has("id")) {
-            String identifier = root.get("id").getAsString();
-            String name = root.get("name").getAsString();
-            String description = root.get("description").getAsString();
-            Imoji profileImoji = context.deserialize(root, Imoji.class);
+        if (root.has("attribution")) {
+            JsonObject attributionJSON = root.getAsJsonObject("attribution");
 
-            return new Artist(identifier, name, description, profileImoji);
-        } else {
-            return null;
+            for (Map.Entry<String, JsonElement> attribution :attributionJSON.entrySet()){
+                attributionMap.put(attribution.getKey(), context.<Category.Attribution>deserialize(attribution.getValue(), Category.Attribution.class));
+            }
         }
+
+        return new ImojiAttributionsResponse(attributionMap);
     }
 }

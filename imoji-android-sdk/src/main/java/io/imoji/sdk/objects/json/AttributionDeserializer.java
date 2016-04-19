@@ -23,6 +23,8 @@
 
 package io.imoji.sdk.objects.json;
 
+import android.net.Uri;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -37,15 +39,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
-import io.imoji.sdk.objects.Imoji;
 
 /**
  * Imoji Android SDK
  * <p/>
- * Created by nkhoshini on 2/25/16.
+ * Created by nkhoshini on 4/18/16.
  */
-public class CategoryDeserializer implements JsonDeserializer<Category> {
+public class AttributionDeserializer implements JsonDeserializer<Category.Attribution> {
 
     private static final Map<String, Category.URLCategory> URL_CATEGORY_MAP;
 
@@ -61,33 +63,30 @@ public class CategoryDeserializer implements JsonDeserializer<Category> {
     }
 
     @Override
-    public Category deserialize(JsonElement json,
-                                Type typeOfT,
-                                JsonDeserializationContext context) throws JsonParseException {
+    public Category.Attribution deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject root = json.getAsJsonObject();
+        Artist artist = context.deserialize(root, Artist.class);
 
-        String identifier = root.get("searchText").getAsString();
-        String title = root.get("title").getAsString();
+        String attributionId = root.has("packId") ? root.get("packId").getAsString() : null;
+        Uri uri = root.has("packURL") ? Uri.parse(root.get("packURL").getAsString()) : null;
+        Category.URLCategory urlCategory = root.has("packURLCategory") ?
+                URL_CATEGORY_MAP.get(root.get("packURLCategory").getAsString()) : null;
+        JsonArray relatedTagsArray = root.getAsJsonArray("relatedTags");
+        List<String> relatedTags;
 
-        JsonArray imojisArray = root.get("imojis").getAsJsonArray();
-
-
-        Category.Attribution attribution = null;
-        if (root.has("artist") && !root.get("artist").isJsonNull()) {
-            attribution = context.deserialize(root.getAsJsonObject("artist"), Category.Attribution.class);
-        }
-
-        List<Imoji> previewImojis;
-        if (imojisArray != null && imojisArray.size() > 0) {
-            previewImojis = new ArrayList<>(imojisArray.size());
-
-            for (JsonElement imojiJson : imojisArray) {
-                previewImojis.add(context.<Imoji>deserialize(imojiJson, Imoji.class));
+        if (relatedTagsArray != null && relatedTagsArray.size() > 0) {
+            relatedTags = new ArrayList<>(relatedTagsArray.size());
+            for (JsonElement tag : relatedTagsArray) {
+                relatedTags.add(tag.getAsString());
             }
         } else {
-            previewImojis = Collections.emptyList();
+            relatedTags = Collections.emptyList();
         }
 
-        return new Category(identifier, title, previewImojis, attribution);
+        if (urlCategory == null && uri != null) {
+            urlCategory = Category.URLCategory.Website;
+        }
+
+        return new Category.Attribution(attributionId, artist, uri, relatedTags, urlCategory);
     }
 }

@@ -24,18 +24,13 @@
 package io.imoji.sdk;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import io.imoji.sdk.ApiTask;
-import io.imoji.sdk.ImojiSDK;
-import io.imoji.sdk.Session;
 import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.objects.RenderingOptions;
-import io.imoji.sdk.response.AttributionResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.GenericApiResponse;
 import io.imoji.sdk.response.ImojisResponse;
@@ -251,15 +246,15 @@ public class BaseTests extends AndroidTestCase {
         final CountDownLatch latch = new CountDownLatch(1);
 
         sdkSession.fetchAttributionByImojiIdentifiers(Collections.singletonList(SAMPLE_IMOJI_ID))
-                .executeAsyncTask(new ApiTask.WrappedAsyncTask<AttributionResponse>() {
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<ImojiAttributionsResponse>() {
                     @Override
-                    protected void onPostExecute(AttributionResponse attributionResponse) {
+                    protected void onPostExecute(ImojiAttributionsResponse attributionResponse) {
                         assertNotNull(attributionResponse);
-                        assertNotNull(attributionResponse.getAttributions());
-                        assertNotSame(attributionResponse.getAttributions().size(), 0);
+                        assertNotNull(attributionResponse.getAttributionMap());
+                        assertNotSame(attributionResponse.getAttributionMap().size(), 0);
 
                         Category.Attribution attribution =
-                                attributionResponse.getAttributions().iterator().next();
+                                attributionResponse.getAttributionMap().values().iterator().next();
 
                         assertNotNull(attribution);
                         assertNotNull(attribution.getRelatedTags());

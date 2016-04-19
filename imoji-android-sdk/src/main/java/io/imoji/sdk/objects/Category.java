@@ -93,14 +93,14 @@ public class Category {
      */
     public static class Attribution {
 
-        @NonNull
+        @Nullable
         private final String identifier;
 
 
-        @NonNull
+        @Nullable
         private final Artist artist;
 
-        @NonNull
+        @Nullable
         private final Uri uri;
 
         @Nullable
@@ -109,7 +109,7 @@ public class Category {
         @NonNull
         private final List<String> relatedTags;
 
-        public Attribution(@NonNull String identifier, @NonNull Artist artist, @NonNull Uri uri,
+        public Attribution(@Nullable String identifier, @Nullable Artist artist, @Nullable Uri uri,
                            @NonNull List<String> relatedTags, @Nullable URLCategory urlCategory) {
             this.identifier = identifier;
             this.artist = artist;
@@ -121,7 +121,7 @@ public class Category {
         /**
          * @return A unique id for the attribution record
          */
-        @NonNull
+        @Nullable
         public String getIdentifier() {
             return identifier;
         }
@@ -129,7 +129,7 @@ public class Category {
         /**
          * @return The artist/contributor information
          */
-        @NonNull
+        @Nullable
         public Artist getArtist() {
             return artist;
         }
@@ -137,7 +137,7 @@ public class Category {
         /**
          * @return A punchout URL for the attribution
          */
-        @NonNull
+        @Nullable
         public Uri getUri() {
             return uri;
         }
@@ -162,12 +162,12 @@ public class Category {
 
             Attribution that = (Attribution) o;
 
-            return identifier.equals(that.identifier);
+            return identifier != null ? identifier.equals(that.identifier) : that.identifier == null;
         }
 
         @Override
         public int hashCode() {
-            return identifier.hashCode();
+            return identifier != null ? identifier.hashCode() : 0;
         }
     }
 
