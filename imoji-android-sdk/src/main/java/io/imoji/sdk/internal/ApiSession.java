@@ -29,24 +29,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import io.imoji.sdk.ApiTask;
-import io.imoji.sdk.StoragePolicy;
-import io.imoji.sdk.objects.Category;
-import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.response.ImojiAttributionsResponse;
-import io.imoji.sdk.response.CategoriesResponse;
-import io.imoji.sdk.response.CreateImojiResponse;
-import io.imoji.sdk.response.GenericApiResponse;
-import io.imoji.sdk.response.ImojisResponse;
-import io.imoji.sdk.response.ImojiUploadResponse;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import io.imoji.sdk.ApiTask;
+import io.imoji.sdk.StoragePolicy;
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.CategoriesResponse;
+import io.imoji.sdk.response.CreateImojiResponse;
+import io.imoji.sdk.response.GenericApiResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
+import io.imoji.sdk.response.ImojiUploadResponse;
+import io.imoji.sdk.response.ImojisResponse;
 
 public class ApiSession extends NetworkSession {
 
@@ -57,22 +57,28 @@ public class ApiSession extends NetworkSession {
     @NonNull
     @Override
     public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification) {
-        return this.getImojiCategories(classification, null, null);
+        return this.getImojiCategories(new CategoryFetchOptions(classification));
     }
 
     @NonNull
     @Override
-    public ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification,
-                                                          @Nullable String contextualSearchPhrase,
-                                                          @Nullable Locale contextualSearchLocale) {
+    public ApiTask<CategoriesResponse> getImojiCategories(@NonNull CategoryFetchOptions fetchOptions) {
         Map<String, String> params = new HashMap<>();
-        params.put("classification", classification.name().toLowerCase());
+        params.put("classification", fetchOptions.getClassification().name().toLowerCase());
 
-        if (contextualSearchPhrase != null) {
-            params.put("contextualSearchPhrase", contextualSearchPhrase);
-            if (contextualSearchLocale != null) {
-                params.put("locale", contextualSearchLocale.toString());
+        if (fetchOptions.getContextualSearchPhrase() != null) {
+            params.put("contextualSearchPhrase", fetchOptions.getContextualSearchPhrase());
+            if (fetchOptions.getContextualSearchLocale() != null) {
+                params.put("locale", fetchOptions.getContextualSearchLocale().toString());
             }
+        }
+
+        if (fetchOptions.getLicenseStyles() != null && !fetchOptions.getLicenseStyles().isEmpty()) {
+            int val = 0;
+            for (Imoji.LicenseStyle license  : fetchOptions.getLicenseStyles()) {
+                val |= license.getValue();
+            }
+            params.put("licenseStyles", Integer.toString(val));
         }
 
         return validatedGet(

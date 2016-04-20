@@ -41,6 +41,7 @@ import java.util.Map;
 
 import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.Imoji;
 
 /**
  * Imoji Android SDK
@@ -71,6 +72,14 @@ public class AttributionDeserializer implements JsonDeserializer<Category.Attrib
         Uri uri = root.has("packURL") ? Uri.parse(root.get("packURL").getAsString()) : null;
         Category.URLCategory urlCategory = root.has("packURLCategory") ?
                 URL_CATEGORY_MAP.get(root.get("packURLCategory").getAsString()) : null;
+
+        Imoji.LicenseStyle licenseStyle = Imoji.LicenseStyle.NonCommercial;
+        if (root.has("licenseStyle")) {
+            String licenseStyleStr = root.get("licenseStyle").getAsString();
+            if ("commercialPrint".equals((licenseStyleStr))) {
+                licenseStyle = Imoji.LicenseStyle.CommercialPrint;
+            }
+        }
         JsonArray relatedTagsArray = root.getAsJsonArray("relatedTags");
         List<String> relatedTags;
 
@@ -87,6 +96,6 @@ public class AttributionDeserializer implements JsonDeserializer<Category.Attrib
             urlCategory = Category.URLCategory.Website;
         }
 
-        return new Category.Attribution(attributionId, artist, uri, relatedTags, urlCategory);
+        return new Category.Attribution(attributionId, artist, uri, relatedTags, urlCategory, licenseStyle);
     }
 }

@@ -109,13 +109,18 @@ public class Category {
         @NonNull
         private final List<String> relatedTags;
 
+        @NonNull
+        private final Imoji.LicenseStyle licenseStyle;
+
         public Attribution(@Nullable String identifier, @Nullable Artist artist, @Nullable Uri uri,
-                           @NonNull List<String> relatedTags, @Nullable URLCategory urlCategory) {
+                           @NonNull List<String> relatedTags, @Nullable URLCategory urlCategory,
+                           @NonNull Imoji.LicenseStyle licenseStyle) {
             this.identifier = identifier;
             this.artist = artist;
             this.uri = uri;
             this.urlCategory = urlCategory;
             this.relatedTags = relatedTags;
+            this.licenseStyle = licenseStyle;
         }
 
         /**
@@ -153,6 +158,14 @@ public class Category {
         @NonNull
         public List<String> getRelatedTags() {
             return relatedTags;
+        }
+
+        /**
+         * @return The license style for the category attribution object.
+         */
+        @NonNull
+        public Imoji.LicenseStyle getLicenseStyle() {
+            return licenseStyle;
         }
 
         @Override

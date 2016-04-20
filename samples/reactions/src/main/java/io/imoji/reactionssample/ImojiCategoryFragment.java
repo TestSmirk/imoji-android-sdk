@@ -12,6 +12,7 @@ import android.widget.GridView;
 import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.ImojiSDK;
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.response.CategoriesResponse;
 
 public class ImojiCategoryFragment extends Fragment {
@@ -72,7 +73,7 @@ public class ImojiCategoryFragment extends Fragment {
         }
 
         ImojiSDK.getInstance().createSession(getContext()).
-                getImojiCategories(c).
+                getImojiCategories(new CategoryFetchOptions(c)).
                 executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
                     @Override
                     protected void onPostExecute(CategoriesResponse categoriesResponse) {

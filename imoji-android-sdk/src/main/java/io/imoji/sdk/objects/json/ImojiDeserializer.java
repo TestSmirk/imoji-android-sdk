@@ -73,6 +73,14 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
             tags = Collections.emptyList();
         }
 
+        Imoji.LicenseStyle licenseStyle = Imoji.LicenseStyle.NonCommercial;
+        if (root.has("licenseStyle")) {
+            String licenseStyleStr = root.get("licenseStyle").getAsString();
+            if ("commercialPrint".equals((licenseStyleStr))) {
+                licenseStyle = Imoji.LicenseStyle.CommercialPrint;
+            }
+        }
+
         Map<RenderingOptions, Imoji.Metadata> metadataMap = new HashMap<>();
 
         JsonObject images = root.get("images").getAsJsonObject();
@@ -175,6 +183,6 @@ public class ImojiDeserializer implements JsonDeserializer<Imoji> {
             }
         }
 
-        return new Imoji(identifier, tags, metadataMap);
+        return new Imoji(identifier, tags, metadataMap, licenseStyle);
     }
 }

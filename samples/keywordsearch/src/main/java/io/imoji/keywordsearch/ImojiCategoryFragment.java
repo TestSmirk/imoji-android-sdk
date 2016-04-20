@@ -13,6 +13,7 @@ import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.ImojiSDK;
 import io.imoji.sdk.Session;
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.response.CategoriesResponse;
 
 public class ImojiCategoryFragment extends Fragment {
@@ -72,7 +73,7 @@ public class ImojiCategoryFragment extends Fragment {
         }
 
         Session session = ImojiSDK.getInstance().createSession(getContext());
-        session.getImojiCategories(classification).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+        session.getImojiCategories(new CategoryFetchOptions(classification)).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
             @Override
             protected void onPostExecute(CategoriesResponse categoriesResponse) {
                 if (isResumed()) {

@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
@@ -50,22 +51,19 @@ public interface Session {
      *
      * @param classification Type of category classification to retrieve
      * @return An ApiTask reference to be resolved by the caller
+     * @deprecated Use getImojiCategorys(CategoryFetchOptions fetchOptions) instead
      */
     @NonNull
     ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification);
 
     /**
-     * Fetches top level imoji categories given a classification type.
+     * Fetches top level imoji categories with options.
      *
-     * @param classification         Type of category classification to retrieve
-     * @param contextualSearchPhrase When set, instructs the server to return categories relevant to the search phrase.
-     * @param contextualSearchLocale Used in conjunction with contextualSearchPhrase to identify the locale of the phrase.
+     * @param fetchOptions Options to use for filtering category requests
      * @return An ApiTask reference to be resolved by the caller
      */
     @NonNull
-    ApiTask<CategoriesResponse> getImojiCategories(@NonNull Category.Classification classification,
-                                                   @Nullable String contextualSearchPhrase,
-                                                   @Nullable Locale contextualSearchLocale);
+    ApiTask<CategoriesResponse> getImojiCategories(@NonNull CategoryFetchOptions fetchOptions);
 
     /**
      * Searches the imojis database with a given search term.

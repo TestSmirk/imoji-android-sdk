@@ -28,6 +28,7 @@ import android.test.AndroidTestCase;
 
 import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.objects.RenderingOptions;
 import io.imoji.sdk.response.ImojiAttributionsResponse;
@@ -104,7 +105,7 @@ public class BaseTests extends AndroidTestCase {
 
     public void testArtistCategories() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        sdkSession.getImojiCategories(Category.Classification.Artist).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+        sdkSession.getImojiCategories(new CategoryFetchOptions(Category.Classification.Artist)).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
             @Override
             protected void onPostExecute(CategoriesResponse categoriesResponse) {
                 assertNotNull(categoriesResponse);
@@ -147,7 +148,7 @@ public class BaseTests extends AndroidTestCase {
 
     public void testContextualCategoryFetch() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        sdkSession.getImojiCategories(Category.Classification.Trending, "Taylor swift is the best!", Locale.US)
+        sdkSession.getImojiCategories(new CategoryFetchOptions(Category.Classification.Trending, "Taylor swift is the best!", Locale.US))
                 .executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
                     @Override
                     protected void onPostExecute(CategoriesResponse categoriesResponse) {
@@ -325,7 +326,8 @@ public class BaseTests extends AndroidTestCase {
     public void testEmptyTaggedImojiAsParcelable() throws Exception {
         Imoji imoji = new Imoji(UUID.randomUUID().toString(),
                 Collections.<String>emptyList(),
-                Collections.<RenderingOptions, Imoji.Metadata>emptyMap()
+                Collections.<RenderingOptions, Imoji.Metadata>emptyMap(),
+                Imoji.LicenseStyle.NonCommercial
         );
 
         Parcel parcel = Parcel.obtain();

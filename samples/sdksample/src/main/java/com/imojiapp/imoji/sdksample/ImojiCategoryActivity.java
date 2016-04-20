@@ -20,6 +20,7 @@ import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.ImojiSDK;
 import io.imoji.sdk.Session;
 import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.response.CategoriesResponse;
 import com.squareup.picasso.Picasso;
@@ -85,7 +86,7 @@ private static final String LOG_TAG = ImojiCategoryActivity.class.getSimpleName(
 
     private void loadImojiCategories(Category.Classification classification) {
         mImojiSession
-                .getImojiCategories(classification)
+                .getImojiCategories(new CategoryFetchOptions(classification))
                 .executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
                     @Override
                     protected void onPostExecute(CategoriesResponse categoriesResponse) {

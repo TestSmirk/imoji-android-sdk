@@ -42,6 +42,21 @@ import java.util.Map;
  */
 public class Imoji implements Parcelable {
 
+    public enum LicenseStyle {
+        NonCommercial(1),
+        CommercialPrint(2);
+
+        private final int value;
+
+        LicenseStyle(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     public static class Metadata implements Parcelable {
         @Nullable
         private final Integer width;
@@ -158,20 +173,40 @@ public class Imoji implements Parcelable {
     private final Map<RenderingOptions, Metadata> metadataMap;
 
     /**
+     * The license style for the category attribution object.
+     */
+    @NonNull
+    private final LicenseStyle licenseStyle;
+
+    /**
      * Whether or not the Imoji has support for animation or not.
      */
     public boolean supportsAnimation() {
         return false;
     }
 
+    /**
+     * @return A unique identifier for the Imoji Sticker
+     */
     @NonNull
     public String getIdentifier() {
         return identifier;
     }
 
+    /**
+     * @return One or more tags for the Imoji sticker
+     */
     @NonNull
     public List<String> getTags() {
         return tags;
+    }
+
+    /**
+     * @return The license style for the category attribution object.
+     */
+    @NonNull
+    public LicenseStyle getLicenseStyle() {
+        return licenseStyle;
     }
 
     /**
@@ -262,10 +297,12 @@ public class Imoji implements Parcelable {
 
     public Imoji(@NonNull String identifier,
                  @NonNull List<String> tags,
-                 @NonNull Map<RenderingOptions, Metadata> metadataMap) {
+                 @NonNull Map<RenderingOptions, Metadata> metadataMap,
+                 @NonNull LicenseStyle licenseStyle) {
         this.identifier = identifier;
         this.tags = tags;
         this.metadataMap = metadataMap;
+        this.licenseStyle = licenseStyle;
     }
 
     @Override
@@ -302,6 +339,7 @@ public class Imoji implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.identifier);
         dest.writeStringList(this.tags);
+        dest.writeInt(this.licenseStyle.getValue());
         dest.writeInt(metadataMap.size());
         for (Map.Entry<RenderingOptions, Metadata> entry : metadataMap.entrySet()) {
             dest.writeParcelable(entry.getKey(), flags);
@@ -323,6 +361,12 @@ public class Imoji implements Parcelable {
     private Imoji(Parcel in) {
         this.identifier = in.readString();
         this.tags = in.createStringArrayList();
+        if (LicenseStyle.NonCommercial.getValue() == in.readInt()) {
+            this.licenseStyle = LicenseStyle.NonCommercial;
+        } else {
+            this.licenseStyle = LicenseStyle.CommercialPrint;
+        }
+
         int entryCount = in.readInt();
         if (entryCount > 0) {
             this.metadataMap = new HashMap<>(entryCount);
