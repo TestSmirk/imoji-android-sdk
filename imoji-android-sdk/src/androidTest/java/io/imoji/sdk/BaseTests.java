@@ -341,6 +341,34 @@ public class BaseTests extends AndroidTestCase {
         assertEquals(fromParcel, imoji);
     }
 
+    public void testCategoriesWithLicenseStyles() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        CategoryFetchOptions fetchOptions = new CategoryFetchOptions(Category.Classification.Artist);
+        fetchOptions.setLicenseStyles(Collections.singletonList(Imoji.LicenseStyle.CommercialPrint));
+
+
+        sdkSession.getImojiCategories(fetchOptions).executeAsyncTask(new ApiTask.WrappedAsyncTask<CategoriesResponse>() {
+            @Override
+            protected void onPostExecute(CategoriesResponse categoriesResponse) {
+                assertNotNull(categoriesResponse);
+                assertNotNull(categoriesResponse.getCategories());
+                assertNotSame(categoriesResponse.getCategories().size(), 0);
+
+                Category category = categoriesResponse.getCategories().iterator().next();
+
+                assertNotNull(category);
+                assertNotNull(category.getIdentifier());
+                assertNotNull(category.getAttribution());
+                assertEquals(category.getAttribution().getLicenseStyle(), Imoji.LicenseStyle.CommercialPrint);
+
+                latch.countDown();
+
+            }
+        });
+
+        latch.await();
+    }
+
 
     private void validateImojiResponse(ImojisResponse imojisResponse) {
         assertNotNull(imojisResponse);
