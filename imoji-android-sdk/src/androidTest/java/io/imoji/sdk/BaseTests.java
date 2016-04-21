@@ -317,6 +317,8 @@ public class BaseTests extends AndroidTestCase {
                         Imoji fromParcel = Imoji.CREATOR.createFromParcel(parcel);
 
                         assertEquals(fromParcel, imoji);
+
+                        latch.countDown();
                     }
                 });
 
