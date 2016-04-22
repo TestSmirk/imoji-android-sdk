@@ -103,4 +103,4 @@ Picasso.with(getContext()).load(imoji.getStandardThumbnailUri());
 ### Java Docs
 
 For future reference, check out the full Java docs here:
-[http://www.javadoc.io/doc/io.imoji.sdk/imoji-sdk/](http://www.javadoc.io/doc/io.imoji.sdk/imoji-sdk/2.0.1)
+[http://www.javadoc.io/doc/io.imoji.sdk/imoji-sdk/](http://www.javadoc.io/doc/io.imoji.sdk/imoji-sdk/)
