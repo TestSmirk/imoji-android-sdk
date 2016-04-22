@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents a top level task returned by API calls that can be ran as an AsyncTask or immediately
  * with an ExecutorService.
- * <p>
+ * <p/>
  * Created by nkhoshini on 2/26/16.
  *
  * @see AsyncTask
@@ -85,7 +85,7 @@ public class ApiTask<V> {
                 FutureTask<V> task = (FutureTask<V>) params[0];
                 THREAD_POOL_EXECUTOR_SERVICE.submit(task);
                 return task.get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (ExecutionException e) {
                 Log.e(ApiTask.class.getName(), "Unable to perform async task", e);
                 Message message = MAIN_LOOP_HANDLER.obtainMessage(
                         WRAPPED_ASYNC_ERROR_MESSAGE,
@@ -94,6 +94,8 @@ public class ApiTask<V> {
                 MAIN_LOOP_HANDLER.dispatchMessage(message);
 
                 throw new RuntimeException("Unable to perform async task", e);
+            } catch (InterruptedException e) { // interrupts will naturally occur from cancelling
+                throw new RuntimeException("WrappedAsyncTask interrupted", e);
             }
         }
 
