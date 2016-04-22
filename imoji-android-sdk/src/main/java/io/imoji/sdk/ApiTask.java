@@ -58,9 +58,8 @@ public class ApiTask<V> {
      * https://github.com/BoltsFramework/Bolts-Android/blob/master/bolts-tasks/src/main/java/bolts/AndroidExecutors.java
      */
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-    private static final int THREAD_POOL_MIN_SIZE = 5;
-    private static final int THREAD_POOL_CORE_SIZE = Math.max(CPU_COUNT + 1, THREAD_POOL_MIN_SIZE);
-    private static final int THREAD_POOL_MAX_SIZE = Math.max(CPU_COUNT * 2 + 1, THREAD_POOL_MIN_SIZE);
+    private static final int THREAD_POOL_CORE_SIZE = CPU_COUNT + 2;
+    private static final int THREAD_POOL_MAX_SIZE = CPU_COUNT * 2 + 2;
     private static final long THREAD_POOL_KEEP_ALIVE_TIME = 1L;
     private static final ExecutorService THREAD_POOL_EXECUTOR_SERVICE = new ThreadPoolExecutor(
             THREAD_POOL_CORE_SIZE,
