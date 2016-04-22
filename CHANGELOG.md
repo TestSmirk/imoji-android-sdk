@@ -1,5 +1,15 @@
 # Imoji SDK Change Log
 
+##2.1.1
+* Fix for #14 - For older single processor phones, ensure our ExecutorService in ApiTask doesn't get exhausted waiting for inner tasks to complete
+* Fix for #12 - Remove the app_name metadata info from AndroidManifest.xml
+
+##2.1.0
+* Adds a method to Session to fetch attribution for one or more Imoji's
+* Adds attribution details (URL type, related tags, etc) to the Attribution object
+* Adds support for fetching categories relevant to a provided search sentence
+* Adds license style's to Imoji's and Categories (either non-commerical or print)
+
 ##2.0.3
 * Avoid sending null tags arrays when creating new Imoji references
 * Avoid calling onError multiple times in WrappedAsyncTask
