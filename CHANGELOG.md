@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.2
+* Avoid processing InterruptedException's in WrappedAsyncTasks like ExecutionException's. They'll occur typically on cancel's which doesn't merit the need for exception handling for the caller.
+
 ##2.1.1
 * Fix for #14 - For older single processor phones, ensure our ExecutorService in ApiTask doesn't get exhausted waiting for inner tasks to complete
 * Fix for #12 - Remove the app_name metadata info from AndroidManifest.xml
