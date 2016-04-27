@@ -2,6 +2,7 @@
 
 ##2.1.2
 * Avoid processing InterruptedException's in WrappedAsyncTasks like ExecutionException's. They'll occur typically on cancel's which doesn't merit the need for exception handling for the caller.
+* Adds support for relatedCategories in ImojisResponse
 
 ##2.1.1
 * Fix for #14 - For older single processor phones, ensure our ExecutorService in ApiTask doesn't get exhausted waiting for inner tasks to complete

@@ -32,7 +32,7 @@ public class ImojiSDKConstants {
 
     public static final Uri SERVER_URL = Uri.parse("https://api.imoji.io/v2");
 
-    public static final String SERVER_SDK_VERSION = "2.1.0";
+    public static final String SERVER_SDK_VERSION = "2.2.0";
 
     public static final String PREFERENCES_OAUTH_ACCESS_TOKEN_KEY = "t";
 

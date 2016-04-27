@@ -26,6 +26,7 @@ package io.imoji.sdk.response;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.Imoji;
 
 import java.util.List;
@@ -38,19 +39,39 @@ public class ImojisResponse implements ApiResponse {
     @Nullable
     private final String followupSearchTerm;
 
+    @NonNull
+    private final List<Category> relatedCategories;
 
-    public ImojisResponse(@NonNull List<Imoji> imojis, @Nullable String followupSearchTerm) {
+    public ImojisResponse(@NonNull List<Imoji> imojis,
+                          @Nullable String followupSearchTerm,
+                          @NonNull List<Category> relatedCategories) {
         this.imojis = imojis;
         this.followupSearchTerm = followupSearchTerm;
+        this.relatedCategories = relatedCategories;
     }
 
+    /**
+     * @return An array of matched Imoji's
+     */
     @NonNull
     public List<Imoji> getImojis() {
         return imojis;
     }
 
+    /**
+     * @return A search term that is related to the one used to generated the result set.
+     * Can be used to display infinite scrolling of results of related results.
+     */
     @Nullable
     public String getFollowupSearchTerm() {
         return followupSearchTerm;
+    }
+
+    /**
+     * @return An array of categories related to the search term used to generate the result set.
+     */
+    @NonNull
+    public List<Category> getRelatedCategories() {
+        return relatedCategories;
     }
 }

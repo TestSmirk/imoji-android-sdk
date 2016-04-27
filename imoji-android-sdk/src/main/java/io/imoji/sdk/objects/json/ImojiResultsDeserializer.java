@@ -29,12 +29,14 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.response.ImojisResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.response.ImojisResponse;
 
 /**
  * Imoji Android SDK
@@ -60,6 +62,14 @@ public class ImojiResultsDeserializer implements JsonDeserializer<ImojisResponse
             followupSearchTerm = root.get("followupSearchTerm").getAsString();
         }
 
-        return new ImojisResponse(imojis, followupSearchTerm);
+        List<Category> relatedCategories = new ArrayList<>();
+        if (root.has("relatedCategories")) {
+            JsonArray categoriesJSON = root.getAsJsonArray("relatedCategories");
+            for (JsonElement result : categoriesJSON) {
+                relatedCategories.add(context.<Category>deserialize(result, Category.class));
+            }
+        }
+
+        return new ImojisResponse(imojis, followupSearchTerm, relatedCategories);
     }
 }
