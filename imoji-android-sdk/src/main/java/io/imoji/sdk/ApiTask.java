@@ -86,16 +86,19 @@ public class ApiTask<V> {
                 THREAD_POOL_EXECUTOR_SERVICE.submit(task);
                 return task.get();
             } catch (ExecutionException e) {
-                Log.e(ApiTask.class.getName(), "Unable to perform async task", e);
+                Log.e(ApiTask.class.getName(), "Unable to perform async task, cancelling…", e);
                 Message message = MAIN_LOOP_HANDLER.obtainMessage(
                         WRAPPED_ASYNC_ERROR_MESSAGE,
                         new Pair<WrappedAsyncTask<?>, Throwable>(this, e)
                 );
                 MAIN_LOOP_HANDLER.dispatchMessage(message);
 
-                throw new RuntimeException("Unable to perform async task", e);
+                // cancel the task and have the caller handle the case in onCancelled and/or onError
+                this.cancel(true);
+
+                return null;
             } catch (InterruptedException e) { // interrupts will naturally occur from cancelling
-                throw new RuntimeException("WrappedAsyncTask interrupted", e);
+                return null;
             }
         }
 
