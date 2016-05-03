@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.3
+* Fixes #15 - cancelling WrappedAsyncTasks when an ExectuionException is encountered.
+
 ##2.1.2
 * Avoid processing InterruptedException's in WrappedAsyncTasks like ExecutionException's. They'll occur typically on cancel's which doesn't merit the need for exception handling for the caller.
 * Adds support for relatedCategories in ImojisResponse
