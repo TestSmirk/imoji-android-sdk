@@ -29,6 +29,7 @@ import android.support.annotation.Nullable;
 
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.CategoryFetchOptions;
+import io.imoji.sdk.objects.CollectionType;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
@@ -37,7 +38,6 @@ import io.imoji.sdk.response.GenericApiResponse;
 import io.imoji.sdk.response.ImojisResponse;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Base interface for generating any Imoji Api Request
@@ -103,6 +103,17 @@ public interface Session {
     ApiTask<ImojisResponse> getFeaturedImojis(@Nullable Integer numberOfResults);
 
     /**
+     * Gets imojis associated to a user's collection which can be accumulated by calling either
+     * createImojiWithRawImage (Created),  addImojiToUserCollection (Saved),
+     * or markImojiUsage (Recents).
+     *
+     * @param collectionType CollectionType to filter on. If null, all collected Imoji's are returned
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<ImojisResponse> getCollectedImojis(@Nullable CollectionType collectionType);
+
+    /**
      * Gets corresponding Imoji's for one or more imoji identifiers as Strings
      *
      * @param identifiers One or more Imoji ID's
@@ -161,9 +172,22 @@ public interface Session {
      * @param imoji  The Imoji object to report
      * @param reason Optional text describing the reason why the content is being reported
      * @return An ApiTask reference to be resolved by the caller
+     * @deprecated Use reportImojiAsAbusive(String imojiId, String reason) instead
      */
     @NonNull
+    @Deprecated
     ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji, @Nullable String reason);
+
+    /**
+     * Reports an Imoji sticker as abusive. You may expose this method in your application in order for users to have the ability to flag
+     * content as not appropriate. Reported Imojis are not removed instantly but are reviewed internally before removal.
+     *
+     * @param imojiId The ID of the Imoji object to report
+     * @param reason  Optional text describing the reason why the content is being reported
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull String imojiId, @Nullable String reason);
 
     /**
      * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
@@ -173,9 +197,32 @@ public interface Session {
      * @param originIdentifier Optional arbitrary identifier which developers can supply describing the action that
      *                         triggered the usage. String must be less than or equal to 40 characters.
      * @return An ApiTask reference to be resolved by the caller
+     * @deprecated Use markImojiUsage(String imojiId, String originIdentifier) instead
      */
     @NonNull
     ApiTask<GenericApiResponse> markImojiUsage(@NonNull Imoji imoji, @Nullable String originIdentifier);
+
+    /**
+     * Marks an Imoji sticker as being used for sharing. For example, if a user copied a sticker
+     * in a keyboard application, that would qualify as the Imoji being used.
+     *
+     * @param imojiId          The ID of the Imoji object to register for usage
+     * @param originIdentifier Optional arbitrary identifier which developers can supply describing the action that
+     *                         triggered the usage. String must be less than or equal to 40 characters.
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<GenericApiResponse> markImojiUsage(@NonNull String imojiId, @Nullable String originIdentifier);
+
+    /**
+     * Adds a given Imoji sticker to a users collection. The content can be fetched by calling
+     * getCollectedImojis with CollectionType.Liked for the type.
+     *
+     * @param imojiId          The ID of the Imoji object to add
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<GenericApiResponse> addImojiToUserCollection(@NonNull String imojiId);
 
     /**
      * Gets attribution information for a set of Imoji ID's.

@@ -62,6 +62,10 @@ public class ImojiSDKConstants {
 
         public static final String IMOJI_USAGE = "analytics/imoji/sent";
 
+        public static final String COLLECTION_ADD = "user/imoji/collection/add";
+
+        public static final String COLLECTION_FETCH = "user/imoji/fetch";
+
         public static final String IMOJI_ATTRIBUTION = "imoji/attribution";
 
         public static final String OAUTH_REGISTER = "oauth/token";

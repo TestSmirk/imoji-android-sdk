@@ -24,11 +24,13 @@
 package io.imoji.sdk;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
 
 import io.imoji.sdk.objects.Artist;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.CategoryFetchOptions;
+import io.imoji.sdk.objects.CollectionType;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.objects.RenderingOptions;
 import io.imoji.sdk.response.ImojiAttributionsResponse;
@@ -235,7 +237,7 @@ public class BaseTests extends AndroidTestCase {
 
         final CountDownLatch secondaryLatch = new CountDownLatch(1);
 
-        sdkSession.reportImojiAsAbusive(imojiReference.get(), "Android Testing")
+        sdkSession.reportImojiAsAbusive(imojiReference.get().getIdentifier(), "Android Testing")
                 .executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
                     @Override
                     protected void onPostExecute(GenericApiResponse apiResponse) {
@@ -265,7 +267,7 @@ public class BaseTests extends AndroidTestCase {
 
         final CountDownLatch secondaryLatch = new CountDownLatch(1);
 
-        sdkSession.markImojiUsage(imojiReference.get(), "com.imoji.android.testing")
+        sdkSession.markImojiUsage(imojiReference.get().getIdentifier(), "com.imoji.android.testing")
                 .executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
                     @Override
                     protected void onPostExecute(GenericApiResponse apiResponse) {
@@ -369,6 +371,37 @@ public class BaseTests extends AndroidTestCase {
         latch.await();
     }
 
+    public void testCollections() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        sdkSession.addImojiToUserCollection(SAMPLE_IMOJI_ID).executeAsyncTask(
+                new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
+                    @Override
+                    protected void onPostExecute(GenericApiResponse genericApiResponse) {
+                        latch.countDown();
+                    }
+
+                    @Override
+                    protected void onError(@NonNull Throwable error) {
+                        throw new RuntimeException(error);
+                    }
+                }
+        );
+
+        latch.await();
+        final CountDownLatch secondLatch = new CountDownLatch(1);
+
+        sdkSession.getCollectedImojis(CollectionType.Liked).executeAsyncTask(
+                new ApiTask.WrappedAsyncTask<ImojisResponse>() {
+                    @Override
+                    protected void onPostExecute(ImojisResponse imojisResponse) {
+                        validateImojiResponse(imojisResponse);
+                        secondLatch.countDown();
+                    }
+                }
+        );
+
+        secondLatch.await();
+    }
 
     private void validateImojiResponse(ImojisResponse imojisResponse) {
         assertNotNull(imojisResponse);

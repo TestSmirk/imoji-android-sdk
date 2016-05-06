@@ -40,6 +40,7 @@ import io.imoji.sdk.ApiTask;
 import io.imoji.sdk.StoragePolicy;
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.CategoryFetchOptions;
+import io.imoji.sdk.objects.CollectionType;
 import io.imoji.sdk.objects.Imoji;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.CreateImojiResponse;
@@ -134,6 +135,30 @@ public class ApiSession extends NetworkSession {
 
     @NonNull
     @Override
+    public ApiTask<ImojisResponse> getCollectedImojis(@Nullable CollectionType collectionType) {
+        final HashMap<String, String> params = new HashMap<>(1);
+
+        if (collectionType != null) {
+            switch (collectionType) {
+                case Recents:
+                    params.put("collectionType", "recents");
+                    break;
+
+                case Created:
+                    params.put("collectionType", "created");
+                    break;
+
+                case Liked:
+                    params.put("collectionType", "liked");
+                    break;
+            }
+        }
+
+        return validatedGet(ImojiSDKConstants.Paths.COLLECTION_FETCH, ImojisResponse.class, params, null);
+    }
+
+    @NonNull
+    @Override
     public ApiTask<ImojisResponse> fetchImojisByIdentifiers(@NonNull List<String> identifiers) {
         final String ids = TextUtils.join(",", identifiers);
         return validatedPost(ImojiSDKConstants.Paths.FETCH_IMOJIS_BY_ID, ImojisResponse.class, Collections.singletonMap("ids", ids), null);
@@ -216,9 +241,15 @@ public class ApiSession extends NetworkSession {
     @Override
     public ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull Imoji imoji,
                                                             @Nullable String reason) {
+        return this.reportImojiAsAbusive(imoji.getIdentifier(), reason);
+    }
+
+    @NonNull
+    @Override
+    public ApiTask<GenericApiResponse> reportImojiAsAbusive(@NonNull String imojiId, @Nullable String reason) {
         final HashMap<String, String> params = new HashMap<>(2);
 
-        params.put("imojiId", imoji.getIdentifier());
+        params.put("imojiId", imojiId);
         params.put("reason", reason);
 
         return validatedPost(ImojiSDKConstants.Paths.REPORT_IMOJI, GenericApiResponse.class, params, null);
@@ -228,15 +259,30 @@ public class ApiSession extends NetworkSession {
     @Override
     public ApiTask<GenericApiResponse> markImojiUsage(@NonNull Imoji imoji,
                                                       @Nullable String originIdentifier) {
+        return this.markImojiUsage(imoji.getIdentifier(), originIdentifier);
+    }
+
+    @NonNull
+    @Override
+    public ApiTask<GenericApiResponse> markImojiUsage(@NonNull String imojiId, @Nullable String originIdentifier) {
         final HashMap<String, String> params = new HashMap<>(2);
 
-        params.put("imojiId", imoji.getIdentifier());
+        params.put("imojiId", imojiId);
 
         if (originIdentifier != null) {
             params.put("originIdentifier", originIdentifier);
         }
 
         return validatedGet(ImojiSDKConstants.Paths.IMOJI_USAGE, GenericApiResponse.class, params, null);
+    }
+
+    @NonNull
+    @Override
+    public ApiTask<GenericApiResponse> addImojiToUserCollection(@NonNull String imojiId) {
+        final HashMap<String, String> params = new HashMap<>(2);
+        params.put("imojiId", imojiId);
+
+        return validatedPost(ImojiSDKConstants.Paths.COLLECTION_ADD, GenericApiResponse.class, params, null);
     }
 
     @NonNull
