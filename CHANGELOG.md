@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.5
+* Cleanup - Removes unncessary res/ folder 
+
 ##2.1.4
 * Adds support for fetching collections, either recents, created content or liked content
 * Deprecates markImojiUsage and reportImojiAsAbusive methods that require a full Imoji object. Replaced with ones that take just the imoji id's
