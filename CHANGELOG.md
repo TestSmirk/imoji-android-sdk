@@ -1,5 +1,9 @@
 # Imoji SDK Change Log
 
+##2.1.4
+* Adds support for fetching collections, either recents, created content or liked content
+* Deprecates markImojiUsage and reportImojiAsAbusive methods that require a full Imoji object. Replaced with ones that take just the imoji id's
+
 ##2.1.3
 * Fixes #15 - cancelling WrappedAsyncTasks when an ExectuionException is encountered.
 
