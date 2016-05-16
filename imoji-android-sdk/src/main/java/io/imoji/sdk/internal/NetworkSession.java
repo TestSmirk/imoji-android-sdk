@@ -334,6 +334,8 @@ public abstract class NetworkSession implements Session {
 
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setUseCaches(false);
                     connection.setRequestMethod(method);
 
                     //set headers
@@ -346,7 +348,11 @@ public abstract class NetworkSession implements Session {
                     outputStream.flush();
                     outputStream.close();
 
-                    return new GenericApiResponse();
+                    if (connection.getResponseCode() == 200) {
+                        return new GenericApiResponse();
+                    }
+
+                    throw new IOException("Data upload failed to " + url);
 
                 } catch (Throwable t) {
                     Log.e(NetworkSession.class.getName(), "Unable to perform network request", t);

@@ -23,21 +23,21 @@
 
 package io.imoji.sdk;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
+import android.util.Base64;
 
-import io.imoji.sdk.objects.Artist;
-import io.imoji.sdk.objects.Category;
-import io.imoji.sdk.objects.CategoryFetchOptions;
-import io.imoji.sdk.objects.CollectionType;
-import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.objects.RenderingOptions;
-import io.imoji.sdk.response.ImojiAttributionsResponse;
-import io.imoji.sdk.response.CategoriesResponse;
-import io.imoji.sdk.response.GenericApiResponse;
-import io.imoji.sdk.response.ImojisResponse;
+import junit.framework.Assert;
 
+import java.io.BufferedReader;
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,6 +46,18 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
+
+import io.imoji.sdk.objects.Artist;
+import io.imoji.sdk.objects.Category;
+import io.imoji.sdk.objects.CategoryFetchOptions;
+import io.imoji.sdk.objects.CollectionType;
+import io.imoji.sdk.objects.Imoji;
+import io.imoji.sdk.objects.RenderingOptions;
+import io.imoji.sdk.response.CategoriesResponse;
+import io.imoji.sdk.response.CreateImojiResponse;
+import io.imoji.sdk.response.GenericApiResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
+import io.imoji.sdk.response.ImojisResponse;
 
 /**
  * Imoji Android SDK
@@ -403,6 +415,49 @@ public class BaseTests extends AndroidTestCase {
         secondLatch.await();
     }
 
+    public void testCreate() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicReference<Imoji> imojiReference = new AtomicReference<>(null);
+        byte[] imageBytes = Base64.decode(Resources.TEST_IMAGE, 0);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+        Assert.assertNotNull(bitmap);
+
+        sdkSession
+                .createImojiWithRawImage(bitmap, bitmap, Collections.<String>emptyList())
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<CreateImojiResponse>() {
+                                      @Override
+                                      protected void onPostExecute(CreateImojiResponse createImojiResponse) {
+                                          Assert.assertNotNull(createImojiResponse);
+                                          Assert.assertNotNull(createImojiResponse.getImoji());
+                                          Assert.assertNotNull(createImojiResponse.getImoji().getIdentifier());
+
+                                          imojiReference.set(createImojiResponse.getImoji());
+                                          latch.countDown();
+                                      }
+                                  }
+                );
+
+        latch.await();
+        Imoji imoji = imojiReference.get();
+        Assert.assertNotNull(imoji);
+
+        URL url = new URL(imoji.getStandardFullSizeUri().toString());
+        Assert.assertNotNull(downloadDataFromUrl(url));
+
+        final CountDownLatch secondLatch = new CountDownLatch(1);
+
+        sdkSession.removeImoji(imoji).executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
+            @Override
+            protected void onPostExecute(GenericApiResponse genericApiResponse) {
+                Assert.assertNotNull(genericApiResponse);
+                secondLatch.countDown();
+            }
+        });
+
+        secondLatch.await();
+    }
+
     private void validateImojiResponse(ImojisResponse imojisResponse) {
         assertNotNull(imojisResponse);
         assertNotNull(imojisResponse.getImojis());
@@ -414,5 +469,39 @@ public class BaseTests extends AndroidTestCase {
         assertNotNull(first.getIdentifier());
         assertNotNull(first.getTags());
         assertNotNull(first.getStandardThumbnailUri());
+    }
+
+    private static char[] downloadDataFromUrl(@NonNull URL url) throws IOException {
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            boolean succeeded = connection.getResponseCode() == HttpURLConnection.HTTP_OK ||
+                    connection.getResponseCode() == HttpURLConnection.HTTP_CREATED ||
+                    connection.getResponseCode() == HttpURLConnection.HTTP_ACCEPTED;
+            BufferedReader inputReader;
+            if (succeeded) {
+                inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            } else {
+                throw new IOException("Unable to download image, received status of " + connection.getResponseCode());
+            }
+
+            CharArrayWriter byteArrayOutputStream = new CharArrayWriter();
+            char [] buf = new char[4096];
+            int read, offset = 0;
+            while ((read = inputReader.read(buf, offset, 4096)) != -1) {
+                byteArrayOutputStream.write(buf, offset, read);
+            }
+
+            return buf;
+
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+
     }
 }
