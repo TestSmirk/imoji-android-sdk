@@ -10,16 +10,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/imoji-android-sdk" />
-            <option value="$PROJECT_DIR$/samples" />
-            <option value="$PROJECT_DIR$/samples/keywordsearch" />
-            <option value="$PROJECT_DIR$/samples/messaging" />
-            <option value="$PROJECT_DIR$/samples/photo" />
-            <option value="$PROJECT_DIR$/samples/reactions" />
-            <option value="$PROJECT_DIR$/samples/sdksample" />
-            <option value="$PROJECT_DIR$/samples/search" />
-            <option value="$PROJECT_DIR$/samples/sentenceparsing" />
-            <option value="$PROJECT_DIR$/samples/trending" />
-            <option value="$PROJECT_DIR$/samples/triggers" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/imoji-android-sdk" />
           </set>
         </option>
       </GradleProjectSettings>

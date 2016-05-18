@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Search Sentence</string>
-    <string name="search_query">Search Stickers</string>
-    <string name="title">Title</string>
-    <string name="search_text">Search Text</string>
-    <string name="enter_a_sentence">Enter a Sentence</string>
-</resources>
