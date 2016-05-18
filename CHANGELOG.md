@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.6
+* Removes samples, now living under imoji-android-sdk-ui
+
 ##2.1.5
 * Addresses an issue where sometimes creating a new Imoji fails to upload the image data to the server
 * Cleanup - Removes unncessary res/ folder 
