@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.7
+* Refactored NetworkSession to allow subclasses to use their own GSON instances for object deserialization
+
 ##2.1.6
 * Removes samples, now living under imoji-android-sdk-ui
 

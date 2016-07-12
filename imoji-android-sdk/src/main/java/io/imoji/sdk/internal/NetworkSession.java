@@ -478,7 +478,7 @@ public abstract class NetworkSession implements Session {
 
         String contents = stringWriter.toString();
         if (succeeded) {
-            return GSON_INSTANCE.fromJson(contents, responseClass);
+            return deserializeJsonResponse(responseClass, contents);
         } else {
             try {
                 throw new ApiException(GSON_INSTANCE.fromJson(contents, ErrorResponse.class));
@@ -486,6 +486,11 @@ public abstract class NetworkSession implements Session {
                 throw new ApiException("Unable to parse server response", new ErrorResponse("server_error", contents));
             }
         }
+    }
+
+    protected  <T extends ApiResponse> T deserializeJsonResponse(@NonNull Class<T> responseClass,
+                                                                 @NonNull String jsonContents) {
+        return GSON_INSTANCE.fromJson(jsonContents, responseClass);
     }
 
     private void clearOauthSettings() {
