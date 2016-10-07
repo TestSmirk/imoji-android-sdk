@@ -27,17 +27,18 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.Date;
+import java.util.List;
+
 import io.imoji.sdk.objects.Category;
 import io.imoji.sdk.objects.CategoryFetchOptions;
 import io.imoji.sdk.objects.CollectionType;
 import io.imoji.sdk.objects.Imoji;
-import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.CategoriesResponse;
 import io.imoji.sdk.response.CreateImojiResponse;
 import io.imoji.sdk.response.GenericApiResponse;
+import io.imoji.sdk.response.ImojiAttributionsResponse;
 import io.imoji.sdk.response.ImojisResponse;
-
-import java.util.List;
 
 /**
  * Base interface for generating any Imoji Api Request
@@ -233,5 +234,19 @@ public interface Session {
     @NonNull
     ApiTask<ImojiAttributionsResponse> fetchAttributionByImojiIdentifiers(@NonNull List<String> identifiers);
 
+    /**
+     * Gets attribution information for a set of Imoji ID's.
+     *
+     * @param gender      An optional gender value for the user (either 'male' or 'female')
+     * @param latitude    Optional latitude value for the user's location
+     * @param longitude   Optional longitude value for the user's location
+     * @param dateOfBirth Optional date of birth value for the user
+     * @return An ApiTask reference to be resolved by the caller
+     */
+    @NonNull
+    ApiTask<GenericApiResponse> setUserDemographicsData(@Nullable String gender,
+                                                        @Nullable Double latitude,
+                                                        @Nullable Double longitude,
+                                                        @Nullable Date dateOfBirth);
 
 }

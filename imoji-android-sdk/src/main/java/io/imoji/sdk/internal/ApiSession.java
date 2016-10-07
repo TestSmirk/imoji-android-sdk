@@ -28,11 +28,15 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -296,9 +300,41 @@ public class ApiSession extends NetworkSession {
         return validatedGet(ImojiSDKConstants.Paths.IMOJI_ATTRIBUTION, ImojiAttributionsResponse.class, params, null);
     }
 
+    @NonNull
+    @Override
+    public ApiTask<GenericApiResponse> setUserDemographicsData(@Nullable String gender,
+                                                               @Nullable Double latitude,
+                                                               @Nullable Double longitude,
+                                                               @Nullable Date dateOfBirth) {
+        final HashMap<String, String> params = new HashMap<>(5);
+
+        if (gender != null) {
+            if ("male".equals(gender) || "female".equals(gender)) {
+                params.put("gender", gender);
+            } else {
+                Log.w(ApiSession.class.getCanonicalName(), "Unknown value '" + gender + "' sent for gender. Possible values are 'male' or 'female'");
+            }
+        }
+
+        if (latitude != null && longitude != null) {
+            params.put("latitude", latitude.toString());
+            params.put("longitude", longitude.toString());
+        }
+
+        if (dateOfBirth != null) {
+            params.put("dateOfBirth", new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(dateOfBirth));
+        }
+
+        if (params.isEmpty()) {
+            return emptyGenericApiTask();
+        }
+
+        return validatedPost(ImojiSDKConstants.Paths.SET_USER_DEMOGRAPHICS, GenericApiResponse.class, params, null);
+    }
+
     private static class BitmapUtils {
 
-        public static int[] getSizeWithinBounds(int width, int height, int boundsWidth, int boundsHeight, boolean expandToFitBounds) {
+        static int[] getSizeWithinBounds(int width, int height, int boundsWidth, int boundsHeight, boolean expandToFitBounds) {
             int[] size = new int[2];
 
             //if we fit within the bounds then don't scale
@@ -323,7 +359,7 @@ public class ApiSession extends NetworkSession {
             return size;
         }
 
-        public static byte[] getPngDataWithMaxBoundaries(Bitmap bitmap, int maxWidth, int maxHeight) {
+        static byte[] getPngDataWithMaxBoundaries(Bitmap bitmap, int maxWidth, int maxHeight) {
             if (bitmap.getWidth() > maxWidth && bitmap.getHeight() > maxHeight) {
                 int[] size = getSizeWithinBounds(bitmap.getWidth(), bitmap.getHeight(), maxWidth, maxHeight, false);
 
@@ -341,5 +377,14 @@ public class ApiSession extends NetworkSession {
 
             return out.toByteArray();
         }
+    }
+
+    private static ApiTask<GenericApiResponse> emptyGenericApiTask(){
+        return new ApiTask<>(new Callable<GenericApiResponse>() {
+            @Override
+            public GenericApiResponse call() throws Exception {
+                return new GenericApiResponse();
+            }
+        });
     }
 }

@@ -62,6 +62,8 @@ public class ImojiSDKConstants {
 
         public static final String IMOJI_USAGE = "analytics/imoji/sent";
 
+        public static final String SET_USER_DEMOGRAPHICS = "analytics/demographics";
+
         public static final String COLLECTION_ADD = "user/imoji/collection/add";
 
         public static final String COLLECTION_FETCH = "user/imoji/fetch";

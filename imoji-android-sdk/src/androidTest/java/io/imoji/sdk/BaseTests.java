@@ -38,8 +38,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -288,6 +291,21 @@ public class BaseTests extends AndroidTestCase {
                 });
 
         secondaryLatch.await();
+    }
+
+    public void testUserDemographics() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+        sdkSession.setUserDemographicsData(
+                "female", 48.864716, 2.349014, new SimpleDateFormat("MM-dd-yyyy", Locale.US).parse("01-01-1987")
+        )
+                .executeAsyncTask(new ApiTask.WrappedAsyncTask<GenericApiResponse>() {
+                    @Override
+                    protected void onPostExecute(GenericApiResponse apiResponse) {
+                        latch.countDown();
+                    }
+                });
+
+        latch.await();
     }
 
     public void testImojiAttribution() throws Exception {
