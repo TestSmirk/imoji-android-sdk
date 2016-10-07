@@ -1,5 +1,8 @@
 # Imoji SDK Change Log
 
+##2.1.8
+* Adds hooks for developers to publish demographic information for campaigns
+
 ##2.1.7
 * Refactored NetworkSession to allow subclasses to use their own GSON instances for object deserialization
 
