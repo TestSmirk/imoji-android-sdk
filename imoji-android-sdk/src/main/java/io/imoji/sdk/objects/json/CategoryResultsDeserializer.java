@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/25/16.
  */
 public class CategoryResultsDeserializer implements JsonDeserializer<CategoriesResponse> {

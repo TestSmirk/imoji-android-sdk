@@ -28,7 +28,7 @@ import android.support.annotation.Nullable;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 3/1/16.
  */
 public class ErrorResponse implements ApiResponse {

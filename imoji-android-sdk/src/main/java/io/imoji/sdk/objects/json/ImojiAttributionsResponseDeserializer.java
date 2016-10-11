@@ -38,7 +38,7 @@ import io.imoji.sdk.response.ImojiAttributionsResponse;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 4/18/16.
  */
 public class ImojiAttributionsResponseDeserializer implements JsonDeserializer<ImojiAttributionsResponse> {

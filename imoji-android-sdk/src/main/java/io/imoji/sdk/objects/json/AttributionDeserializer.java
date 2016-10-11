@@ -45,7 +45,7 @@ import io.imoji.sdk.objects.Imoji;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 4/18/16.
  */
 public class AttributionDeserializer implements JsonDeserializer<Category.Attribution> {

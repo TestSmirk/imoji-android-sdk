@@ -34,7 +34,7 @@ import io.imoji.sdk.response.ImojisResponse;
 
 /**
  * Imoji Android SDK
- * <p/>
+ * 
  * Created by nkhoshini on 2/26/16.
  */
 public class ErrorTests extends AndroidTestCase {

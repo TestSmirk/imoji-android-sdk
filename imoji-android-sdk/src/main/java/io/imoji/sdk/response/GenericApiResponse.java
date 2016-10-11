@@ -25,7 +25,7 @@ package io.imoji.sdk.response;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/26/16.
  */
 public class GenericApiResponse implements ApiResponse {

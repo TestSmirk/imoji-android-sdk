@@ -42,7 +42,7 @@ import io.imoji.sdk.objects.Imoji;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/25/16.
  */
 public class CategoryDeserializer implements JsonDeserializer<Category> {

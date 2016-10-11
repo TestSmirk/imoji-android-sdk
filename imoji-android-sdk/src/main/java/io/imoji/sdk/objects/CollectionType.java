@@ -25,7 +25,7 @@ package io.imoji.sdk.objects;
 
 /**
  * Defines various categorizations of content within a user's collection
- * <p/>
+ *
  * Created by nkhoshini on 5/6/16.
  */
 public enum CollectionType {

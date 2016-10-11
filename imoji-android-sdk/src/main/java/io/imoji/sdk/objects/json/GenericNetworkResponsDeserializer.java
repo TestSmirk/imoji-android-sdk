@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/26/16.
  */
 public class GenericNetworkResponsDeserializer implements JsonDeserializer<GenericApiResponse> {

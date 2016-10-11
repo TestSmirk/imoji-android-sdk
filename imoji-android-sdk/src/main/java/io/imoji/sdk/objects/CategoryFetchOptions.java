@@ -31,7 +31,7 @@ import java.util.Locale;
 
 /**
  * Set of options for retrieving Categories for a given Session object
- * <p/>
+ *
  * Created by nkhoshini on 4/20/16.
  */
 public class CategoryFetchOptions {

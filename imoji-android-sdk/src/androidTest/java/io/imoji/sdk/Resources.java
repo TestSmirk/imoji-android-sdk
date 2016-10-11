@@ -25,7 +25,7 @@ package io.imoji.sdk;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 5/16/16.
  */
 public class Resources {

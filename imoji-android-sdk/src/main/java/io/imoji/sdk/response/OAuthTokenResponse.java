@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/26/16.
  */
 public class OAuthTokenResponse implements ApiResponse {

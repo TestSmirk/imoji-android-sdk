@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents a top level task returned by API calls that can be ran as an AsyncTask or immediately
  * with an ExecutorService.
- * <p/>
+ *
  * Created by nkhoshini on 2/26/16.
  *
  * @see AsyncTask

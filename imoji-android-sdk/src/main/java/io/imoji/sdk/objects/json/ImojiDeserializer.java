@@ -43,7 +43,7 @@ import java.util.Map;
 
 /**
  * Imoji Android SDK
- * <p/>
+ *
  * Created by nkhoshini on 2/25/16.
  */
 public class ImojiDeserializer implements JsonDeserializer<Imoji> {
