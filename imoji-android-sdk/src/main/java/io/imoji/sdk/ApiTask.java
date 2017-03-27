@@ -69,6 +69,14 @@ public class ApiTask<V> {
             new LinkedBlockingQueue<Runnable>()
     );
 
+    public static final ExecutorService THREAD_POOL_EXECUTOR_VALIDATE = new ThreadPoolExecutor(
+            1,
+            1,
+            THREAD_POOL_KEEP_ALIVE_TIME,
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>()
+    );
+
     private static final int WRAPPED_ASYNC_ERROR_MESSAGE = 1;
 
     /**
@@ -83,7 +91,7 @@ public class ApiTask<V> {
         protected final V doInBackground(Future<V>... params) {
             try {
                 FutureTask<V> task = (FutureTask<V>) params[0];
-                THREAD_POOL_EXECUTOR_SERVICE.submit(task);
+                task.run();
                 return task.get();
             } catch (ExecutionException e) {
                 Log.e(ApiTask.class.getName(), "Unable to perform async task, cancelling…", e);
@@ -112,7 +120,6 @@ public class ApiTask<V> {
          */
         @SuppressWarnings("UnusedParameters")
         protected void onError(@NonNull Throwable error) {
-
         }
     }
 
@@ -184,7 +191,8 @@ public class ApiTask<V> {
      * @see ExecutorService
      */
     public V executeImmediately() throws ExecutionException, InterruptedException {
-        return this.executeImmediately(THREAD_POOL_EXECUTOR_SERVICE);
+        scheduledTask.run();
+        return scheduledTask.get();
     }
 
     /**
