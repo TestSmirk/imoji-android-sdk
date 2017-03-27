@@ -376,7 +376,7 @@ public abstract class NetworkSession implements Session {
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().executeImmediately();
+                    oAuthTokenResponse = validateSession().executeImmediately(ApiTask.THREAD_POOL_EXECUTOR_VALIDATE);
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> queryStringsWithOauth = new HashMap<>(queryStrings);
 
@@ -395,7 +395,7 @@ public abstract class NetworkSession implements Session {
                         // generate a new token and call the same method again
                         if (errorResponse != null && ImojiSDKConstants.Errors.OAUTH_VERIFICATION_ERROR_STATUS.equals(errorResponse.getServerStatus())) {
                             clearOauthSettings();
-                            oAuthTokenResponse = validateSession().executeImmediately();
+                            oAuthTokenResponse = validateSession().executeImmediately(ApiTask.THREAD_POOL_EXECUTOR_VALIDATE);
 
                             if (oAuthTokenResponse != null) {
                                 return oauthValidatedQueryStringConnection(
@@ -421,7 +421,7 @@ public abstract class NetworkSession implements Session {
             public T call() throws Exception {
                 OAuthTokenResponse oAuthTokenResponse;
                 try {
-                    oAuthTokenResponse = validateSession().executeImmediately();
+                    oAuthTokenResponse = validateSession().executeImmediately(ApiTask.THREAD_POOL_EXECUTOR_VALIDATE);
                     Map<String, String> headersWithOauth = new HashMap<>(headers);
                     Map<String, String> bodyWithOauth = new HashMap<>(body);
 
@@ -440,7 +440,7 @@ public abstract class NetworkSession implements Session {
                         // generate a new token and call the same method again
                         if (errorResponse != null && ImojiSDKConstants.Errors.OAUTH_VERIFICATION_ERROR_STATUS.equals(errorResponse.getServerStatus())) {
                             clearOauthSettings();
-                            oAuthTokenResponse = validateSession().executeImmediately();
+                            oAuthTokenResponse = validateSession().executeImmediately(ApiTask.THREAD_POOL_EXECUTOR_VALIDATE);
 
                             if (oAuthTokenResponse != null) {
                                 return oauthValidatedFormEncodedConnection(
